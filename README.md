@@ -1,4 +1,4 @@
-# GolfPro AI 
+# LeaseWisely AI 
 
 ## Getting Started
 
