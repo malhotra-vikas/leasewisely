@@ -1,0 +1,13 @@
+[Unit]
+Description=PDF Lease Parser Python Script Monitor
+After=network.target
+
+[Service]
+ExecStart=/Users/vikas/builderspace/leasewisely/src/PDF-To-Text/pdfParser.sh
+Restart=always
+User=ec2-user
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
