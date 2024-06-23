@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import api.leaseAPI as leaseAPI
+import src.api.leaseAPI as leaseAPI
 
 app = Flask(__name__)
 
