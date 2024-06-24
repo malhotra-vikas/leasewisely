@@ -197,7 +197,7 @@ export async function askOpenAI(question: string, context: string) {
             } else {
                 throw new Error("No completion found or completion was empty.");
             }
-    
+
         }
         return openAIResponse
 
@@ -206,27 +206,27 @@ export async function askOpenAI(question: string, context: string) {
         console.error("Error in askOpenAI:", error);
 
         if (error.response) {
-          console.error("HTTP status code:", error.response.status);
-          console.error("Response body:", error.response.data);
-    
-          switch (error.response.status) {
-            case 429:
-              console.error("Rate limit exceeded");
-              break;
-            case 503:
-              console.error("Service unavailable");
-              break;
-            default:
-              console.error("Unhandled error status:", error.response.status);
-          }
-    
-          openAIResponse.body = JSON.stringify(error.response.data);
-          openAIResponse.statusCode = error.response.status;
+            console.error("HTTP status code:", error.response.status);
+            console.error("Response body:", error.response.data);
+
+            switch (error.response.status) {
+                case 429:
+                    console.error("Rate limit exceeded");
+                    break;
+                case 503:
+                    console.error("Service unavailable");
+                    break;
+                default:
+                    console.error("Unhandled error status:", error.response.status);
+            }
+
+            openAIResponse.body = JSON.stringify(error.response.data);
+            openAIResponse.statusCode = error.response.status;
         } else {
-          openAIResponse.body = JSON.stringify({ error: error.message });
-          openAIResponse.statusCode = 500;
+            openAIResponse.body = JSON.stringify({ error: error.message });
+            openAIResponse.statusCode = 500;
         }
-        }
+    }
 }
 
 
@@ -256,7 +256,7 @@ export async function handleConversation(email: string, leaseUuid: string, userI
         const cconversationResponse = await askOpenAI(userInput, jsonContext);
         console.log("In Handle Conversations - AI REsponse " + JSON.stringify(cconversationResponse))
 
-//        await saveUserQuestions(email, leaseUuid, userInput, conversationResponse);
+        //        await saveUserQuestions(email, leaseUuid, userInput, conversationResponse);
         return JSON.stringify(cconversationResponse);
 
     } catch (error) {

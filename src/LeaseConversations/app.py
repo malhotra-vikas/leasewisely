@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import src.api.leaseAPI as leaseAPI
+import src.LeaseConversations.conversation as LeaseAPI
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ def run_script():
 
     try:
         # Call the leaseAPI and update the response accordingly
-        api_response = leaseAPI.handleConversation(email, leaseUuid, userQuery)
+        api_response = LeaseAPI.handle_conversation(email, leaseUuid, userQuery)
         print("api_response is ", api_response)
 
         if api_response["statusCode"] == 200:
