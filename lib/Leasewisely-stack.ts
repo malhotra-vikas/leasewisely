@@ -13,6 +13,8 @@ import * as snsSubscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';  // Correct import for SQS in CDK v2
 
+import 'dotenv/config';
+
 const applicationId = Constants.PINPOINT_CONTACT_COMMUNICATIONS_APPLICATION
 
 export class LeasewiselyStack extends cdk.Stack {
@@ -193,7 +195,11 @@ export class LeasewiselyStack extends cdk.Stack {
       functionName: Constants.GOLF_PRO_CONVERSATION_LAMBDA
     })
 
-
+    // Load environment variables from .env file
+    if (!process.env.OPENAI_API_KEY_HOMEY_BOT_KEY) {
+      throw new Error('OPENAI_API_KEY_HOMEY_BOT_KEY is not defined in the environment variables');
+    }
+    const open_ai_homey_key = process.env.OPENAI_API_KEY_HOMEY_BOT_KEY;
 
     const leaseWiselyNewUserRegistrationLambda = new lambdaNodejs.NodejsFunction(this, Constants.LEASE_WISELY_NEW_USER_REGISTERATION_LAMBDA, {
       entry: 'src/lambda/leaseWiselyUserResisteredLambda.ts', // Path to your Lambda code
@@ -201,7 +207,7 @@ export class LeasewiselyStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
-        OPENAI_KEY: "sk-proj-6u4q9BX3R9bST0yM2HeyT3BlbkFJckAe9JLCuSO8453oot5e",
+        OPENAI_KEY: open_ai_homey_key,
         LEASE_WISELY_SNS_TOPIC_ARN: snsTopicLeaseWiselyUserRegisteration.topicArn
       },
       role: lambdaRole,
@@ -217,7 +223,7 @@ export class LeasewiselyStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
-        OPENAI_KEY: "sk-proj-6u4q9BX3R9bST0yM2HeyT3BlbkFJckAe9JLCuSO8453oot5e",
+        OPENAI_KEY: open_ai_homey_key,
         OPEN_AI_MODEL: "gpt-4o",
         LEASE_WISELY_SNS_TOPIC_ARN: snsTopicLeaseWiselyUserRegisteration.topicArn,
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
@@ -239,7 +245,7 @@ export class LeasewiselyStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
-        OPENAI_KEY: "sk-proj-6u4q9BX3R9bST0yM2HeyT3BlbkFJckAe9JLCuSO8453oot5e",
+        OPENAI_KEY: open_ai_homey_key,
         OPEN_AI_MODEL: "gpt-4o",
         LEASE_WISELY_SNS_TOPIC_ARN: snsTopicLeaseWiselyUserRegisteration.topicArn,
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
@@ -273,7 +279,7 @@ export class LeasewiselyStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
-        OPENAI_KEY: "sk-proj-6u4q9BX3R9bST0yM2HeyT3BlbkFJckAe9JLCuSO8453oot5e",
+        OPENAI_KEY: open_ai_homey_key,
         OPEN_AI_MODEL: "gpt-4o"
       },
       role: lambdaRole,
@@ -288,7 +294,7 @@ export class LeasewiselyStack extends cdk.Stack {
       environment: {
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
-        OPENAI_KEY: "sk-proj-6u4q9BX3R9bST0yM2HeyT3BlbkFJckAe9JLCuSO8453oot5e",
+        OPENAI_KEY: open_ai_homey_key,
         OPEN_AI_MODEL: "gpt-4o"
       },
       role: lambdaRole,

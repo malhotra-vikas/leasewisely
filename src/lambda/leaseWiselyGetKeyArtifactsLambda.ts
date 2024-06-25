@@ -67,9 +67,11 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         };
         console.log("params", params);
         console.log("dynamoDB", dynamoDB);
+        let leaseCount = 0;
 
         const data = await ddbDocClient.send(new QueryCommand(params));
         if (data && data.Items && data.Items.length > 0) {
+            leaseCount = data.Items.length
             const userLeaseData = data.Items.map(item => {
                 return {
                     email: email,
@@ -80,11 +82,20 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     leaseDataAvailable: item.leaseDataAvailable || "NA"
                 };
             });
+            
             response.statusCode = 200;
+            response.body = JSON.stringify({
+                "lease-count": leaseCount,
+                "user-lease": userLeaseData
+            });
+        
             response.body = JSON.stringify({ "user-lease": userLeaseData });        
         } else {
-            response.statusCode = 404;
-            response.body = JSON.stringify({ error: "No record found for the given email" });
+            response.statusCode = 200;
+            response.body = JSON.stringify({
+                "lease-count": leaseCount,
+                "user-lease": "No Leases found for this email"
+            });
         }
         return response;
     } catch (error: unknown) {

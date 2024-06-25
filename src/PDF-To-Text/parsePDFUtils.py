@@ -7,7 +7,7 @@ import logging
 
 # Load environment variables from .env file
 load_dotenv()
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY_PDF_PARSING'))
 
 from pdfminer.high_level import extract_text
 from pdfminer.pdfparser import PDFSyntaxError
@@ -255,10 +255,9 @@ def write_to_dynamodb(email, uuid, text):
             'statusCode': 500,
             'body': f"Error: {e}"
         }
+    
 def extracTimeLineArtifactsUsingAI(text):
     try:
-
-
         prompt = f"""
         Extract the following dates from the lease agreement and provide them in a JSON format: 
         - Lease Signed Date

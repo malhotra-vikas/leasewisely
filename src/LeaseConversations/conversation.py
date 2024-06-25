@@ -2,7 +2,11 @@ import boto3
 import os
 import json
 from datetime import datetime
-from openai import OpenAI, Configuration
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file
+load_dotenv()
 
 # Read environment variables
 openai_api_key = os.getenv('OPENAI_API_KEY')
@@ -12,9 +16,8 @@ dynamodb_table_name = os.getenv('USER_LEASES_TABLE')
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodb_table_name)
 
-# Initialize OpenAI client
-configuration = Configuration(api_key=os.getenv('OPENAI_API_KEY'))
-openai = OpenAI(configuration)
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
 
 class LeaseAPI:
     @staticmethod
@@ -104,7 +107,7 @@ class LeaseAPI:
         ]
 
         try:
-            response = openai.Completion.create(
+            response = client.Completion.create(
                 model='gpt-4o',
                 messages=chat_messages,
                 max_tokens=1000

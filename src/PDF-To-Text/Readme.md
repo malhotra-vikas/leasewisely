@@ -1,4 +1,5 @@
 chmod +x pdfParser.sh
+python3 
 
 Step 3: Automate the Monitoring Script
 
