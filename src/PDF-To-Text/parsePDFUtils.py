@@ -357,14 +357,14 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
         print(f"JSON decoding failed: {e}")
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
+    # Build the UpdateExpression
+    update_expression = f"SET #{dataKeyName} = :val"
+    print("updateStatement is:", update_expression)
+
     try:
         # Specify the table
         table_name = userLeasesTable  # Replace with your DynamoDB table name
         table = dynamodb.Table(table_name)
-
-        updateStatement = f"""
-            SET {dataKeyName} = :dataValue"
-            """
 
         # Update the leaseText field for the given email
         response = table.update_item(
@@ -372,9 +372,12 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
                 'email': email,
                 'uuid': uuid
             },
-            UpdateExpression=updateStatement,
+            UpdateExpression=update_expression,
+            ExpressionAttributeNames={
+                f"#{dataKeyName}": dataKeyName
+            },
             ExpressionAttributeValues={
-                ':dataValue': extracted_data
+                ":val": extracted_data
             },
             ReturnValues="UPDATED_NEW"
         )
