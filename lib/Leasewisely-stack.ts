@@ -81,20 +81,6 @@ export class LeasewiselyStack extends cdk.Stack {
     })
 
     // Define DynamoDB table for contacts
-    const golfProAIUserConversationsTable = new dynamodb.Table(this, 'GolfProAIUsersConversationsTable', {
-      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
-      tableName: Constants.GOLF_PRO_USERS_CONVERSATIONS_TABLE,
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
-    })
-    // Adding a Global Secondary Index (GSI) for 'managerId'
-    golfProAIUserConversationsTable.addGlobalSecondaryIndex({
-      indexName: Constants.GOLF_PRO_CONVERSATIONS_TABLE_TIMESTAMP_IDX, // If you have a custom index for name
-      partitionKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
-      // You can include 'name' and 'email' as non-key attributes if you need to return these attributes in your query results
-    });
-
-    // Define DynamoDB table for contacts
     const golfProAIUserRecommendationsTable = new dynamodb.Table(this, 'GolfProAIUsersRecommendationsTable', {
       partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'recommendationStatus', type: dynamodb.AttributeType.STRING },
@@ -130,22 +116,6 @@ export class LeasewiselyStack extends cdk.Stack {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
-
-    // Define DynamoDB table for contacts
-    const golfProAIUserTable = new dynamodb.Table(this, 'GolfProAIUsersTable', {
-      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'name', type: dynamodb.AttributeType.STRING },
-      tableName: Constants.GOLF_PRO_USERS_TABLE,
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
-    })
-    // Adding a Global Secondary Index (GSI) for 'managerId'
-    golfProAIUserTable.addGlobalSecondaryIndex({
-      indexName: Constants.GOLF_PRO_USERS_TABLE_NAME_IDX, // If you have a custom index for name
-      partitionKey: { name: 'name', type: dynamodb.AttributeType.STRING },
-      // You can include 'name' and 'email' as non-key attributes if you need to return these attributes in your query results
-      projectionType: dynamodb.ProjectionType.INCLUDE,
-      nonKeyAttributes: ['name', 'email']
-    });
 
     // Create IAM Role
     const lambdaRole = new iam.Role(this, Constants.LAMBDA_ROLE, {
@@ -189,18 +159,6 @@ export class LeasewiselyStack extends cdk.Stack {
     }))
 
 
-    // Create Lambda function for creating contacts
-    const conversationLambda = new lambdaNodejs.NodejsFunction(this, Constants.GOLF_PRO_CONVERSATION_LAMBDA, {
-      entry: 'src/lambda/conversations.ts', // Path to your Lambda code
-      handler: 'conversationsHandler', // The exported function name for creating contacts
-      runtime: lambda.Runtime.NODEJS_18_X,
-      environment: {
-        TABLE_NAME: golfProAIUserTable.tableName,
-      },
-      role: lambdaRole,
-      timeout: cdk.Duration.minutes(5),
-      functionName: Constants.GOLF_PRO_CONVERSATION_LAMBDA
-    })
 
     // Load environment variables from .env file
     if (!process.env.OPENAI_API_KEY_HOMEY_BOT_KEY) {
@@ -238,7 +196,7 @@ export class LeasewiselyStack extends cdk.Stack {
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
         LEASEWISELY_USERLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_USER_LEASES_TABLE,
         LEASE_WISELY_PDF_READY_TO_PARSE_SNS_TOPIC_ARN: snsTopicLeaseWiselyPDFReadyToParse.topicArn,
-        LEASEWISELY_SQS_QUEUE_URL: queue.queueUrl
+        LEASEWISELY_SQS_QUEUE_URL: 'https://sqs.us-east-2.amazonaws.com/211125579415/Ready-For-PDFToText.fifo'
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
@@ -261,7 +219,7 @@ export class LeasewiselyStack extends cdk.Stack {
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
         LEASEWISELY_USERLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_USER_LEASES_TABLE,
         LEASE_WISELY_PDF_READY_TO_PARSE_SNS_TOPIC_ARN: snsTopicLeaseWiselyPDFReadyToParse.topicArn,
-        LEASEWISELY_SQS_QUEUE_URL: queue.queueUrl
+        LEASEWISELY_SQS_QUEUE_URL: 'https://sqs.us-east-2.amazonaws.com/211125579415/Ready-For-PDFToText.fifo'
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
@@ -274,7 +232,7 @@ export class LeasewiselyStack extends cdk.Stack {
 
     lambdaRole.addToPolicy(new iam.PolicyStatement({
       actions: ['sqs:SendMessage'],
-      resources: ['arn:aws:sqs:us-east-2:211125579415:Ready-For-PDFToText']
+      resources: ['arn:aws:sqs:us-east-2:211125579415:Ready-For-PDFToText.fifo']
     }));
 
     snsTopicLeaseWiselyPDFReadyToParse.grantPublish(leaseWiselyBuildTextLambda)
@@ -313,12 +271,6 @@ export class LeasewiselyStack extends cdk.Stack {
       functionName: Constants.LEASE_WISELY_UPLOAD_LEASE_LAMBDA,
       layers: [leaseWiselyLayer]
     })
-
-
-    golfProAIUserTable.grantReadWriteData(conversationLambda)
-    golfProAIUserConversationsTable.grantReadWriteData(conversationLambda)
-    golfProBrandsTable.grantReadWriteData(conversationLambda)
-
 
     leaseWiselyUserLeaseTable.grantReadWriteData(leaseWiselyLeaseConversationLambda)
     leaseWiselyNewLeaseTable.grantReadWriteData(leaseWiselyUploadLeaseLambda)
@@ -411,10 +363,6 @@ export class LeasewiselyStack extends cdk.Stack {
     const leaseWiselyUserRegisterationResource = api.root.addResource('leaseWiselyUserRegisterationResource')
     const pdfToTextResource = api.root.addResource('pdfToTextResource')
     const leaseWiselyGetKeyArtifactsResource = api.root.addResource('getKeyArtifactsResource')
-
-    // Add GET method to retrieve contacts
-    const getConversationsIntegration = new apigateway.LambdaIntegration(conversationLambda)
-    conversationsResource.addMethod('GET', getConversationsIntegration)
 
     // Add POST method to upload new Lease
     const postNewLeaseIntegration = new apigateway.LambdaIntegration(leaseWiselyUploadLeaseLambda)

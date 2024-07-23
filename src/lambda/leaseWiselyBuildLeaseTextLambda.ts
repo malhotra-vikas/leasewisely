@@ -70,6 +70,7 @@ export const buildTextHandler: SNSHandler = async (event: SNSEvent, context: Con
                 const sqsParams = {
                     MessageBody: message,
                     QueueUrl: sqsQueueUrl,
+                    MessageGroupId: 'PDFParser' // This is required for FIFO queues
                 };
                 console.log(`Trying to send Message queue ${sqsQueueUrl}. Message Params are ${JSON.stringify(sqsParams)}`);
 

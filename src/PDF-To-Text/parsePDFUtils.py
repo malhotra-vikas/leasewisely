@@ -327,6 +327,44 @@ def sanitize_attribute_name(name):
     """ Replace invalid characters in attribute names with underscores. """
     return re.sub(r'[^a-zA-Z0-9_]', '_', name)
 
+def persistBatchData(updates, email, uuid):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(userLeasesTable)
+
+    # Build the update expression and attribute dictionaries
+    update_expression = "SET "
+    expression_attribute_values = {}
+    expression_attribute_names = {}
+
+    for attr_name, value in updates.items():
+        expression_placeholder = f":{attr_name}"
+        attribute_name_placeholder = f"#{attr_name}"
+        
+        update_expression += f"{attribute_name_placeholder} = {expression_placeholder}, "
+        expression_attribute_values[expression_placeholder] = value
+        expression_attribute_names[attribute_name_placeholder] = attr_name
+
+    # Remove the last comma and space from the update expression
+    update_expression = update_expression.rstrip(', ')
+
+    print("update_expression is", update_expression)
+
+    try:
+        response = table.update_item(
+            Key={
+                'email': email,
+                'uuid': uuid
+            },            
+            UpdateExpression=update_expression,
+            ExpressionAttributeValues=expression_attribute_values,
+            ExpressionAttributeNames=expression_attribute_names,
+            ReturnValues="UPDATED_NEW"
+        )
+        print("Update successful:", response)
+    except Exception as e:
+        print("Failed to update item:", e)
+
+
 def persistData(dataKeyName, extracted_data, email, uuid):
         # Replace spaces in attribute_name for the placeholder
     dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_')}"
@@ -505,16 +543,30 @@ def load_prompts(file_path):
         return json.load(file)
 
 def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid):
+    update_expression = "SET "
+    expression_attribute_values = {}
+    expression_attribute_names = {}
+
+    # Initialize an empty dictionary
+    updates = {}
+
     for key, prompt in category_prompts.items():
         try:
             # Extract and persist data for each key using the provided prompt
             result = extractData(lease_text, prompt)
+    
+            # Replace spaces in attribute_name for the placeholder
+            currentKey = f"{key.replace(' ', '').replace('-', '').replace('/', '_')}"
 
-            persistData(key, result, email, uuid)
+            currentValue = result
+            updates[currentKey] = currentValue
+
+            #persistData(key, result, email, uuid)
             
-            print(f"Data extracted and persisted for {key}: {result}")
         except Exception as e:
             print(f"Failed to process {key}: {str(e)}")
+
+    persistBatchData(updates, email, uuid)
 
 def process_message(message):
     body = json.loads(message['Body'])
