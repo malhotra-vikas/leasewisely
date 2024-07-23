@@ -323,6 +323,51 @@ def extracTimeLineArtifactsUsingAI(text):
             'body': f"Error: {e}"
         }
 
+def extractRentAmount(text):
+
+    rentAmount = ''
+    prompt = f"""
+        What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format.
+        Here is the lease PDF: "{text}"
+        """
+
+    # Make a request to OpenAI's ChatCompletion API
+    response = client.chat.completions.create(model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=200,
+    temperature=0.7)
+
+    # Extracting the response text
+    result_text = response.choices[0].message.content.strip()
+
+    print(f"Result_text: {result_text}")
+
+    # Clean the result_text
+    cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
+
+    # Print the cleaned result for debugging
+    print(f"Cleaned result_text: {cleaned_result_text}")
+
+    # Try to parse the response as JSON
+    try:
+        extracted_data = json.loads(cleaned_result_text)
+    except json.JSONDecodeError as e:
+        print(f"JSON decoding failed: {e}")
+        extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
+
+    # Print the structured JSON data
+    print(f"Extracted attributes: {json.dumps(extracted_data, indent=4)}")
+
+    # Return the structured JSON data
+    return {
+        'statusCode': 200,
+        'body': extracted_data
+    }
+
+    
 def extractKeyArtifactsUsingAI(text):
     try:
         propertyAddress = ''
@@ -441,12 +486,14 @@ def process_message(message):
             
             # Write PDF Extracted text to DDB
             write_result = write_to_dynamodb(email, uuid, extracted_text)
+
+            rentAmount = extractRentAmount(extracted_text)
             
             # Extract key information
-            keyArtifacts = extractKeyArtifactsUsingAI(extracted_text)
+            #keyArtifacts = extractKeyArtifactsUsingAI(extracted_text)
 
             # Write key information to the DDB
-            write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
+            #write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
 
             # Extract timeline information
             #timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_text)

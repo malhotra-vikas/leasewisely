@@ -44,7 +44,7 @@ export async function uploadLeaseHandler(event: APIGatewayProxyEvent): Promise<A
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
         },
         isBase64Encoded: false,
         body: JSON.stringify({ error: "Internal Server Error" })

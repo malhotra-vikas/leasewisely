@@ -3,6 +3,7 @@ node_modules
 cdk.out/
 .env
 src/PDF-To-Text/.env
+src/PDF-To-Text/venv
 src/LeaseConversations/.env
 src/LeaseConversations/venv
 src/LeaseConversations/__*
