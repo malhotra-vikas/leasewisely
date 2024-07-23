@@ -353,20 +353,12 @@ def extractRentAmount(text):
 
     # Try to parse the response as JSON
     try:
-        extracted_data = json.loads(cleaned_result_text)
+        extracted_data = cleaned_result_text
     except json.JSONDecodeError as e:
         print(f"JSON decoding failed: {e}")
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
-    # Print the structured JSON data
-    print(f"Extracted attributes: {json.dumps(extracted_data, indent=4)}")
-
-    # Return the structured JSON data
-    return {
-        'statusCode': 200,
-        'body': extracted_data
-    }
-
+    return extracted_data
     
 def extractKeyArtifactsUsingAI(text):
     try:
