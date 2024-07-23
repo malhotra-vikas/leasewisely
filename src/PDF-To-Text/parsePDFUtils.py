@@ -156,7 +156,7 @@ def add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifact):
             'body': f"Error: {e}"
         }
     
-def add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts):
+def old_add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts):
     try:
         # Specify the table
         table_name = userLeasesTable  # Replace with your DynamoDB table name
@@ -323,42 +323,14 @@ def extracTimeLineArtifactsUsingAI(text):
             'body': f"Error: {e}"
         }
 
-def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
+def sanitize_attribute_name(name):
+    """ Replace invalid characters in attribute names with underscores. """
+    return re.sub(r'[^a-zA-Z0-9_]', '_', name)
 
-    rentAmount = ''
-    prompt = f"""
-        {prompt}
-        Here is the lease PDF: "{leaseText}"
-        """
-    # Make a request to OpenAI's ChatCompletion API
-    response = client.chat.completions.create(model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
-        {"role": "user", "content": prompt}
-    ],
-    max_tokens=200,
-    temperature=0.7)
+def persistData(dataKeyName, extracted_data, email, uuid):
+        # Replace spaces in attribute_name for the placeholder
+    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_')}"
 
-    # Extracting the response text
-    result_text = response.choices[0].message.content.strip()
-
-    print(f"Result_text: {result_text}")
-
-    # Clean the result_text
-    cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
-
-    # Print the cleaned result for debugging
-    print(f"Cleaned result_text: {cleaned_result_text}")
-
-    # Try to parse the response as JSON
-    try:
-        extracted_data = cleaned_result_text
-    except json.JSONDecodeError as e:
-        print(f"JSON decoding failed: {e}")
-        extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
-
-    # Replace spaces in attribute_name for the placeholder
-    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('_', '').replace('/', '-')}"
 
     # Build the UpdateExpression
     update_expression = f"SET #{dataKeyName} = :val"
@@ -366,8 +338,7 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
 
     try:
         # Specify the table
-        table_name = userLeasesTable  # Replace with your DynamoDB table name
-        table = dynamodb.Table(table_name)
+        table = dynamodb.Table(userLeasesTable)
 
         # Update the leaseText field for the given email
         response = table.update_item(
@@ -409,6 +380,41 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
             'statusCode': 500,
             'body': f"Error: {e}"
         }
+    
+def extractData(leaseText, prompt):
+
+    rentAmount = ''
+    prompt = f"""
+        {prompt}
+        Here is the lease PDF: "{leaseText}"
+        """
+    # Make a request to OpenAI's ChatCompletion API
+    response = client.chat.completions.create(model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=200,
+    temperature=0.7)
+
+    # Extracting the response text
+    result_text = response.choices[0].message.content.strip()
+
+    print(f"Result_text: {result_text}")
+
+    # Clean the result_text
+    cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
+
+    # Print the cleaned result for debugging
+    print(f"Cleaned result_text: {cleaned_result_text}")
+
+    # Try to parse the response as JSON
+    try:
+        extracted_data = cleaned_result_text
+    except json.JSONDecodeError as e:
+        print(f"JSON decoding failed: {e}")
+        extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
+    return extracted_data
 
     
 def extractKeyArtifactsUsingAI(text):
@@ -493,6 +499,22 @@ def extractKeyArtifactsUsingAI(text):
             'body': f"Error: {e}"
         }
 
+def load_prompts(file_path):
+    """ Load JSON data from a file. """
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid):
+    for key, prompt in category_prompts.items():
+        try:
+            # Extract and persist data for each key using the provided prompt
+            result = extractData(lease_text, prompt)
+
+            persistData(key, result, email, uuid)
+            
+            print(f"Data extracted and persisted for {key}: {result}")
+        except Exception as e:
+            print(f"Failed to process {key}: {str(e)}")
 
 def process_message(message):
     body = json.loads(message['Body'])
@@ -528,21 +550,30 @@ def process_message(message):
             extracted_lease_text = readPDF(downloaded_file_path)
             
             # Write PDF Extracted text to DDB
-            write_result = write_to_dynamodb(email, uuid, extracted_lease_text)
+            write_to_dynamodb(email, uuid, extracted_lease_text)
 
-            extractAndPersistData(extracted_lease_text, "Rent Amount", "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format", email, uuid)
+            # Load prompts from JSON file
+            prompts_data = load_prompts("lease-keys-prompts.json")
+
+            # rent_and_fees_prompts
+            rent_and_fees_prompts = prompts_data.get("Rent and Fees", {})
+            
+            # Run the extraction and persistence for all keys in 'Rent and Fees'
+            extract_and_persist_all_keys(extracted_lease_text, rent_and_fees_prompts, email, uuid)
+
+            #extractAndPersistData(extracted_lease_text, "Rent Amount", "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format", email, uuid)
             
             # Extract key information
-            keyArtifacts = extractKeyArtifactsUsingAI(extracted_lease_text)
+            #keyArtifacts = extractKeyArtifactsUsingAI(extracted_lease_text)
 
             # Write key information to the DDB
-            write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
+            #write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
 
             # Extract timeline information
-            timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_lease_text)
+            #timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_lease_text)
 
             # Write key information to the DDB
-            write_result = add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifacts)
+            #write_result = add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifacts)
 
             # Write leaseDataAvailable to the DDB
             write_result = add_lease_data_available_to_dynamodb(email, uuid)
