@@ -92,7 +92,7 @@ class LeaseAPI:
             print(f"Error parsing context, using question only: {error}")
             engineered_prompt = question
 
-        print(f"Model: 'gpt-4o' in this lease: ")
+        print(f"Model: 'gpt-4o-mini' in this lease: ")
         print(f"In askOpenAI - Engineered Prompt: {engineered_prompt}")
 
         chat_messages = [
@@ -108,7 +108,7 @@ class LeaseAPI:
 
         try:
             response = client.Completion.create(
-                model='gpt-4o',
+                model='gpt-4o-mini',
                 messages=chat_messages,
                 max_tokens=1000
             )

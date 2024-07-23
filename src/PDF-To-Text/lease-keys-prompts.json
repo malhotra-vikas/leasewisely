@@ -1,0 +1,52 @@
+{
+    "Lease Summary": {
+        "Resident Name(s)": "Please list all the tenants listed on the lease; just bulleted names",
+        "Property Manager/Landlord Name": "What is the Property Manager/Landlord Name?",
+        "Property Manager/Landlord Phone Number": "What is the Property Manager/Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
+        "Property Manager/Landlord Phone Email": "What is the Property Manager/Landlord Email",
+        "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
+        "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Rent Due Date": "What day of the month is rent due? Please return it in the following format: 10th of the month",
+        "Pet Included on Lease": "Does the tenant have a pet included in their lease?"
+    },
+    "Timeline": {
+        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format"
+    },
+    "Red Flags": {
+        "Resident Name(s)": "Is there a list of all the tenants in the lease? Yes/No",
+        "Property Manager/Landlord Name": "Is the Property Manager/Landlord Name listed in the lease? Yes/No",
+        "Lease Start Date": "Does the lease have a start date listed in the lease? Yes/No",
+        "Rent Amount": "Is the monthly rent amount listed in the lease? Yes/No",
+        "Rent Due Date": "Is the day rent is due listed in the lease? Yes/No",
+        "Rent Payment Instructions": "Are the payment instructions listed in the lease? Yes/No",
+        "Full Address": "Is the full address of the property listed in the lease? Yes/No",
+        "Notice to Vacate Date": "Does the lease have a notice to vacate date listed in the lease? Yes/No",
+        "Security Deposit Amount": "Is the security deposit amount listed in the lease? Yes/No",
+        "Counter-Signature": "Has the lease been signed by both parties? Yes/No",
+        "Pet Policy": "Is a pet policy listed in the lease? Yes/No",
+        "Notice to Enter Rules": "Are the notice to enter rules listed in the lease? Yes/No",
+        "Utilities Responsibilities": "Does the lease mention who pays for utilities? Yes/No"
+    },
+    "Rent and Fees": {
+        "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Rent Due Date": "What day of the month is rent due? Please return it in the following format: 10th of the month",
+        "Pet Rent Amount": "What is the monthly pet rent amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Pet Deposit Amount": "What is the monthly pet deposit amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee Policy": "In the most concise format, what is the complete late fee policy in a paragraph format? Only include information about the late fee and nothing else.",
+        "Late Fee if 1 Day Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the first of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if 3 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the third of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if 5 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the fifth of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if 10 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the tenth of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "State Rules for Maximum Late Fee": "[Pull from State Law tab (Column C) based on state lease is in]",
+        "State Rules for Mandatory Grace Period": "[Pull from State Law tab (Column D) based on state lease is in]",
+        "State Rules for Filing Eviction": "[Pull from State Law tab (Column E) based on state lease is in]",
+        "Lost Key Fee": "What is the fee if the tenant loses the key? Please return the number only and nothing else in the $0,000.00 format",
+        "Non-Sufficient Funds / Returned Check Fee": "What is the fee for returned checks or non-sufficient funds (NSF)? Please return the number only and nothing else in the $0,000.00 format",
+        "Other Fees": "What is the complete list of fees the tenant can be responsible for? Please search all pages in the document, including all addendums. Do not include late fee, NSF fee, returned check fee, or lost key fee in the list. Return the list in the following format:\nFee Name: Amount (in $0,000.00 format)"
+    }
+}

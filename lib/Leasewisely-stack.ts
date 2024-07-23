@@ -12,6 +12,7 @@ import * as sns from 'aws-cdk-lib/aws-sns'
 import * as snsSubscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';  // Correct import for SQS in CDK v2
+import * as path from 'path';
 
 import 'dotenv/config';
 
@@ -33,6 +34,12 @@ export class LeasewiselyStack extends cdk.Stack {
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
       ],
     })
+
+    const leaseWiselyLayer = new lambda.LayerVersion(this, 'LeaseWiselyLayer', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../leasewisely-layer')),
+      compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
+      description: 'A layer that includes the UUID module',
+    });
 
     // Define the SNS Publish Policy
     const snsPublishPolicy = new iam.PolicyStatement({
@@ -212,7 +219,8 @@ export class LeasewiselyStack extends cdk.Stack {
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
-      functionName: Constants.LEASE_WISELY_NEW_USER_REGISTERATION_LAMBDA
+      functionName: Constants.LEASE_WISELY_NEW_USER_REGISTERATION_LAMBDA,
+      layers: [leaseWiselyLayer]
     })
 
     snsTopicLeaseWiselyUserRegisteration.grantPublish(leaseWiselyNewUserRegistrationLambda)
@@ -224,7 +232,7 @@ export class LeasewiselyStack extends cdk.Stack {
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
         OPENAI_KEY: open_ai_homey_key,
-        OPEN_AI_MODEL: "gpt-4o",
+        OPEN_AI_MODEL: "gpt-4o-mini",
         LEASE_WISELY_SNS_TOPIC_ARN: snsTopicLeaseWiselyUserRegisteration.topicArn,
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
@@ -234,7 +242,8 @@ export class LeasewiselyStack extends cdk.Stack {
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
-      functionName: Constants.LEASE_WISELY_GET_KEY_ARTIFACTS_LAMBDA
+      functionName: Constants.LEASE_WISELY_GET_KEY_ARTIFACTS_LAMBDA,
+      layers: [leaseWiselyLayer]
     })
 
 
@@ -246,7 +255,7 @@ export class LeasewiselyStack extends cdk.Stack {
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
         OPENAI_KEY: open_ai_homey_key,
-        OPEN_AI_MODEL: "gpt-4o",
+        OPEN_AI_MODEL: "gpt-4o-mini",
         LEASE_WISELY_SNS_TOPIC_ARN: snsTopicLeaseWiselyUserRegisteration.topicArn,
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
@@ -256,7 +265,8 @@ export class LeasewiselyStack extends cdk.Stack {
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
-      functionName: Constants.LEASE_WISELY_BUILD_TEXT_LAMBDA
+      functionName: Constants.LEASE_WISELY_BUILD_TEXT_LAMBDA,
+      layers: [leaseWiselyLayer]
     })
 
     // Grant the Lambda function permissions to send messages to the SQS queue
@@ -280,11 +290,12 @@ export class LeasewiselyStack extends cdk.Stack {
       environment: {
         TABLE_NAME: leaseWiselyUserLeaseTable.tableName,
         OPENAI_KEY: open_ai_homey_key,
-        OPEN_AI_MODEL: "gpt-4o"
+        OPEN_AI_MODEL: "gpt-4o-mini"
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
-      functionName: Constants.LEASE_WISELY_LEASE_CONVERSATIONS_LAMBDA
+      functionName: Constants.LEASE_WISELY_LEASE_CONVERSATIONS_LAMBDA,
+      layers: [leaseWiselyLayer]
     })
 
     const leaseWiselyUploadLeaseLambda = new lambdaNodejs.NodejsFunction(this, Constants.LEASE_WISELY_UPLOAD_LEASE_LAMBDA, {
@@ -295,11 +306,12 @@ export class LeasewiselyStack extends cdk.Stack {
         LEASEWISELY_NEWLEASE_S3_BUCKET_NAME: Constants.LEASE_WISELY_NEW_LEASES_S3_BUCKET,
         LEASEWISELY_NEWLEASE_DYNAMODB_TABLE_NAME: Constants.LEASE_WISELY_NEW_LEASES_TABLE,
         OPENAI_KEY: open_ai_homey_key,
-        OPEN_AI_MODEL: "gpt-4o"
+        OPEN_AI_MODEL: "gpt-4o-mini"
       },
       role: lambdaRole,
       timeout: cdk.Duration.minutes(5),
-      functionName: Constants.LEASE_WISELY_UPLOAD_LEASE_LAMBDA
+      functionName: Constants.LEASE_WISELY_UPLOAD_LEASE_LAMBDA,
+      layers: [leaseWiselyLayer]
     })
 
 

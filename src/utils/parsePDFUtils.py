@@ -109,7 +109,7 @@ def extractKeyArtifactsUsingAI(text):
         """
 
         # Make a request to OpenAI's ChatCompletion API
-        response = client.chat.completions.create(model="gpt-4o",
+        response = client.chat.completions.create(model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
             {"role": "user", "content": prompt}

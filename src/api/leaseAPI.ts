@@ -150,7 +150,7 @@ export async function askOpenAI(question: string, context: string) {
     // Build the effective prompt by integrating historical context and player type responses
     let effectivePrompt = "LeaseText:"
     let engineeredPrompt = `Help me find answer to this question. If the question is about a date give a factual date in the response: ${question} in this lease: `
-    const model = "gpt-4o"
+    const model = "gpt-4o-mini"
 
     try {
         const contextArray = JSON.parse(context);

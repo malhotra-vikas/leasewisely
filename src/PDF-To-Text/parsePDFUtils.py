@@ -273,7 +273,7 @@ def extracTimeLineArtifactsUsingAI(text):
         """
 
         # Make a request to OpenAI's ChatCompletion API
-        response = client.chat.completions.create(model="gpt-4o",
+        response = client.chat.completions.create(model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
             {"role": "user", "content": prompt}
@@ -358,7 +358,7 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
     # Replace spaces in attribute_name for the placeholder
-    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('_', '')}"
+    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('_', '').replace('/', '-')}"
 
     # Build the UpdateExpression
     update_expression = f"SET #{dataKeyName} = :val"
@@ -453,7 +453,7 @@ def extractKeyArtifactsUsingAI(text):
         """
 
         # Make a request to OpenAI's ChatCompletion API
-        response = client.chat.completions.create(model="gpt-4o",
+        response = client.chat.completions.create(model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
             {"role": "user", "content": prompt}
