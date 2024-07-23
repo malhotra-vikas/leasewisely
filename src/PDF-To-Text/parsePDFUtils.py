@@ -323,14 +323,13 @@ def extracTimeLineArtifactsUsingAI(text):
             'body': f"Error: {e}"
         }
 
-def extractRentAmount(text):
+def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
 
     rentAmount = ''
     prompt = f"""
-        What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format.
-        Here is the lease PDF: "{text}"
+        {prompt}
+        Here is the lease PDF: "{leaseText}"
         """
-
     # Make a request to OpenAI's ChatCompletion API
     response = client.chat.completions.create(model="gpt-4o-mini",
     messages=[
@@ -358,7 +357,53 @@ def extractRentAmount(text):
         print(f"JSON decoding failed: {e}")
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
-    return extracted_data
+    try:
+        # Specify the table
+        table_name = userLeasesTable  # Replace with your DynamoDB table name
+        table = dynamodb.Table(table_name)
+
+        updateStatement = f"""
+            SET {dataKeyName} = :dataValue"
+            """
+
+        # Update the leaseText field for the given email
+        response = table.update_item(
+            Key={
+                'email': email,
+                'uuid': uuid
+            },
+            UpdateExpression=updateStatement,
+            ExpressionAttributeValues={
+                ':dataValue': extracted_data
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+        
+        print(f"Update successful")
+        return {
+            'statusCode': 200,
+            'body': 'Lease text updated successfully'
+        }
+
+    except NoCredentialsError:
+        print("Credentials not available.")
+        return {
+            'statusCode': 403,
+            'body': 'Credentials not available.'
+        }
+    except PartialCredentialsError:
+        print("Incomplete credentials provided.")
+        return {
+            'statusCode': 403,
+            'body': 'Incomplete credentials provided.'
+        }
+    except Exception as e:
+        print(f"Error writing to DynamoDB: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"Error: {e}"
+        }
+
     
 def extractKeyArtifactsUsingAI(text):
     try:
@@ -474,27 +519,27 @@ def process_message(message):
 
         if downloaded_file_path:
             # PDF TO Text
-            extracted_text = readPDF(downloaded_file_path)
+            extracted_lease_text = readPDF(downloaded_file_path)
             
             # Write PDF Extracted text to DDB
-            write_result = write_to_dynamodb(email, uuid, extracted_text)
+            write_result = write_to_dynamodb(email, uuid, extracted_lease_text)
 
-            rentAmount = extractRentAmount(extracted_text)
+            extractAndPersistData(extracted_lease_text, "Rent Amount", "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format", email, uuid)
             
             # Extract key information
-            #keyArtifacts = extractKeyArtifactsUsingAI(extracted_text)
+            keyArtifacts = extractKeyArtifactsUsingAI(extracted_lease_text)
 
             # Write key information to the DDB
-            #write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
+            write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
 
             # Extract timeline information
-            #timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_text)
+            timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_lease_text)
 
             # Write key information to the DDB
-            #write_result = add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifacts)
+            write_result = add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifacts)
 
             # Write leaseDataAvailable to the DDB
-            #write_result = add_lease_data_available_to_dynamodb(email, uuid)
+            write_result = add_lease_data_available_to_dynamodb(email, uuid)
 
 
     else:
