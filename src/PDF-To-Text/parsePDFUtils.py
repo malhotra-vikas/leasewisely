@@ -358,7 +358,7 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
     # Replace spaces in attribute_name for the placeholder
-    dataKeyName = f"#{dataKeyName.replace(' ', '_')}"
+    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('_', '')}"
 
     # Build the UpdateExpression
     update_expression = f"SET #{dataKeyName} = :val"
