@@ -357,6 +357,9 @@ def extractAndPersistData(leaseText, dataKeyName, prompt, email, uuid):
         print(f"JSON decoding failed: {e}")
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
 
+    # Replace spaces in attribute_name for the placeholder
+    dataKeyName = f"#{dataKeyName.replace(' ', '_')}"
+
     # Build the UpdateExpression
     update_expression = f"SET #{dataKeyName} = :val"
     print("updateStatement is:", update_expression)
