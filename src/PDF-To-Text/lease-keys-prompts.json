@@ -1,6 +1,6 @@
 {
     "Lease Summary": {
-        "Resident Name(s)": "Please list all the tenants listed on the lease; just bulleted names",
+        "Resident Names": "Please list all the tenants listed on the lease; just bulleted names",
         "Property Manager/Landlord Name": "What is the Property Manager/Landlord Name?",
         "Property Manager/Landlord Phone Number": "What is the Property Manager/Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
         "Property Manager/Landlord Phone Email": "What is the Property Manager/Landlord Email",
@@ -18,7 +18,7 @@
         "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format"
     },
     "Red Flags": {
-        "Resident Name(s)": "Is there a list of all the tenants in the lease? Yes/No",
+        "Resident Names": "Is there a list of all the tenants in the lease? Yes/No",
         "Property Manager/Landlord Name": "Is the Property Manager/Landlord Name listed in the lease? Yes/No",
         "Lease Start Date": "Does the lease have a start date listed in the lease? Yes/No",
         "Rent Amount": "Is the monthly rent amount listed in the lease? Yes/No",
@@ -48,5 +48,60 @@
         "Lost Key Fee": "What is the fee if the tenant loses the key? Please return the number only and nothing else in the $0,000.00 format",
         "Non-Sufficient Funds / Returned Check Fee": "What is the fee for returned checks or non-sufficient funds (NSF)? Please return the number only and nothing else in the $0,000.00 format",
         "Other Fees": "What is the complete list of fees the tenant can be responsible for? Please search all pages in the document, including all addendums. Do not include late fee, NSF fee, returned check fee, or lost key fee in the list. Return the list in the following format:\nFee Name: Amount (in $0,000.00 format)"
+    },
+    "Move-In": {
+        "Is renters insurance required": "Is renter's insurance required? Yes/No",
+        "Deadline to complete move-in inspection": "Is there a deadline to complete a move-in inspection?",
+        "Time to report pest issues upon move-in": "Upon move-in, how long do I have to report pest issues?",
+        "Utilities setup before move-in": "Do I need to set up utilities before move in?",
+        "Mailbox keys information": "What does the lease say about mailbox keys?",
+        "Lease includes parking": "How many parking spots do I have access to in my lease?",
+        "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only",
+        "Penalties pre move-in or within 30 days": "What else, besides renter's insurance, move-in inspection, pest reporting and utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Just provide the results and details only"
+    },
+    "Maintenance": {
+        "Standard Maintenance Phone Number": "What is the phone number to call for standard maintenance issues? Please only return the phone number in the (000) 000-0000 format",
+        "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
+        "After-Hours Maintenance Phone Number": "What is the phone number to call for after-hours maintenance issues? Please only return the phone number in the (000) 000-0000 format",
+        "State Rules": "[Pull from State Law tab (Column F) based on state lease is in]"
+    },
+    "Utilities": {
+        "Electricity Payment Responsibility": "Who is responsible for paying Electricity? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Gas Payment Responsibility": "Who is responsible for paying Gas? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Water Payment Responsibility": "Who is responsible for paying Water? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Heat Responsibility": "Who is responsible for paying Heat? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Trash and Recycling Payment Responsibility": "Who is responsible for paying Trash and Recycling? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Cable Responsibility": "Who is responsible for paying Cable/TV? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Internet Responsibility": "Who is responsible for paying Internet? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Landscaping Responsibility": "Who is responsible for paying Landscaping? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Snow Removal Responsibility": "Who is responsible for paying Snow Removal? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
+        "Third Party Billing Used": "Does the landlord use a third-party billing company?"
+    },
+    "Rules and Regulations": {
+        "Pets Allowed": "Are pets allowed in the property? Yes/No",
+        "Smoking Allowed": "Is smoking allowed in the property? Yes/No",
+        "Prohibited Activities": "Not including smoking, can you provide a complete list of all prohibited activities and restrictions outlined in the lease agreement, including those specified in any addendums?"
+    },
+    "Landlord Notice": {
+        "Notice to Enter Rules": "What are the notice to enter rules in my lease?",
+        "State Rules": "[Pull from State Law tab (Column G) based on state lease is in]"
+    },
+    "Renewal and Move-Outs": {
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Consequences of missing notice to vacate deadline": "What happens if I miss the notice to vacate deadline?",
+        "Actions if not renewing and moving out": "What do I need to do if I am not renewing and moving out?",
+        "Subletting permission": "Can I sublet?",
+        "Early lease termination": "Can I terminate my lease early?",
+        "State Rules for Notice Period on Raising Rent": "[Pull from State Law tab (Column H) based on state lease is in]",
+        "State Rules for Month-to-Month Landlord Termination Notice": "[Pull from State Law tab (Column I) based on state lease is in]"
+    },
+    "Data Fields to Collect": {
+        "Street Address of Property": "What is the street address of the property?",
+        "City of Property": "What city is the property in?",
+        "State of Property": "What state is the property in?",
+        "Zip Code of Property": "What is the five digit zip code of the property?",
+        "Number of Bedrooms": "How many bedrooms are in the property?",
+        "Number of Bathrooms": "How many bathrooms are in the property?"
     }
 }

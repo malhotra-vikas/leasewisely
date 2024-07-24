@@ -117,6 +117,127 @@ export class LeasewiselyStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
+    const LeaseWiselyDataFieldsToCollectTable = new dynamodb.Table(this, Constants.LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyRenewalAndMoveoutsTable = new dynamodb.Table(this, Constants.LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyLandlordNoticeTable = new dynamodb.Table(this, Constants.LEASE_WISELY_LANDLORD_NOTICES_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_LANDLORD_NOTICES_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyRulesAndRegulationsTable = new dynamodb.Table(this, Constants.LEASE_WISELY_RULES_AND_REGULATIONS_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_RULES_AND_REGULATIONS_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyUtilitiesTable = new dynamodb.Table(this, Constants.LEASE_WISELY_UTILITIES_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_UTILITIES_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyMaintenanceTable = new dynamodb.Table(this, Constants.LEASE_WISELY_MAINTENENCE_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_MAINTENENCE_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyMoveinTable = new dynamodb.Table(this, Constants.LEASE_WISELY_MOVE_IN_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_MOVE_IN_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyRentAndFeeTable = new dynamodb.Table(this, Constants.LEASE_WISELY_RENT_AND_FEE_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_RENT_AND_FEE_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyRedFlagTable = new dynamodb.Table(this, Constants.LEASE_WISELY_RED_FLAG_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_RED_FLAG_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyTimelineTable = new dynamodb.Table(this, Constants.LEASE_WISELY_TIMELINE_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_TIMELINE_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
+    const LeaseWiselyLeaseSummaryTable = new dynamodb.Table(this, Constants.LEASE_WISELY_LEASE_SUMMARY_TABLE, {
+      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
+      sortKey: {
+        name: 'uuid',
+        type: dynamodb.AttributeType.STRING
+    },
+      tableName: Constants.LEASE_WISELY_LEASE_SUMMARY_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
     // Create IAM Role
     const lambdaRole = new iam.Role(this, Constants.LAMBDA_ROLE, {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),

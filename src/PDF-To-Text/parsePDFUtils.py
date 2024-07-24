@@ -4,6 +4,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import re
 import logging
+import datetime
+import time  
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,6 +23,20 @@ accessKKey = os.getenv("AWS_ACCESS_KEY")
 secret = os.getenv("AWS_ACCESS_KEY_SECRET")
 
 userLeasesTable = os.getenv("USER_LEASES_TABLE")
+leaseSummaryTable = os.getenv("LEASE_SUMMARY_TABLE")
+timelinesTable = os.getenv("TIMELINE_TABLE")
+redFlagTable = os.getenv("RED_FLAG_TABLE")
+rentAndFeeTable = os.getenv("RENT_AND_FEE_TABLE")
+moveinTable = os.getenv("MOVE_IN_TABLE")
+mainentenceTable = os.getenv("MAINENTENCE_TABLE")
+utilitiesTable = os.getenv("UTILITIES_TABLE")
+rulesAndRegulationsTable = os.getenv("RULES_AND_REGULATIONS_TABLE")
+landlordNoticesTable = os.getenv("LANDLORD_NOTICES_TABLE")
+dataFieldsToCollectTable = os.getenv("DATA_FIELDS_TO_COLLECT_TABLE")
+renewalAndMoveOutTable = os.getenv("RENEWAL_AND_MOVEOUT_TABLE")
+
+
+sleepTime = 30
 
         # Initialize a session using boto3
 dynamodb = boto3.resource(
@@ -212,7 +228,7 @@ def old_add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts):
             'body': f"Error: {e}"
         }
 
-def write_to_dynamodb(email, uuid, text):
+def persistLeaseText(email, uuid, text):
     try:
         # Specify the table
         table_name = userLeasesTable  # Replace with your DynamoDB table name
@@ -327,19 +343,18 @@ def sanitize_attribute_name(name):
     """ Replace invalid characters in attribute names with underscores. """
     return re.sub(r'[^a-zA-Z0-9_]', '_', name)
 
-def persistBatchData(updates, email, uuid):
+def persistBatchData(updates, email, uuid, tableName):    
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(userLeasesTable)
+    table = dynamodb.Table(tableName)
 
     # Build the update expression and attribute dictionaries
     update_expression = "SET "
     expression_attribute_values = {}
     expression_attribute_names = {}
-
     for attr_name, value in updates.items():
         expression_placeholder = f":{attr_name}"
         attribute_name_placeholder = f"#{attr_name}"
-        
+            
         update_expression += f"{attribute_name_placeholder} = {expression_placeholder}, "
         expression_attribute_values[expression_placeholder] = value
         expression_attribute_names[attribute_name_placeholder] = attr_name
@@ -347,7 +362,11 @@ def persistBatchData(updates, email, uuid):
     # Remove the last comma and space from the update expression
     update_expression = update_expression.rstrip(', ')
 
+    print("Updating for email", email)
+    print("Updating for uuid", uuid)
     print("update_expression is", update_expression)
+    print("expression_attribute_values is", expression_attribute_values)
+    print("expression_attribute_names is", expression_attribute_names)
 
     try:
         response = table.update_item(
@@ -358,16 +377,15 @@ def persistBatchData(updates, email, uuid):
             UpdateExpression=update_expression,
             ExpressionAttributeValues=expression_attribute_values,
             ExpressionAttributeNames=expression_attribute_names,
-            ReturnValues="UPDATED_NEW"
+            ReturnValues="ALL_NEW"
         )
         print("Update successful:", response)
     except Exception as e:
         print("Failed to update item:", e)
 
-
 def persistData(dataKeyName, extracted_data, email, uuid):
         # Replace spaces in attribute_name for the placeholder
-    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_')}"
+    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_').replace('(', '').replace(')', '')}"
 
 
     # Build the UpdateExpression
@@ -455,97 +473,12 @@ def extractData(leaseText, prompt):
     return extracted_data
 
     
-def extractKeyArtifactsUsingAI(text):
-    try:
-        propertyAddress = ''
-        propertyManagerName = ''
-        propertyManagerPhoneNumber = ''
-        propertyManageEmail = ''
-        emergencyMainentenceNumber = ''
-        rentDueDate = ''
-        rentAmount = ''
-        lateFeeRules = ''
-        securityDepositeAmount = ''
-        includePet = ''
-        petFee = ''
-        residentNames = ''
-
-        prompt = f"""
-        Extract the following details from the lease agreement and provide them in a JSON format: 
-        - Property Address
-        - Lease Start Date
-        - Lease End Date
-        - Lease Signed Date
-        - Property Manager Name
-        - Property Manager PhoneNumber
-        - Property Manager Email
-        - Emergency Maintenance Number
-        - Rent Due Date
-        - Rent Amount
-        - Late Fee Rules
-        - Security Deposit Amount
-        - Include Pet
-        - Pet Fee
-        - Resident Names
-        - Move in Inspection Deadline Date
-        - Renewal Offer Date
-        - Notice to Vacate Date
-        - Security Deposit Return Date
-
-        
-        Here is the lease PDF: "{text}"
-        """
-
-        # Make a request to OpenAI's ChatCompletion API
-        response = client.chat.completions.create(model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=500,
-        temperature=0.7)
-
-        # Extracting the response text
-        result_text = response.choices[0].message.content.strip()
-
-        # Clean the result_text
-        cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
-
-        # Print the cleaned result for debugging
-        print(f"Cleaned result_text: {cleaned_result_text}")
-
-        # Try to parse the response as JSON
-        try:
-            extracted_data = json.loads(cleaned_result_text)
-        except json.JSONDecodeError as e:
-            print(f"JSON decoding failed: {e}")
-            extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
-
-        # Print the structured JSON data
-        print(f"Extracted attributes: {json.dumps(extracted_data, indent=4)}")
-
-        # Return the structured JSON data
-        return {
-            'statusCode': 200,
-            'body': extracted_data
-        }
-
-    except Exception as e:
-        print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
-
 def load_prompts(file_path):
     """ Load JSON data from a file. """
     with open(file_path, 'r') as file:
         return json.load(file)
 
-def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid):
-    update_expression = "SET "
-    expression_attribute_values = {}
-    expression_attribute_names = {}
+def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid, tableName):
 
     # Initialize an empty dictionary
     updates = {}
@@ -566,12 +499,9 @@ def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid):
         except Exception as e:
             print(f"Failed to process {key}: {str(e)}")
 
-    persistBatchData(updates, email, uuid)
+    persistBatchData(updates, email, uuid, tableName)
 
-def process_message(message):
-    body = json.loads(message['Body'])
-    email = body['email']
-    uuid = body['uuid']
+def process_message(email, uuid):
 
     # Query DynamoDB for the S3 file path using email
     table = dynamodb.Table('LeaseWiselyNewLeases')
@@ -601,60 +531,122 @@ def process_message(message):
             # PDF TO Text
             extracted_lease_text = readPDF(downloaded_file_path)
             
-            # Write PDF Extracted text to DDB
-            write_to_dynamodb(email, uuid, extracted_lease_text)
-
             # Load prompts from JSON file
             prompts_data = load_prompts("lease-keys-prompts.json")
 
             # rent_and_fees_prompts
             rent_and_fees_prompts = prompts_data.get("Rent and Fees", {})
-            
+            # rent_and_fees_prompts
+            lease_summary_prompts = prompts_data.get("Lease Summary", {})
+            # rent_and_fees_prompts
+            timeline_prompts = prompts_data.get("Timeline", {})
+            # rent_and_fees_prompts
+            red_flags_prompts = prompts_data.get("Red Flags", {})
+            move_in_prompts = prompts_data.get("Move-In", {})
+            maintenance_prompts = prompts_data.get("Maintenance", {})
+            utilities_prompts = prompts_data.get("Utilities", {})
+            rules_and_regulations_prompts = prompts_data.get("Rules and Regulations", {})
+            landlord_notice_prompts = prompts_data.get("Landlord Notice", {})
+            renewal_and_moveout_prompts = prompts_data.get("Renewal and Move-Outs", {})
+            data_fields_to_collect_prompts = prompts_data.get("Data Fields to Collect", {})
+
+            print("Processing rent_and_fees_prompts")
             # Run the extraction and persistence for all keys in 'Rent and Fees'
-            extract_and_persist_all_keys(extracted_lease_text, rent_and_fees_prompts, email, uuid)
+            extract_and_persist_all_keys(extracted_lease_text, rent_and_fees_prompts, email, uuid, rentAndFeeTable)
+            #time.sleep(sleepTime)
 
-            #extractAndPersistData(extracted_lease_text, "Rent Amount", "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format", email, uuid)
-            
-            # Extract key information
-            #keyArtifacts = extractKeyArtifactsUsingAI(extracted_lease_text)
+            print("Processing lease_summary_prompts")
 
-            # Write key information to the DDB
-            #write_result = add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts)
+            # Run the extraction and persistence for all keys in 'Rent and Fees'
+            extract_and_persist_all_keys(extracted_lease_text, lease_summary_prompts, email, uuid, leaseSummaryTable)
+            #time.sleep(sleepTime)
 
-            # Extract timeline information
-            #timeLineArtifacts = extracTimeLineArtifactsUsingAI(extracted_lease_text)
+            print("Processing timeline_prompts")
 
-            # Write key information to the DDB
-            #write_result = add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifacts)
+            # Run the extraction and persistence for all keys in 'Rent and Fees'
+            extract_and_persist_all_keys(extracted_lease_text, timeline_prompts, email, uuid, timelinesTable)
+            #time.sleep(sleepTime)
+
+            print("Processing red_flags_prompts")
+
+            # Run the extraction and persistence for all keys in 'Rent and Fees'
+            extract_and_persist_all_keys(extracted_lease_text, red_flags_prompts, email, uuid, redFlagTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Move-In")
+            extract_and_persist_all_keys(extracted_lease_text, move_in_prompts, email, uuid, moveinTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Maintenance")
+            extract_and_persist_all_keys(extracted_lease_text, maintenance_prompts, email, uuid, mainentenceTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Utilities")
+            extract_and_persist_all_keys(extracted_lease_text, utilities_prompts, email, uuid, utilitiesTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Rules and Regulations")
+            extract_and_persist_all_keys(extracted_lease_text, rules_and_regulations_prompts, email, uuid, rulesAndRegulationsTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Landlord Notice")
+            extract_and_persist_all_keys(extracted_lease_text, landlord_notice_prompts, email, uuid, landlordNoticesTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Renewal and Move-Outs")
+            extract_and_persist_all_keys(extracted_lease_text, renewal_and_moveout_prompts, email, uuid, renewalAndMoveOutTable)
+            #time.sleep(sleepTime)
+
+            print("Processing Data Fields to Collect")
+            extract_and_persist_all_keys(extracted_lease_text, data_fields_to_collect_prompts, email, uuid, dataFieldsToCollectTable)
+            #time.sleep(sleepTime)
+
+            # Write PDF Extracted text to DDB
+            persistLeaseText(email, uuid, extracted_lease_text)
 
             # Write leaseDataAvailable to the DDB
             write_result = add_lease_data_available_to_dynamodb(email, uuid)
 
-
     else:
         print(f"No item found in DynamoDB for email: {email}")
-
 
 def poll_sqs():
     while True:
         response = sqs.receive_message(
             QueueUrl=queue_url,
             MaxNumberOfMessages=1,
-            WaitTimeSeconds=20
+            WaitTimeSeconds=2
         )
 
         if 'Messages' in response:
             for message in response['Messages']:
                 print(f"Processing message: {message}")
-                process_message(message)
+                body = json.loads(message['Body'])
+                email = body['email']
+                uuid = body['uuid']
+
                 sqs.delete_message(
                     QueueUrl=queue_url,
                     ReceiptHandle=message['ReceiptHandle']
                 )
+                start_time = datetime.datetime.now()
+                human_readable_start_time = start_time.strftime('%Y-%m-%d %H:%M:%S')
+                print("Started Processing at ", human_readable_start_time)
+
+                process_message(email, uuid)
+
+                end_time = datetime.datetime.now()
+                human_readable_end_time = end_time.strftime('%Y-%m-%d %H:%M:%S')
+                print("Completed Processing at ", human_readable_end_time)
+                duration = end_time - start_time
+                seconds = duration.total_seconds()
+                print(f"Duration: {duration} (HH:MM:SS)")
+                print(f"Duration in seconds: {seconds} seconds")
+
+
         else:
             print("No messages received.")
 
 
 if __name__ == "__main__":
     poll_sqs()
-    

@@ -35,6 +35,19 @@ export const LEASE_WISELY_NEW_LEASES_TABLE = "LeaseWiselyNewLeases"
 export const LEASE_WISELY_NEW_LEASES_S3_BUCKET = "leasewisely-newleases"
 export const LEASE_WISELY_USER_LEASE_MAPPING_TABLE = "LeaseWiselyUserLeaseMapping"
 
+export const LEASE_WISELY_LEASE_SUMMARY_TABLE = "LeaseWiselyLeaseSummary"
+export const LEASE_WISELY_TIMELINE_TABLE = "LeaseWiselyTimeline"
+export const LEASE_WISELY_RED_FLAG_TABLE = "LeaseWiselyRedFlag"
+export const LEASE_WISELY_RENT_AND_FEE_TABLE = "LeaseWiselyRentAndFee"
+export const LEASE_WISELY_MOVE_IN_TABLE = "LeaseWiselyMovein"
+export const LEASE_WISELY_RULES_AND_REGULATIONS_TABLE = "LeaseWiselyRulesAndRegulations"
+export const LEASE_WISELY_LANDLORD_NOTICES_TABLE = "LeaseWiselyLandlordNotice"
+export const LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE = "LeaseWiselyRenewalAndMoveouts"
+export const LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE = "LeaseWiselyDataFieldsToCollect"
+export const LEASE_WISELY_MAINTENENCE_TABLE = "LeaseWiselyMaintenance"
+export const LEASE_WISELY_UTILITIES_TABLE = "LeaseWiselyUtilities"
+
+
 
 export const GOLF_PRO_USERS_TABLE_ARN = "arn:aws:dynamodb:" + exports.AWS_REGION + ":" + exports.AWS_ACCOUNT + ":table/" + GOLF_PRO_USERS_TABLE;
 
