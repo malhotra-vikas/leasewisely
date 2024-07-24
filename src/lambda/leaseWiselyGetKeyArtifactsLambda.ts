@@ -55,7 +55,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         console.log("Email and UUID", email, uuid);
 
         // Fetch data from DynamoDB
-        const params = {
+        const leaseParams = {
             TableName: Constants.LEASE_WISELY_USER_LEASES_TABLE,
             KeyConditionExpression: '#email = :email',
             ExpressionAttributeNames: {
@@ -65,38 +65,380 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                 ':email': email
             }
         };
-        console.log("params", params);
-        console.log("dynamoDB", dynamoDB);
-        let leaseCount = 0;
 
-        const data = await ddbDocClient.send(new QueryCommand(params));
-        if (data && data.Items && data.Items.length > 0) {
-            leaseCount = data.Items.length
-            const userLeaseData = data.Items.map(item => {
+        const timelineParams = {
+            TableName: Constants.LEASE_WISELY_TIMELINE_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };
+
+        const dataFieldsToCollectParams = {
+            TableName: Constants.LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };
+
+        const landlordNoticeParams = {
+            TableName: Constants.LEASE_WISELY_LANDLORD_NOTICES_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };
+
+        const leaseSummaryParams = {
+            TableName: Constants.LEASE_WISELY_LEASE_SUMMARY_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };
+
+        const leaseWiselyMaintenanceParams = {
+            TableName: Constants.LEASE_WISELY_MAINTENENCE_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };        
+
+        const leaseWiselyMoveinParams = {
+            TableName: Constants.LEASE_WISELY_MOVE_IN_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };  
+
+        const leaseWiselyRedFlagParams = {
+            TableName: Constants.LEASE_WISELY_RED_FLAG_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };  
+
+        const leaseWiselyRenewalAndMoveoutsParams = {
+            TableName: Constants.LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };        
+        
+        const leaseWiselyRentAndFeeParams = {
+            TableName: Constants.LEASE_WISELY_RENT_AND_FEE_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };          
+
+        const leaseWiselyRulesAndRegulationsParams = {
+            TableName: Constants.LEASE_WISELY_RULES_AND_REGULATIONS_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };         
+        const leaseWiselyUtilitiesParams = {
+            TableName: Constants.LEASE_WISELY_UTILITIES_TABLE,
+            KeyConditionExpression: '#email = :email',
+            ExpressionAttributeNames: {
+                '#email': 'email'
+            },
+            ExpressionAttributeValues: {
+                ':email': email
+            }
+        };           
+        
+        
+        const leaseData = await ddbDocClient.send(new QueryCommand(leaseParams));
+        const timelineData = await ddbDocClient.send(new QueryCommand(timelineParams));
+        const dataFieldsToCollectData = await ddbDocClient.send(new QueryCommand(dataFieldsToCollectParams));
+        const landlordNoticeData = await ddbDocClient.send(new QueryCommand(landlordNoticeParams));
+        const leaseSummaryData = await ddbDocClient.send(new QueryCommand(leaseSummaryParams));
+        const leaseWiselyMaintenanceData = await ddbDocClient.send(new QueryCommand(leaseWiselyMaintenanceParams));
+        const leaseWiselyMoveinData = await ddbDocClient.send(new QueryCommand(leaseWiselyMoveinParams));
+        const leaseWiselyRedFlagParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRedFlagParams));
+        const leaseWiselyRenewalAndMoveoutsParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRenewalAndMoveoutsParams));
+        const leaseWiselyRentAndFeeParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRentAndFeeParams));
+        const leaseWiselyRulesAndRegulationsParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRulesAndRegulationsParams));
+        const leaseWiselyUtilitiesParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyUtilitiesParams));
+        
+        let leaseCount = leaseData.Items?.length || 0;
+
+        let userLeaseResponseData, timelineResponseData, dataFieldsResponseData, landlordNoticeResponseData
+        let leaseSummaryResponseData, leaseWiselyMaintenanceDataResponse, leaseWiselyMoveinDataResponse
+        let leaseWiselyRedFlagParamsDataResponse, leaseWiselyRenewalAndMoveoutsParamsDataResponse
+        let leaseWiselyRentAndFeeParamsDataResponse, leaseWiselyRulesAndRegulationsParamsDataResponse, leaseWiselyUtilitiesParamsDataResponse
+
+        if (leaseWiselyUtilitiesParamsData && leaseWiselyUtilitiesParamsData.Items && leaseWiselyUtilitiesParamsData.Items.length > 0) {
+            leaseWiselyUtilitiesParamsDataResponse = leaseWiselyUtilitiesParamsData.Items.map(item => {
                 return {
-                    email: email,
-                    uuid: item.uuid,
-                    keyArtifacts: item.keyArtifacts || "NA",
-                    leasePropertyAddress: item.propertyAddress || "NA",
-                    leaseStartDate: item.leaseStartDate || "NA",
-                    leaseDataAvailable: item.leaseDataAvailable || "NA"
+                    "utilities": {
+                        email: email,
+                        uuid: item.uuid,
+                        CableResponsibility: item.CableResponsibility || "NA",
+                        ElectricityPaymentResponsibility: item.ElectricityPaymentResponsibility || "NA",
+                        GasPaymentResponsibility: item.GasPaymentResponsibility || "NA",
+                        HeatResponsibility: item.HeatResponsibility || "NA",
+                        InternetResponsibility: item.InternetResponsibility || "NA",
+                        LandscapingResponsibility: item.LandscapingResponsibility || "NA",
+                        SnowRemovalResponsibility: item.SnowRemovalResponsibility || "NA",
+                        ThirdPartyBillingUsed: item.ThirdPartyBillingUsed || "NA",
+                        TrashandRecyclingPaymentResponsibility: item.TrashandRecyclingPaymentResponsibility || "NA",
+                        WaterPaymentResponsibility: item.WaterPaymentResponsibility || "NA"
+                    }
                 };
             });
-            
-            response.statusCode = 200;
-            response.body = JSON.stringify({
-                "lease-count": leaseCount,
-                "user-lease": userLeaseData
-            });
-        
-            response.body = JSON.stringify({ "user-lease": userLeaseData });        
-        } else {
-            response.statusCode = 200;
-            response.body = JSON.stringify({
-                "lease-count": leaseCount,
-                "user-lease": "No Leases found for this email"
+        }
+
+        if (leaseWiselyRulesAndRegulationsParamsData && leaseWiselyRulesAndRegulationsParamsData.Items && leaseWiselyRulesAndRegulationsParamsData.Items.length > 0) {
+            leaseWiselyRulesAndRegulationsParamsDataResponse = leaseWiselyRulesAndRegulationsParamsData.Items.map(item => {
+                return {
+                    "rules-and-regulations": {
+                        email: email,
+                        uuid: item.uuid,
+                        PetsAllowed: item.PetsAllowed || "NA",
+                        ProhibitedActivities: item.ProhibitedActivities || "NA",
+                        SmokingAllowed: item.SmokingAllowed || "NA"
+                    }
+                };
             });
         }
+
+        if (leaseWiselyRenewalAndMoveoutsParamsData && leaseWiselyRenewalAndMoveoutsParamsData.Items && leaseWiselyRenewalAndMoveoutsParamsData.Items.length > 0) {
+            leaseWiselyRenewalAndMoveoutsParamsDataResponse = leaseWiselyRenewalAndMoveoutsParamsData.Items.map(item => {
+                return {
+                    "renewal-and-moveout": {
+                        email: email,
+                        uuid: item.uuid,
+                        Actionsifnotrenewingandmovingout: item.Actionsifnotrenewingandmovingout || "NA",
+                        Consequencesofmissingnoticetovacatedeadline: item.Consequencesofmissingnoticetovacatedeadline || "NA",
+                        Earlyleasetermination: item.Earlyleasetermination || "NA",
+                        LeaseEndDate: item.LeaseEndDate || "NA",
+                        NoticetoVacateDate: item.NoticetoVacateDate || "NA",
+                        StateRulesforMonthtoMonthLandlordTerminationNotice: item.StateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
+                        StateRulesforNoticePeriodonRaisingRent: item.StateRulesforNoticePeriodonRaisingRent || "NA",
+                        Sublettingpermission: item.Sublettingpermission || "NA"
+                    }
+                };
+            });
+        }
+
+        if (leaseWiselyRentAndFeeParamsData && leaseWiselyRentAndFeeParamsData.Items && leaseWiselyRentAndFeeParamsData.Items.length > 0) {
+            leaseWiselyRentAndFeeParamsDataResponse = leaseWiselyRentAndFeeParamsData.Items.map(item => {
+                return {
+                    "rent-and-fee": {
+                        email: email,
+                        uuid: item.uuid,
+                        LateFeeif10DaysLate: item.LateFeeif10DaysLate || "NA",
+                        LateFeeif1DayLate: item.LateFeeif1DayLate || "NA",
+                        LateFeeif3DaysLate: item.LateFeeif3DaysLate || "NA",
+                        LateFeeif5DaysLate: item.LateFeeif5DaysLate || "NA",
+                        LateFeePolicy: item.LateFeePolicy || "NA",
+                        LostKeyFee: item.LostKeyFee || "NA",
+                        NonSufficientFunds_ReturnedCheckFee: item.NonSufficientFunds_ReturnedCheckFee || "NA",
+                        OtherFees: item.OtherFees || "NA",
+                        PetDepositAmount: item.PetDepositAmount || "NA",
+                        PetRentAmount: item.PetRentAmount || "NA",
+                        RentAmount: item.RentAmount || "NA",
+                        RentDueDate: item.RentDueDate || "NA",
+                        StateRulesforFilingEviction: item.StateRulesforFilingEviction || "NA",
+                        StateRulesforMandatoryGracePeriod: item.StateRulesforMandatoryGracePeriod || "NA",
+                        StateRulesforMaximumLateFee: item.StateRulesforMaximumLateFee || "NA"
+                    }
+                };
+            });
+        }
+
+        if (leaseWiselyRedFlagParamsData && leaseWiselyRedFlagParamsData.Items && leaseWiselyRedFlagParamsData.Items.length > 0) {
+            leaseWiselyRedFlagParamsDataResponse = leaseWiselyRedFlagParamsData.Items.map(item => {
+                return {
+                    "red-flags": {
+                        email: email,
+                        uuid: item.uuid,
+                        CounterSignature: item.CounterSignature || "NA",
+                        FullAddress: item.FullAddress || "NA",
+                        LeaseStartDate: item.LeaseStartDate || "NA",
+                        NoticetoEnterRules: item.NoticetoEnterRules || "NA",
+                        NoticetoVacateDate: item.NoticetoVacateDate || "NA",
+                        PetPolicy: item.PetPolicy || "NA",
+                        PropertyManager_LandlordName: item.PropertyManager_LandlordName || "NA",
+                        RentAmount: item.RentAmount || "NA",
+                        RentDueDate: item.RentDueDate || "NA",
+                        RentPaymentInstructions: item.RentPaymentInstructions || "NA",
+                        ResidentNames: item.ResidentNames || "NA",
+                        SecurityDepositAmount: item.SecurityDepositAmount || "NA",
+                        UtilitiesResponsibilities: item.UtilitiesResponsibilities || "NA"
+                    }
+                };
+            });
+        }
+        if (leaseWiselyMoveinData && leaseWiselyMoveinData.Items && leaseWiselyMoveinData.Items.length > 0) {
+            leaseWiselyMoveinDataResponse = leaseWiselyMoveinData.Items.map(item => {
+                return {
+                    "movein-date": {
+                        email: email,
+                        uuid: item.uuid,
+                        accesstoamenitiesorfacilities: item.Accesstoamenitiesorfacilities || "NA",
+                        deadlinetocompletemoveininspection: item.Deadlinetocompletemoveininspection || "NA",
+                        isrentersinsurancerequired: item.Isrentersinsurancerequired || "NA",
+                        leaseincludesparking: item.Leaseincludesparking || "NA",
+                        mailboxkeysinformation: item.Mailboxkeysinformation || "NA",
+                        penaltiespremoveinorwithin30days: item.Penaltiespremoveinorwithin30days || "NA",
+                        timetoreportpestissuesuponmovein: item.Timetoreportpestissuesuponmovein || "NA",
+                        "utilities setup before movein": item.Utilitiessetupbeforemovein || "NA",
+                    }
+                };
+            });
+        }
+
+        if (leaseWiselyMaintenanceData && leaseWiselyMaintenanceData.Items && leaseWiselyMaintenanceData.Items.length > 0) {
+            leaseWiselyMaintenanceDataResponse = leaseWiselyMaintenanceData.Items.map(item => {
+                return {
+                    "maintenence": {
+                        email: email,
+                        uuid: item.uuid,
+                        afterHoursMaintenancePhoneNumber: item.AfterHoursMaintenancePhoneNumber || "NA",
+                        emergencyMaintenancePhoneNumber: item.EmergencyMaintenancePhoneNumber || "NA",
+                        standardMaintenancePhoneNumber: item.StandardMaintenancePhoneNumber || "NA",
+                        stateRules: item.StateRules || "NA"
+                    }
+                };
+            });
+        }
+
+        if (leaseSummaryData && leaseSummaryData.Items && leaseSummaryData.Items.length > 0) {
+            leaseSummaryResponseData = leaseSummaryData.Items.map(item => {
+                return {
+                    "summary": {
+                        email: email,
+                        uuid: item.uuid,
+                        emergencyMaintenancePhoneNumber: item.EmergencyMaintenancePhoneNumber || "NA",
+                        petIncludedonLease: item.PetIncludedonLease || "NA",
+                        propertyManager_LandlordName: item.PropertyManager_LandlordName || "NA",
+                        propertyManager_LandlordPhoneEmail: item.PropertyManager_LandlordPhoneEmail || "NA",
+                        propertyManager_LandlordPhoneNumber: item.PropertyManager_LandlordPhoneNumber || "NA",
+                        rentAmount: item.RentAmount || "NA",
+                        rentDueDate: item.RentDueDate || "NA",
+                        residentNames: item.ResidentNames || "NA"
+                    }
+                };
+            });
+        }
+
+        if (landlordNoticeData && landlordNoticeData.Items && landlordNoticeData.Items.length > 0) {
+            landlordNoticeResponseData = landlordNoticeData.Items.map(item => {
+                return {
+                    "Landlord-Notice": {
+                        email: email,
+                        uuid: item.uuid,
+                        noticetoEnterRules: item.NoticetoEnterRules || "NA",
+                        stateRules: item.StateRules || "NA"
+                    }
+                };
+            });
+        }
+        if (dataFieldsToCollectData && dataFieldsToCollectData.Items && dataFieldsToCollectData.Items.length > 0) {
+            dataFieldsResponseData = dataFieldsToCollectData.Items.map(item => {
+                return {
+                    "DataFields": {
+                        email: email,
+                        uuid: item.uuid,
+                        cityofProperty: item.CityofProperty || "NA",
+                        numberofBathrooms: item.NumberofBathrooms || "NA",
+                        numberofBedrooms: item.NumberofBedrooms || "NA",
+                        stateofProperty: item.StateofProperty || "NA",
+                        streetAddressofProperty: item.StreetAddressofProperty || "NA",
+                        zipCodeofProperty: item.ZipCodeofProperty || "NA"
+                    }
+                };
+            });
+        }
+
+        if (leaseData && leaseData.Items && leaseData.Items.length > 0) {
+            userLeaseResponseData = leaseData.Items.map(item => {
+                return {
+                    "User-Lease-Info": {
+                        email: email,
+                        uuid: item.uuid,
+                        leaseDataAvailable: item.leaseDataAvailable || "NA"
+                    }
+                };
+            });
+        }
+
+        if (timelineData && timelineData.Items && timelineData.Items.length > 0) {
+            timelineResponseData = timelineData.Items.map(item => {
+                return {
+                    "Timeline": {
+                        email: email,
+                        uuid: item.uuid,
+                        leaseSignedDate: item.leaseSignedDate || "NA",
+                        leaseEndDate: item.LeaseEndDate || "NA",
+                        leaseStartDate: item.LeaseStartDate || "NA",
+                        moveinInspectionDeadlineDate: item.MoveinInspectionDeadlineDate || "NA",
+                        noticetoVacateDate: item.NoticetoVacateDate || "NA",
+                        securityDepositReturnDate: item.SecurityDepositReturnDate || "NA"
+                    }
+                };
+            });
+        }
+            
+        response.statusCode = 200;
+        response.body = JSON.stringify({
+            "lease-count": leaseCount,
+            "user-lease-master": {
+                "leases-info": userLeaseResponseData,
+                "leases-timeline": timelineResponseData,
+                "leases-datafields": dataFieldsResponseData,
+                "leases-landlordnotices": landlordNoticeResponseData,
+                "leases-summary": leaseSummaryResponseData,
+                "leases-maintenance": leaseWiselyMaintenanceDataResponse,
+                "leases-movein-data": leaseWiselyMoveinDataResponse,
+                "leases-red-flags": leaseWiselyRedFlagParamsDataResponse,
+                "leases-reneweal-and-moveout": leaseWiselyRenewalAndMoveoutsParamsDataResponse,
+                "leases-rent-and-fee": leaseWiselyRentAndFeeParamsDataResponse,
+                "leases-rules-and-regulations": leaseWiselyRulesAndRegulationsParamsDataResponse,
+                "leases-utilities": leaseWiselyUtilitiesParamsDataResponse
+            }
+        });
         return response;
     } catch (error: unknown) {
         console.log("Error processing request:", error);
@@ -115,14 +457,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
 // Helper function to parse unknown error
 function parseError(error: unknown): string {
-    if (error instanceof Error) {
-        // If error is an instance of Error, return its message and stack trace
-        return `${error.message}\n${error.stack}`;
-    } else if (typeof error === 'string') {
-        // If error is a string, return it directly
-        return error;
-    } else {
-        // Fallback for any other type of error
-        return JSON.stringify(error);
+        if (error instanceof Error) {
+            // If error is an instance of Error, return its message and stack trace
+            return `${error.message}\n${error.stack}`;
+        } else if (typeof error === 'string') {
+            // If error is a string, return it directly
+            return error;
+        } else {
+            // Fallback for any other type of error
+            return JSON.stringify(error);
+        }
     }
-}

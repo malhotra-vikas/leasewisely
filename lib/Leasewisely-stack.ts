@@ -216,7 +216,7 @@ export class LeasewiselyStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
-    const LeaseWiselyTimelineTable = new dynamodb.Table(this, Constants.LEASE_WISELY_TIMELINE_TABLE, {
+    const leaseWiselyTimelineTable = new dynamodb.Table(this, Constants.LEASE_WISELY_TIMELINE_TABLE, {
       partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
       sortKey: {
         name: 'uuid',
@@ -227,7 +227,7 @@ export class LeasewiselyStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
-    const LeaseWiselyLeaseSummaryTable = new dynamodb.Table(this, Constants.LEASE_WISELY_LEASE_SUMMARY_TABLE, {
+    const leaseWiselyLeaseSummaryTable = new dynamodb.Table(this, Constants.LEASE_WISELY_LEASE_SUMMARY_TABLE, {
       partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
       sortKey: {
         name: 'uuid',
@@ -398,8 +398,17 @@ export class LeasewiselyStack extends cdk.Stack {
     leaseWiselyUserLeaseTable.grantReadWriteData(leaseWiselyBuildTextLambda)
     leaseWiselyNewLeaseTable.grantReadWriteData(leaseWiselyBuildTextLambda)
 
-    leaseWiselyUserLeaseTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
-
+    LeaseWiselyDataFieldsToCollectTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyLandlordNoticeTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    leaseWiselyLeaseSummaryTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyMaintenanceTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyMoveinTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyRedFlagTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyRenewalAndMoveoutsTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyRentAndFeeTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyRulesAndRegulationsTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    leaseWiselyTimelineTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    LeaseWiselyUtilitiesTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
 
     /*    
             // Create Lambda function for creating contacts
