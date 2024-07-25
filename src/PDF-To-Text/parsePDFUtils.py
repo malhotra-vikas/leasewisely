@@ -295,7 +295,7 @@ def extracTimeLineArtifactsUsingAI(text):
             {"role": "user", "content": prompt}
         ],
         max_tokens=500,
-        temperature=0.7)
+        temperature=0.3)
 
         # Extracting the response text
         result_text = response.choices[0].message.content.strip()
