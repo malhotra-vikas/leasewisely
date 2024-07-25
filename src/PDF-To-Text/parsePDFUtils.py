@@ -6,6 +6,7 @@ import re
 import logging
 import datetime
 import time  
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Load environment variables from .env file
 load_dotenv()
@@ -38,7 +39,7 @@ renewalAndMoveOutTable = os.getenv("RENEWAL_AND_MOVEOUT_TABLE")
 
 sleepTime = 30
 
-        # Initialize a session using boto3
+# Initialize a session using boto3
 dynamodb = boto3.resource(
     'dynamodb',
     region_name='us-east-2',  # Replace with your region
@@ -534,6 +535,45 @@ def process_message(email, uuid):
             # Load prompts from JSON file
             prompts_data = load_prompts("lease-keys-prompts.json")
 
+            # Process each category of prompts in parallel
+            prompt_categories = {
+                "Rent and Fees": rentAndFeeTable,
+                "Lease Summary": leaseSummaryTable,
+                "Timeline": timelinesTable,
+                "Red Flags": redFlagTable,
+                "Move-In": moveinTable,
+                "Maintenance": mainentenceTable,
+                "Utilities": utilitiesTable,
+                "Rules and Regulations": rulesAndRegulationsTable,
+                "Landlord Notice": landlordNoticesTable,
+                "Renewal and Move-Outs": renewalAndMoveOutTable,
+                "Data Fields to Collect": dataFieldsToCollectTable
+            }
+
+            with ThreadPoolExecutor() as executor:
+                futures = []
+                for category, table in prompt_categories.items():
+                    print(f"Submitting {category} prompts for processing")
+                    prompts = prompts_data.get(category, {})
+                    future = executor.submit(extract_and_persist_all_keys, extracted_lease_text, prompts, email, uuid, table)
+                    futures.append(future)
+
+                for future in as_completed(futures):
+                    try:
+                        future.result()  # Retrieve result to catch any exceptions
+                    except Exception as e:
+                        print(f"Error processing prompts: {e}", exc_info=True)
+                
+            # Write PDF Extracted text to DDB
+            persistLeaseText(email, uuid, extracted_lease_text)
+
+            # Write leaseDataAvailable to the DDB
+            add_lease_data_available_to_dynamodb(email, uuid)
+            
+        else:
+            print(f"No item found in DynamoDB for email: {email}")
+
+'''
             # rent_and_fees_prompts
             rent_and_fees_prompts = prompts_data.get("Rent and Fees", {})
             # rent_and_fees_prompts
@@ -551,6 +591,7 @@ def process_message(email, uuid):
             data_fields_to_collect_prompts = prompts_data.get("Data Fields to Collect", {})
 
             print("Processing rent_and_fees_prompts")
+
             # Run the extraction and persistence for all keys in 'Rent and Fees'
             extract_and_persist_all_keys(extracted_lease_text, rent_and_fees_prompts, email, uuid, rentAndFeeTable)
             #time.sleep(sleepTime)
@@ -600,15 +641,7 @@ def process_message(email, uuid):
             print("Processing Data Fields to Collect")
             extract_and_persist_all_keys(extracted_lease_text, data_fields_to_collect_prompts, email, uuid, dataFieldsToCollectTable)
             #time.sleep(sleepTime)
-
-            # Write PDF Extracted text to DDB
-            persistLeaseText(email, uuid, extracted_lease_text)
-
-            # Write leaseDataAvailable to the DDB
-            write_result = add_lease_data_available_to_dynamodb(email, uuid)
-
-    else:
-        print(f"No item found in DynamoDB for email: {email}")
+'''
 
 def poll_sqs():
     while True:
