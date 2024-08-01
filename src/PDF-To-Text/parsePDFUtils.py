@@ -451,8 +451,8 @@ def extractData(leaseText, prompt):
         {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
         {"role": "user", "content": prompt}
     ],
-    max_tokens=200,
-    temperature=0.7)
+    max_tokens=1000,
+    temperature=0.5)
 
     # Extracting the response text
     result_text = response.choices[0].message.content.strip()
@@ -460,14 +460,21 @@ def extractData(leaseText, prompt):
     print(f"Result_text: {result_text}")
 
     # Clean the result_text
-    cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
+    # TODO - Verify this with the YES Cases
+    # Examples
+#    Result_text: - Kevon Hills
+#- Kamryn Hills
+##Cleaned result_text: - Kevon Hills
+#- Kamryn Hill
+
+    #cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
 
     # Print the cleaned result for debugging
-    print(f"Cleaned result_text: {cleaned_result_text}")
+    #print(f"Cleaned result_text: {cleaned_result_text}")
 
     # Try to parse the response as JSON
     try:
-        extracted_data = cleaned_result_text
+        extracted_data = result_text
     except json.JSONDecodeError as e:
         print(f"JSON decoding failed: {e}")
         extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}

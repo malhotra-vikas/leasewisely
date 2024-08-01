@@ -1,63 +1,63 @@
 {
     "Lease Summary": {
-        "Resident Names": "Please list all the tenants listed on the lease; just bulleted names",
-        "Property Manager/Landlord Name": "What is the Property Manager/Landlord Name?",
-        "Property Manager/Landlord Phone Number": "What is the Property Manager/Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
-        "Property Manager/Landlord Phone Email": "What is the Property Manager/Landlord Email",
+        "Resident Names": "Please list all the tenants on the lease. Please return the full names in bulleted format",
+        "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name?",
+        "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
+        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address?",
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
         "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
-        "Rent Due Date": "What day of the month is rent due? Please return it in the following format: 10th of the month",
-        "Pet Included on Lease": "Does the tenant have a pet included in their lease?"
+        "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
+        "Pet Included on Lease": "Does the tenant have a pet included in their lease? Please indicate Yes or No only."
     },
     "Timeline": {
-        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format"
+        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date."
     },
     "Red Flags": {
-        "Resident Names": "Is there a list of all the tenants in the lease? Yes/No",
-        "Property Manager/Landlord Name": "Is the Property Manager/Landlord Name listed in the lease? Yes/No",
-        "Lease Start Date": "Does the lease have a start date listed in the lease? Yes/No",
-        "Rent Amount": "Is the monthly rent amount listed in the lease? Yes/No",
-        "Rent Due Date": "Is the day rent is due listed in the lease? Yes/No",
-        "Rent Payment Instructions": "Are the payment instructions listed in the lease? Yes/No",
-        "Full Address": "Is the full address of the property listed in the lease? Yes/No",
-        "Notice to Vacate Date": "Does the lease have a notice to vacate date listed in the lease? Yes/No",
-        "Security Deposit Amount": "Is the security deposit amount listed in the lease? Yes/No",
-        "Counter-Signature": "Has the lease been signed by both parties? Yes/No",
-        "Pet Policy": "Is a pet policy listed in the lease? Yes/No",
-        "Notice to Enter Rules": "Are the notice to enter rules listed in the lease? Yes/No",
-        "Utilities Responsibilities": "Does the lease mention who pays for utilities? Yes/No"
+        "Resident Names": "Is there a list of all the tenants in the lease? Please indicate Yes or No only.",
+        "Property Manager/Landlord Name": "Is the Property Manager/Landlord Name listed in the lease? Please indicate Yes or No only.",
+        "Lease Start Date": "Does the lease have a start date listed in the lease? Please indicate Yes or No only.",
+        "Rent Amount": "Is the monthly rent amount listed in the lease? Please indicate Yes or No only.",
+        "Rent Due Date": "Is the day rent is due listed in the lease? Please indicate Yes or No only.",
+        "Rent Payment Instructions": "Are the payment instructions listed in the lease? Please indicate Yes or No only.",
+        "Full Address": "Is the full address of the property listed in the lease? Please indicate Yes or No only.",
+        "Notice to Vacate Date": "Does the lease have a notice to vacate date listed in the lease? Please indicate Yes or No only.",
+        "Security Deposit Amount": "Is the security deposit amount listed in the lease? Please indicate Yes or No only.",
+        "Counter-Signature": "Has the lease been signed by both parties? Please look for the actual signatures and not just the presence of the signature sections. Please indicate Yes or No only.",
+        "Pet Policy": "Is a pet policy listed in the lease? Please indicate Yes or No only.",
+        "Notice to Enter Rules": "Are the notice to enter rules listed in the lease? Please indicate Yes or No only.",
+        "Utilities Responsibilities": "Does the lease mention who pays for utilities? Please indicate Yes or No only."
     },
     "Rent and Fees": {
         "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
-        "Rent Due Date": "What day of the month is rent due? Please return it in the following format: 10th of the month",
+        "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
         "Pet Rent Amount": "What is the monthly pet rent amount? Please return the number only and nothing else in the $0,000.00 format",
         "Pet Deposit Amount": "What is the monthly pet deposit amount? Please return the number only and nothing else in the $0,000.00 format",
         "Late Fee Policy": "In the most concise format, what is the complete late fee policy in a paragraph format? Only include information about the late fee and nothing else.",
-        "Late Fee if 1 Day Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the first of the month? Please return the number only and nothing else in the $0,000.00 format",
-        "Late Fee if 3 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the third of the month? Please return the number only and nothing else in the $0,000.00 format",
-        "Late Fee if 5 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the fifth of the month? Please return the number only and nothing else in the $0,000.00 format",
-        "Late Fee if 10 Days Late": "Based on the late fee policy terms, what will be the calculated late fee if the tenant pays their rent on the tenth of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if Paid on 1st of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the first of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if Paid on 3rd of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the third of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if Paid on 5th of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the fifth of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "Late Fee if Paid on 10th of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the tenth of the month? Please return the number only and nothing else in the $0,000.00 format",
         "State Rules for Maximum Late Fee": "[Pull from State Law tab (Column C) based on state lease is in]",
         "State Rules for Mandatory Grace Period": "[Pull from State Law tab (Column D) based on state lease is in]",
         "State Rules for Filing Eviction": "[Pull from State Law tab (Column E) based on state lease is in]",
         "Lost Key Fee": "What is the fee if the tenant loses the key? Please return the number only and nothing else in the $0,000.00 format",
         "Non-Sufficient Funds / Returned Check Fee": "What is the fee for returned checks or non-sufficient funds (NSF)? Please return the number only and nothing else in the $0,000.00 format",
-        "Other Fees": "What is the complete list of fees the tenant can be responsible for? Please search all pages in the document, including all addendums. Do not include late fee, NSF fee, returned check fee, or lost key fee in the list. Return the list in the following format:\nFee Name: Amount (in $0,000.00 format)"
+        "Other Fees": "What is the complete list of fees the tenant can be responsible for? Please search all pages in the document, including all addendums. Do not include late fee, rent amount, pet rent amount, pet deposit amount, security deposit amount, NSF fee, returned check fee, or lost key fee in the list. Only include fees that have a specified dollar amount in the lease. Return the list in the following format:\nFee Name: Amount (in $0,000.00 format)"
     },
     "Move-In": {
-        "Is renters insurance required": "Is renter's insurance required? Yes/No",
-        "Deadline to complete move-in inspection": "Is there a deadline to complete a move-in inspection?",
-        "Time to report pest issues upon move-in": "Upon move-in, how long do I have to report pest issues?",
-        "Utilities setup before move-in": "Do I need to set up utilities before move in?",
-        "Mailbox keys information": "What does the lease say about mailbox keys?",
-        "Lease includes parking": "How many parking spots do I have access to in my lease?",
-        "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only",
-        "Penalties pre move-in or within 30 days": "What else, besides renter's insurance, move-in inspection, pest reporting and utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Just provide the results and details only"
+        "Is renters insurance required": "Is renter's insurance required? Return the answer in Yes/No format only. Only return Yes if it is required, but not if it is recommended. For responses that are yes to being required, provide the details of the policy in the least amount of words possible.",
+        "Deadline to complete move-in inspection": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date",
+        "Time to report pest issues upon move-in": "Upon move-in, how long do I have to report pest issues? Please return the answer in the least amount of words possible.",
+        "Utilities setup before move-in": "Do I need to set up utilities before move in? Please return the answer in the least amount of words possible.",
+        "Mailbox keys information": "What does the lease say about mailbox keys specifically? Please return the answer in the least amount of words possible only about mailbox keys.",
+        "Lease includes parking": "How many parking spots do I have access to in my lease? Please return the answer in the least amount of words possible.",
+        "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only and do not include appliances.",
+        "Penalties pre move-in or within 30 days": "Specific to my move-in requirements, what else, besides renter's insurance, move-in inspection, rent payment, security deposit payment, pest reporting and setting up utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Please return the answer in the least amount of words possible."
     },
     "Maintenance": {
         "Standard Maintenance Phone Number": "What is the phone number to call for standard maintenance issues? Please only return the phone number in the (000) 000-0000 format",
@@ -66,42 +66,42 @@
         "State Rules": "[Pull from State Law tab (Column F) based on state lease is in]"
     },
     "Utilities": {
-        "Electricity Payment Responsibility": "Who is responsible for paying Electricity? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Gas Payment Responsibility": "Who is responsible for paying Gas? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Water Payment Responsibility": "Who is responsible for paying Water? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Heat Responsibility": "Who is responsible for paying Heat? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Trash and Recycling Payment Responsibility": "Who is responsible for paying Trash and Recycling? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Cable Responsibility": "Who is responsible for paying Cable/TV? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Internet Responsibility": "Who is responsible for paying Internet? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Landscaping Responsibility": "Who is responsible for paying Landscaping? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Snow Removal Responsibility": "Who is responsible for paying Snow Removal? Landlord or Tenant? If not explicitly mentioned, return 'Not Specified'",
-        "Third Party Billing Used": "Does the landlord use a third-party billing company?"
+        "Electricity Payment Responsibility": "Is the Landlord or Tenant responsible for paying Electricity? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Gas Payment Responsibility": "Is the Landlord or Tenant responsible for paying Gas? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Water Payment Responsibility": "Is the Landlord or Tenant responsible for paying Water? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Heat Responsibility": "Is the Landlord or Tenant responsible for paying Heat? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Trash and Recycling Payment Responsibility": "Is the Landlord or Tenant responsible for paying Trash and Recycling? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Cable Responsibility": "Is the Landlord or Tenant responsible for paying Cable, TV or satelitte? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Internet Responsibility": "Is the Landlord or Tenant responsible for paying Internet? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Landscaping Responsibility": "Is the Landlord or Tenant responsible for paying Landscaping? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Snow Removal Responsibility": "Is the Landlord or Tenant responsible for paying Snow Removal? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Third Party Billing Used": "Does the landlord use a third-party billing company? Please indicate Yes or No only."
     },
     "Rules and Regulations": {
-        "Pets Allowed": "Are pets allowed in the property? Yes/No",
-        "Smoking Allowed": "Is smoking allowed in the property? Yes/No",
-        "Prohibited Activities": "Not including smoking, can you provide a complete list of all prohibited activities and restrictions outlined in the lease agreement, including those specified in any addendums?"
+        "Pets Allowed": "Are pets allowed in the property? Please return the answer in the least amount of words possible.",
+        "Smoking Allowed": "Is smoking allowed in the property? Please return the answer in the least amount of words possible.",
+        "Prohibited Activities": "Not including smoking or pets, can you provide a complete list of all prohibited activities and restrictions outlined in the lease agreement, including those specified in any addendums? Please return the information in a bulleted and concise format."
     },
     "Landlord Notice": {
         "Notice to Enter Rules": "What are the notice to enter rules in my lease?",
         "State Rules": "[Pull from State Law tab (Column G) based on state lease is in]"
     },
     "Renewal and Move-Outs": {
-        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Consequences of missing notice to vacate deadline": "What happens if I miss the notice to vacate deadline?",
-        "Actions if not renewing and moving out": "What do I need to do if I am not renewing and moving out?",
-        "Subletting permission": "Can I sublet?",
-        "Early lease termination": "Can I terminate my lease early?",
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Consequences of missing notice to vacate deadline": "What happens if I miss the notice to vacate deadline? Please return the information in the least amount of words possible.",
+        "Actions if not renewing and moving out": "What do I need to do if I am not renewing and moving out? Please return the information in the least amount of words possible.",
+        "Subletting permission": "Can I sublet? If yes, what are the subletting rules? Please return the information in the least amount of words possible.",
+        "Early lease termination": "Can I terminate my lease early? If yes, what are the early termination rules? Please return the information in the least amount of words possible.",
         "State Rules for Notice Period on Raising Rent": "[Pull from State Law tab (Column H) based on state lease is in]",
         "State Rules for Month-to-Month Landlord Termination Notice": "[Pull from State Law tab (Column I) based on state lease is in]"
     },
     "Data Fields to Collect": {
-        "Street Address of Property": "What is the street address of the property?",
-        "City of Property": "What city is the property in?",
-        "State of Property": "What state is the property in?",
-        "Zip Code of Property": "What is the five digit zip code of the property?",
-        "Number of Bedrooms": "How many bedrooms are in the property?",
-        "Number of Bathrooms": "How many bathrooms are in the property?"
+        "Street Address of Property": "What is the street address of the property? Please only include the full street name, and apartment number if applicable, and nothing else.",
+        "City of Property": "What city is the property in? Please only include the full city name and nothing else.",
+        "State of Property": "What state is the property in? Please only include the state name in the abbreviated format and nothing else.",
+        "Zip Code of Property": "What is the five digit zip code of the property? Please only include the five digit zip code and nothing else.",
+        "Number of Bedrooms": "How many bedrooms are in the property? Please only include the number of bedrooms and nothing else.",
+        "Number of Bathrooms": "How many bathrooms are in the property? Please only include the number of bathrooms and nothing else."
     }
 }
