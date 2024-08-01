@@ -369,20 +369,10 @@ def extractData(leaseText, prompt):
     prompt = f"""
         Here is the lease text: "{leaseText}. {prompt}"
         """
-    print("Prompt being used is ", prompt)
     # Make a request to OpenAI's ChatCompletion API
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": "You understand Lease Agreements. You are able to extracts details from the supplied Lease Document text"
-            },
-            {
-                "role": "user", 
-                "content": prompt
-            }
-        ],
+        messages=[{"role": "user", "content": [{"type": "text", "text": prompt}]}],
         max_tokens=1000,
         temperature=0.3,
         top_p=1.0,
