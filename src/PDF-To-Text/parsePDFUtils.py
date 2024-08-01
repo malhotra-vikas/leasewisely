@@ -366,7 +366,6 @@ def persistData(dataKeyName, extracted_data, email, uuid):
 
 def extractData(leaseText, prompt):
 
-    rentAmount = ""
     prompt = f"""
         Here is the lease text: "{leaseText}. {prompt}"
         """
@@ -374,7 +373,6 @@ def extractData(leaseText, prompt):
     # Make a request to OpenAI's ChatCompletion API
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        prompt = prompt,
         messages=[
             {
                 "role": "system",
