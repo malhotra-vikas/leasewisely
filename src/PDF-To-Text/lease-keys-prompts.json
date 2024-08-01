@@ -10,8 +10,8 @@
         "Pet Included on Lease": "Return Yes if the tenant have a pet included in their lease. Return No if the tenant does not have a pet included in their lease"
     },
     "Timeline": {
-        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
-        "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
+        "Lease Start Date": "What is the lease start date in the MMMM, DD, YYYY format?",
+        "Lease Signed Date": "What is the date in the MMMM, DD, YYYY format when the tenant and landlord countersigned the lease? This date cannot be earlier than the lease start date.",
         "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
