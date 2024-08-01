@@ -366,13 +366,13 @@ def persistData(dataKeyName, extracted_data, email, uuid):
 
 def extractData(leaseText, prompt):
 
-    prompt = f"""
+    revisedPrompt = f"""
         Here is the lease text: "{leaseText}. {prompt}"
         """
     # Make a request to OpenAI's ChatCompletion API
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": [{"type": "text", "text": prompt}]}],
+        messages=[{"role": "user", "content": [{"type": "text", "text": revisedPrompt}]}],
         max_tokens=1000,
         temperature=0.3,
         top_p=1.0,
@@ -383,31 +383,10 @@ def extractData(leaseText, prompt):
     # Extracting the response text
     result_text = response.choices[0].message.content.strip()
 
+    print(f"Prompt: {prompt}")
     print(f"Result_text: {result_text}")
 
-    # Clean the result_text
-    # TODO - Verify this with the YES Cases
-    # Examples
-    #    Result_text: - Kevon Hills
-    # - Kamryn Hills
-    ##Cleaned result_text: - Kevon Hills
-    # - Kamryn Hill
-
-    # cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
-
-    # Print the cleaned result for debugging
-    # print(f"Cleaned result_text: {cleaned_result_text}")
-
-    # Try to parse the response as JSON
-    try:
-        extracted_data = result_text
-    except json.JSONDecodeError as e:
-        print(f"JSON decoding failed: {e}")
-        extracted_data = {
-            "error": "Failed to decode JSON from response",
-            "response": result_text,
-        }
-    return extracted_data
+    return result_text
 
 
 def load_prompts(file_path):
