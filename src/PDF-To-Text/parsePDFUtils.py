@@ -368,7 +368,6 @@ def extractData(leaseText, prompt):
 
     rentAmount = ""
     prompt = f"""
-        {prompt}
         Here is the lease text: "{leaseText}. {prompt}"
         """
     # Make a request to OpenAI's ChatCompletion API
@@ -376,10 +375,9 @@ def extractData(leaseText, prompt):
         model="gpt-4o-mini",
         messages=[
             {
-                "role": "system",
-                "content": "You are Real Estate Agent who understands lease documents very well.",
+                "role": "user", 
+                "content": prompt
             }
-            #        {"role": "user", "content": prompt}
         ],
         max_tokens=1000,
         temperature=0.3,
