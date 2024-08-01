@@ -1,17 +1,17 @@
 {
     "Lease Summary": {
-        "Resident Names": "Extract and provide the names of all tenants from the lease document and provide them in a bullet point list.",
-        "Property Manager/Landlord Name": "Extract and provide the name of the property manager or the landlord from the lease document.",
-        "Property Manager/Landlord Phone Number": "What is the Property Manager Phone Number or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
-        "Property Manager/Landlord Phone Email": "What is the Property Manager Email address or Landlord Email address?",
+        "Resident Names": "Please list all the tenants on the lease. Please return the full names in bulleted format",
+        "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name?",
+        "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
+        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address?",
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
-        "Rent Amount": "What is the monthly rent amount in the $0,000.00 format? Please return the number only and nothing else",
+        "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
-        "Pet Included on Lease": "Return Yes if the tenant have a pet included in their lease. Return No if the tenant does not have a pet included in their lease"
+        "Pet Included on Lease": "Does the tenant have a pet included in their lease? Please indicate Yes or No only."
     },
     "Timeline": {
-        "Lease Start Date": "What is the lease start date in the MMMM, DD, YYYY format?",
-        "Lease Signed Date": "What is the date in the MMMM, DD, YYYY format when the tenant and landlord countersigned the lease? This date cannot be earlier than the lease start date.",
+        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
         "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",

@@ -370,10 +370,16 @@ def extractData(leaseText, prompt):
     prompt = f"""
         Here is the lease text: "{leaseText}. {prompt}"
         """
+    print("Prompt being used is ", prompt)
     # Make a request to OpenAI's ChatCompletion API
     response = client.chat.completions.create(
         model="gpt-4o-mini",
+        prompt = prompt,
         messages=[
+            {
+                "role": "system",
+                "content": "You understand Lease Agreements. You are able to extracts details from the supplied Lease Document text"
+            },
             {
                 "role": "user", 
                 "content": prompt
@@ -381,7 +387,7 @@ def extractData(leaseText, prompt):
         ],
         max_tokens=1000,
         temperature=0.3,
-        top_p=1,
+        top_p=1.0,
         frequency_penalty=0,
         presence_penalty=0,
     )
@@ -411,7 +417,7 @@ def extractData(leaseText, prompt):
         print(f"JSON decoding failed: {e}")
         extracted_data = {
             "error": "Failed to decode JSON from response",
-            "response": cleaned_result_text,
+            "response": result_text,
         }
     return extracted_data
 
