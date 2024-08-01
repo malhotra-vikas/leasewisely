@@ -1,7 +1,7 @@
 {
     "Lease Summary": {
-        "Resident Names": "Please share comma saperated names of all the tenants on the lease.",
-        "Property Manager/Landlord Name": "What is the Property Manager Name or Landlord Name?",
+        "Resident Names": "Extract and provide the names of all tenants from the lease document and provide them in a bullet point list.",
+        "Property Manager/Landlord Name": "Extract and provide the name of the property manager or the landlord from the lease document.",
         "Property Manager/Landlord Phone Number": "What is the Property Manager Phone Number or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
         "Property Manager/Landlord Phone Email": "What is the Property Manager Email address or Landlord Email address?",
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
