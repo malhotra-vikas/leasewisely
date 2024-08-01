@@ -5,19 +5,19 @@ from dotenv import load_dotenv
 import re
 import logging
 import datetime
-import time  
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Load environment variables from .env file
 load_dotenv()
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY_PDF_PARSING'))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY_PDF_PARSING"))
 
 from pdfminer.high_level import extract_text
 from pdfminer.pdfparser import PDFSyntaxError
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
-sqs = boto3.client('sqs')
+sqs = boto3.client("sqs")
 queue_url = os.getenv("SQS_URL")
 
 accessKKey = os.getenv("AWS_ACCESS_KEY")
@@ -41,18 +41,17 @@ sleepTime = 30
 
 # Initialize a session using boto3
 dynamodb = boto3.resource(
-    'dynamodb',
-    region_name='us-east-2',  # Replace with your region
+    "dynamodb",
+    region_name="us-east-2",  # Replace with your region
     aws_access_key_id=accessKKey,
-    aws_secret_access_key=secret
+    aws_secret_access_key=secret,
 )
+
 
 def download_from_s3(bucket_name, file_key, download_path):
     try:
         s3 = boto3.client(
-            's3',
-            aws_access_key_id=accessKKey,
-            aws_secret_access_key=secret
+            "s3", aws_access_key_id=accessKKey, aws_secret_access_key=secret
         )
         s3.download_file(bucket_name, file_key, download_path)
         print(f"File downloaded from S3: {download_path}")
@@ -66,6 +65,7 @@ def download_from_s3(bucket_name, file_key, download_path):
     except ClientError as e:
         print(f"Error downloading file from S3: {e}")
         return None
+
 
 def readPDF(filePath):
 
@@ -85,6 +85,7 @@ def readPDF(filePath):
         print(f"Error extracting text: {e}")
         response = {"statusCode": 500, "body": json.dumps({"error": str(e)})}
 
+
 def add_lease_data_available_to_dynamodb(email, uuid):
     try:
         # Specify the table
@@ -93,41 +94,25 @@ def add_lease_data_available_to_dynamodb(email, uuid):
 
         # Update the leaseText field for the given email
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },
+            Key={"email": email, "uuid": uuid},
             UpdateExpression="SET leaseDataAvailable = :leaseDataAvailable",
-            ExpressionAttributeValues={
-                ':leaseDataAvailable': "True"
-            },
-            ReturnValues="UPDATED_NEW"
+            ExpressionAttributeValues={":leaseDataAvailable": "True"},
+            ReturnValues="UPDATED_NEW",
         )
-        
+
         print(f"Update successful")
-        return {
-            'statusCode': 200,
-            'body': 'Lease text updated successfully'
-        }
+        return {"statusCode": 200, "body": "Lease text updated successfully"}
 
     except NoCredentialsError:
         print("Credentials not available.")
-        return {
-            'statusCode': 403,
-            'body': 'Credentials not available.'
-        }
+        return {"statusCode": 403, "body": "Credentials not available."}
     except PartialCredentialsError:
         print("Incomplete credentials provided.")
-        return {
-            'statusCode': 403,
-            'body': 'Incomplete credentials provided.'
-        }
+        return {"statusCode": 403, "body": "Incomplete credentials provided."}
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
 
 def add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifact):
     try:
@@ -137,42 +122,26 @@ def add_timeline_artifacts_to_dynamodb(email, uuid, timeLineArtifact):
 
         # Update the leaseText field for the given email
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },
+            Key={"email": email, "uuid": uuid},
             UpdateExpression="SET timeLineArtifact = :timeLineArtifact",
-            ExpressionAttributeValues={
-                ':timeLineArtifact': timeLineArtifact
-            },
-            ReturnValues="UPDATED_NEW"
+            ExpressionAttributeValues={":timeLineArtifact": timeLineArtifact},
+            ReturnValues="UPDATED_NEW",
         )
-        
+
         print(f"Update successful")
-        return {
-            'statusCode': 200,
-            'body': 'Lease text updated successfully'
-        }
+        return {"statusCode": 200, "body": "Lease text updated successfully"}
 
     except NoCredentialsError:
         print("Credentials not available.")
-        return {
-            'statusCode': 403,
-            'body': 'Credentials not available.'
-        }
+        return {"statusCode": 403, "body": "Credentials not available."}
     except PartialCredentialsError:
         print("Incomplete credentials provided.")
-        return {
-            'statusCode': 403,
-            'body': 'Incomplete credentials provided.'
-        }
+        return {"statusCode": 403, "body": "Incomplete credentials provided."}
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
-    
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
+
 def old_add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts):
     try:
         # Specify the table
@@ -182,52 +151,42 @@ def old_add_key_artifacts_to_dynamodb(email, uuid, keyArtifacts):
         print("keyArtifacts are .", keyArtifacts)
 
         # Extract the required information
-        property_address_full = keyArtifacts['body'].get('Property Address', '')
-        lease_start_date = keyArtifacts['body'].get('Lease Start Date', 'NA')
+        property_address_full = keyArtifacts["body"].get("Property Address", "")
+        lease_start_date = keyArtifacts["body"].get("Lease Start Date", "NA")
 
         # Get the Property Address before the first comma
-        property_address = property_address_full.split(',')[0].strip() if property_address_full else "NA"
+        property_address = (
+            property_address_full.split(",")[0].strip()
+            if property_address_full
+            else "NA"
+        )
 
         # Update the leaseText field for the given email
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },
+            Key={"email": email, "uuid": uuid},
             UpdateExpression="SET keyArtifacts = :keyArtifacts, leaseStartDate = :leaseStartDate, propertyAddress = :propertyAddress, leaseDataAvailable = :leaseDataAvailable",
             ExpressionAttributeValues={
-                ':keyArtifacts': keyArtifacts,
-                ':leaseStartDate': lease_start_date,
-                ':propertyAddress': property_address,
-                ':leaseDataAvailable': "True"
+                ":keyArtifacts": keyArtifacts,
+                ":leaseStartDate": lease_start_date,
+                ":propertyAddress": property_address,
+                ":leaseDataAvailable": "True",
             },
-            ReturnValues="UPDATED_NEW"
+            ReturnValues="UPDATED_NEW",
         )
-        
+
         print(f"Update successful")
-        return {
-            'statusCode': 200,
-            'body': 'Lease text updated successfully'
-        }
+        return {"statusCode": 200, "body": "Lease text updated successfully"}
 
     except NoCredentialsError:
         print("Credentials not available.")
-        return {
-            'statusCode': 403,
-            'body': 'Credentials not available.'
-        }
+        return {"statusCode": 403, "body": "Credentials not available."}
     except PartialCredentialsError:
         print("Incomplete credentials provided.")
-        return {
-            'statusCode': 403,
-            'body': 'Incomplete credentials provided.'
-        }
+        return {"statusCode": 403, "body": "Incomplete credentials provided."}
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
 
 def persistLeaseText(email, uuid, text):
     try:
@@ -237,42 +196,26 @@ def persistLeaseText(email, uuid, text):
 
         # Update the leaseText field for the given email
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },
+            Key={"email": email, "uuid": uuid},
             UpdateExpression="SET leaseText = :leaseText",
-            ExpressionAttributeValues={
-                ':leaseText': text
-            },
-            ReturnValues="UPDATED_NEW"
+            ExpressionAttributeValues={":leaseText": text},
+            ReturnValues="UPDATED_NEW",
         )
-        
+
         print(f"Update successful. ")
-        return {
-            'statusCode': 200,
-            'body': 'Lease text updated successfully'
-        }
+        return {"statusCode": 200, "body": "Lease text updated successfully"}
 
     except NoCredentialsError:
         print("Credentials not available.")
-        return {
-            'statusCode': 403,
-            'body': 'Credentials not available.'
-        }
+        return {"statusCode": 403, "body": "Credentials not available."}
     except PartialCredentialsError:
         print("Incomplete credentials provided.")
-        return {
-            'statusCode': 403,
-            'body': 'Incomplete credentials provided.'
-        }
+        return {"statusCode": 403, "body": "Incomplete credentials provided."}
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
-    
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
+
 def extracTimeLineArtifactsUsingAI(text):
     try:
         prompt = f"""
@@ -290,19 +233,24 @@ def extracTimeLineArtifactsUsingAI(text):
         """
 
         # Make a request to OpenAI's ChatCompletion API
-        response = client.chat.completions.create(model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=500,
-        temperature=0.3)
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are Real Estate Agent who understands lease documents very well.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=500,
+            temperature=0.3,
+        )
 
         # Extracting the response text
         result_text = response.choices[0].message.content.strip()
 
         # Regex to extract JSON block
-        json_match = re.search(r'{.*}', result_text, re.DOTALL)
+        json_match = re.search(r"{.*}", result_text, re.DOTALL)
         if json_match:
             json_content = json_match.group(0)
         else:
@@ -313,39 +261,36 @@ def extracTimeLineArtifactsUsingAI(text):
         logging.info(f"Extracted JSON content: {json_content}")
 
         # Clean the result_text
-        #cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
-
-
+        # cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
 
         # Try to parse the response as JSON
         try:
             extracted_data = json.loads(json_content)
         except json.JSONDecodeError as e:
             print(f"JSON decoding failed: {e}")
-            extracted_data = {"error": "Failed to decode JSON from response", "response": json_content}
+            extracted_data = {
+                "error": "Failed to decode JSON from response",
+                "response": json_content,
+            }
 
         # Print the structured JSON data
         print(f"Extracted attributes: {json.dumps(extracted_data, indent=4)}")
 
         # Return the structured JSON data
-        return {
-            'statusCode': 200,
-            'body': extracted_data
-        }
+        return {"statusCode": 200, "body": extracted_data}
 
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
 
 def sanitize_attribute_name(name):
-    """ Replace invalid characters in attribute names with underscores. """
-    return re.sub(r'[^a-zA-Z0-9_]', '_', name)
+    """Replace invalid characters in attribute names with underscores."""
+    return re.sub(r"[^a-zA-Z0-9_]", "_", name)
 
-def persistBatchData(updates, email, uuid, tableName):    
-    dynamodb = boto3.resource('dynamodb')
+
+def persistBatchData(updates, email, uuid, tableName):
+    dynamodb = boto3.resource("dynamodb")
     table = dynamodb.Table(tableName)
 
     # Build the update expression and attribute dictionaries
@@ -355,13 +300,15 @@ def persistBatchData(updates, email, uuid, tableName):
     for attr_name, value in updates.items():
         expression_placeholder = f":{attr_name}"
         attribute_name_placeholder = f"#{attr_name}"
-            
-        update_expression += f"{attribute_name_placeholder} = {expression_placeholder}, "
+
+        update_expression += (
+            f"{attribute_name_placeholder} = {expression_placeholder}, "
+        )
         expression_attribute_values[expression_placeholder] = value
         expression_attribute_names[attribute_name_placeholder] = attr_name
 
     # Remove the last comma and space from the update expression
-    update_expression = update_expression.rstrip(', ')
+    update_expression = update_expression.rstrip(", ")
 
     print("Updating for email", email)
     print("Updating for uuid", uuid)
@@ -371,23 +318,20 @@ def persistBatchData(updates, email, uuid, tableName):
 
     try:
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },            
+            Key={"email": email, "uuid": uuid},
             UpdateExpression=update_expression,
             ExpressionAttributeValues=expression_attribute_values,
             ExpressionAttributeNames=expression_attribute_names,
-            ReturnValues="ALL_NEW"
+            ReturnValues="ALL_NEW",
         )
         print("Update successful:", response)
     except Exception as e:
         print("Failed to update item:", e)
 
-def persistData(dataKeyName, extracted_data, email, uuid):
-        # Replace spaces in attribute_name for the placeholder
-    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_').replace('(', '').replace(')', '')}"
 
+def persistData(dataKeyName, extracted_data, email, uuid):
+    # Replace spaces in attribute_name for the placeholder
+    dataKeyName = f"{dataKeyName.replace(' ', '').replace('-', '').replace('/', '_').replace('(', '').replace(')', '')}"
 
     # Build the UpdateExpression
     update_expression = f"SET #{dataKeyName} = :val"
@@ -399,60 +343,50 @@ def persistData(dataKeyName, extracted_data, email, uuid):
 
         # Update the leaseText field for the given email
         response = table.update_item(
-            Key={
-                'email': email,
-                'uuid': uuid
-            },
+            Key={"email": email, "uuid": uuid},
             UpdateExpression=update_expression,
-            ExpressionAttributeNames={
-                f"#{dataKeyName}": dataKeyName
-            },
-            ExpressionAttributeValues={
-                ":val": extracted_data
-            },
-            ReturnValues="UPDATED_NEW"
+            ExpressionAttributeNames={f"#{dataKeyName}": dataKeyName},
+            ExpressionAttributeValues={":val": extracted_data},
+            ReturnValues="UPDATED_NEW",
         )
-        
+
         print(f"Update successful")
-        return {
-            'statusCode': 200,
-            'body': 'Lease text updated successfully'
-        }
+        return {"statusCode": 200, "body": "Lease text updated successfully"}
 
     except NoCredentialsError:
         print("Credentials not available.")
-        return {
-            'statusCode': 403,
-            'body': 'Credentials not available.'
-        }
+        return {"statusCode": 403, "body": "Credentials not available."}
     except PartialCredentialsError:
         print("Incomplete credentials provided.")
-        return {
-            'statusCode': 403,
-            'body': 'Incomplete credentials provided.'
-        }
+        return {"statusCode": 403, "body": "Incomplete credentials provided."}
     except Exception as e:
         print(f"Error writing to DynamoDB: {e}")
-        return {
-            'statusCode': 500,
-            'body': f"Error: {e}"
-        }
-    
+        return {"statusCode": 500, "body": f"Error: {e}"}
+
+
 def extractData(leaseText, prompt):
 
-    rentAmount = ''
+    rentAmount = ""
     prompt = f"""
         {prompt}
-        Here is the lease PDF: "{leaseText}"
+        Here is the lease text: "{leaseText}. {prompt}"
         """
     # Make a request to OpenAI's ChatCompletion API
-    response = client.chat.completions.create(model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "You are Real Estate Agent who understands lease documents very well."},
-        {"role": "user", "content": prompt}
-    ],
-    max_tokens=1000,
-    temperature=0.5)
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are Real Estate Agent who understands lease documents very well.",
+            }
+            #        {"role": "user", "content": prompt}
+        ],
+        max_tokens=1000,
+        temperature=0.3,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
 
     # Extracting the response text
     result_text = response.choices[0].message.content.strip()
@@ -462,29 +396,33 @@ def extractData(leaseText, prompt):
     # Clean the result_text
     # TODO - Verify this with the YES Cases
     # Examples
-#    Result_text: - Kevon Hills
-#- Kamryn Hills
-##Cleaned result_text: - Kevon Hills
-#- Kamryn Hill
+    #    Result_text: - Kevon Hills
+    # - Kamryn Hills
+    ##Cleaned result_text: - Kevon Hills
+    # - Kamryn Hill
 
-    #cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
+    # cleaned_result_text = result_text.strip().strip("```json").strip("```").strip()
 
     # Print the cleaned result for debugging
-    #print(f"Cleaned result_text: {cleaned_result_text}")
+    # print(f"Cleaned result_text: {cleaned_result_text}")
 
     # Try to parse the response as JSON
     try:
         extracted_data = result_text
     except json.JSONDecodeError as e:
         print(f"JSON decoding failed: {e}")
-        extracted_data = {"error": "Failed to decode JSON from response", "response": cleaned_result_text}
+        extracted_data = {
+            "error": "Failed to decode JSON from response",
+            "response": cleaned_result_text,
+        }
     return extracted_data
 
-    
+
 def load_prompts(file_path):
-    """ Load JSON data from a file. """
-    with open(file_path, 'r') as file:
+    """Load JSON data from a file."""
+    with open(file_path, "r") as file:
         return json.load(file)
+
 
 def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid, tableName):
 
@@ -495,29 +433,30 @@ def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid, tabl
         try:
             # Extract and persist data for each key using the provided prompt
             result = extractData(lease_text, prompt)
-    
+
             # Replace spaces in attribute_name for the placeholder
             currentKey = f"{key.replace(' ', '').replace('-', '').replace('/', '_')}"
 
             currentValue = result
             updates[currentKey] = currentValue
 
-            #persistData(key, result, email, uuid)
-            
+            # persistData(key, result, email, uuid)
+
         except Exception as e:
             print(f"Failed to process {key}: {str(e)}")
 
     persistBatchData(updates, email, uuid, tableName)
 
+
 def process_message(email, uuid):
 
     # Query DynamoDB for the S3 file path using email
-    table = dynamodb.Table('LeaseWiselyNewLeases')
-    response = table.get_item(Key={'uuid': uuid})
+    table = dynamodb.Table("LeaseWiselyNewLeases")
+    response = table.get_item(Key={"uuid": uuid})
     print(f"response: {response}")
 
-    if 'Item' in response:
-        s3_file_key = response['Item']['s3FilePath']
+    if "Item" in response:
+        s3_file_key = response["Item"]["s3FilePath"]
         print(f"s3_file_key: {s3_file_key}")
 
         # Remove 's3://' prefix
@@ -538,7 +477,7 @@ def process_message(email, uuid):
         if downloaded_file_path:
             # PDF TO Text
             extracted_lease_text = readPDF(downloaded_file_path)
-            
+
             # Load prompts from JSON file
             prompts_data = load_prompts("lease-keys-prompts.json")
 
@@ -554,7 +493,7 @@ def process_message(email, uuid):
                 "Rules and Regulations": rulesAndRegulationsTable,
                 "Landlord Notice": landlordNoticesTable,
                 "Renewal and Move-Outs": renewalAndMoveOutTable,
-                "Data Fields to Collect": dataFieldsToCollectTable
+                "Data Fields to Collect": dataFieldsToCollectTable,
             }
 
             with ThreadPoolExecutor() as executor:
@@ -562,7 +501,14 @@ def process_message(email, uuid):
                 for category, table in prompt_categories.items():
                     print(f"Submitting {category} prompts for processing")
                     prompts = prompts_data.get(category, {})
-                    future = executor.submit(extract_and_persist_all_keys, extracted_lease_text, prompts, email, uuid, table)
+                    future = executor.submit(
+                        extract_and_persist_all_keys,
+                        extracted_lease_text,
+                        prompts,
+                        email,
+                        uuid,
+                        table,
+                    )
                     futures.append(future)
 
                 for future in as_completed(futures):
@@ -570,17 +516,18 @@ def process_message(email, uuid):
                         future.result()  # Retrieve result to catch any exceptions
                     except Exception as e:
                         print(f"Error processing prompts: {e}", exc_info=True)
-                
+
             # Write PDF Extracted text to DDB
             persistLeaseText(email, uuid, extracted_lease_text)
 
             # Write leaseDataAvailable to the DDB
             add_lease_data_available_to_dynamodb(email, uuid)
-            
+
         else:
             print(f"No item found in DynamoDB for email: {email}")
 
-'''
+
+"""
             # rent_and_fees_prompts
             rent_and_fees_prompts = prompts_data.get("Rent and Fees", {})
             # rent_and_fees_prompts
@@ -648,41 +595,38 @@ def process_message(email, uuid):
             print("Processing Data Fields to Collect")
             extract_and_persist_all_keys(extracted_lease_text, data_fields_to_collect_prompts, email, uuid, dataFieldsToCollectTable)
             #time.sleep(sleepTime)
-'''
+"""
+
 
 def poll_sqs():
     while True:
         response = sqs.receive_message(
-            QueueUrl=queue_url,
-            MaxNumberOfMessages=1,
-            WaitTimeSeconds=2
+            QueueUrl=queue_url, MaxNumberOfMessages=1, WaitTimeSeconds=2
         )
 
-        if 'Messages' in response:
-            for message in response['Messages']:
+        if "Messages" in response:
+            for message in response["Messages"]:
                 print(f"Processing message: {message}")
-                body = json.loads(message['Body'])
-                email = body['email']
-                uuid = body['uuid']
+                body = json.loads(message["Body"])
+                email = body["email"]
+                uuid = body["uuid"]
 
                 sqs.delete_message(
-                    QueueUrl=queue_url,
-                    ReceiptHandle=message['ReceiptHandle']
+                    QueueUrl=queue_url, ReceiptHandle=message["ReceiptHandle"]
                 )
                 start_time = datetime.datetime.now()
-                human_readable_start_time = start_time.strftime('%Y-%m-%d %H:%M:%S')
+                human_readable_start_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
                 print("Started Processing at ", human_readable_start_time)
 
                 process_message(email, uuid)
 
                 end_time = datetime.datetime.now()
-                human_readable_end_time = end_time.strftime('%Y-%m-%d %H:%M:%S')
+                human_readable_end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
                 print("Completed Processing at ", human_readable_end_time)
                 duration = end_time - start_time
                 seconds = duration.total_seconds()
                 print(f"Duration: {duration} (HH:MM:SS)")
                 print(f"Duration in seconds: {seconds} seconds")
-
 
         else:
             print("No messages received.")
