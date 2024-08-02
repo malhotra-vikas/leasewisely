@@ -161,24 +161,13 @@ export class LeasewiselyStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
-    const LeaseWiselyUtilitiesTable = new dynamodb.Table(this, Constants.LEASE_WISELY_UTILITIES_TABLE, {
+    const leaseWiselyMaintenenceAndUtilitiesTable = new dynamodb.Table(this, Constants.LEASE_WISELY_MAINTENENCE_AND_UTILITIES_TABLE, {
       partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
       sortKey: {
         name: 'uuid',
         type: dynamodb.AttributeType.STRING
     },
-      tableName: Constants.LEASE_WISELY_UTILITIES_TABLE,
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-    })
-
-    const LeaseWiselyMaintenanceTable = new dynamodb.Table(this, Constants.LEASE_WISELY_MAINTENENCE_TABLE, {
-      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
-      sortKey: {
-        name: 'uuid',
-        type: dynamodb.AttributeType.STRING
-    },
-      tableName: Constants.LEASE_WISELY_MAINTENENCE_TABLE,
+      tableName: Constants.LEASE_WISELY_MAINTENENCE_AND_UTILITIES_TABLE,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
@@ -401,14 +390,13 @@ export class LeasewiselyStack extends cdk.Stack {
     LeaseWiselyDataFieldsToCollectTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyLandlordNoticeTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     leaseWiselyLeaseSummaryTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
-    LeaseWiselyMaintenanceTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    leaseWiselyMaintenenceAndUtilitiesTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyMoveinTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyRedFlagTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyRenewalAndMoveoutsTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyRentAndFeeTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyRulesAndRegulationsTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     leaseWiselyTimelineTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
-    LeaseWiselyUtilitiesTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
 
     /*    
             // Create Lambda function for creating contacts
