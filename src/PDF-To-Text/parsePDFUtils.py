@@ -35,7 +35,7 @@ rulesAndRegulationsTable = os.getenv("RULES_AND_REGULATIONS_TABLE")
 landlordNoticesTable = os.getenv("LANDLORD_NOTICES_TABLE")
 dataFieldsToCollectTable = os.getenv("DATA_FIELDS_TO_COLLECT_TABLE")
 renewalAndMoveOutTable = os.getenv("RENEWAL_AND_MOVEOUT_TABLE")
-
+mainentenceutilitiesTable = os.getenv("MAINENTENCE_UTILITIES_TABLE")
 
 sleepTime = 30
 
@@ -86,7 +86,7 @@ def readPDF(filePath):
         response = {"statusCode": 500, "body": json.dumps({"error": str(e)})}
 
 
-def add_lease_data_available_to_dynamodb(email, uuid):
+def setLeaseDataAvailableFlag(email, uuid):
     try:
         # Specify the table
         table_name = userLeasesTable  # Replace with your DynamoDB table name
@@ -459,8 +459,7 @@ def process_message(email, uuid):
                 "Timeline": timelinesTable,
                 "Red Flags": redFlagTable,
                 "Move-In": moveinTable,
-                "Maintenance": mainentenceTable,
-                "Utilities": utilitiesTable,
+                "Maintenance and Utilities": mainentenceutilitiesTable,
                 "Rules and Regulations": rulesAndRegulationsTable,
                 "Landlord Notice": landlordNoticesTable,
                 "Renewal and Move-Outs": renewalAndMoveOutTable,
@@ -492,81 +491,10 @@ def process_message(email, uuid):
             persistLeaseText(email, uuid, extracted_lease_text)
 
             # Write leaseDataAvailable to the DDB
-            add_lease_data_available_to_dynamodb(email, uuid)
+            setLeaseDataAvailableFlag(email, uuid)
 
         else:
             print(f"No item found in DynamoDB for email: {email}")
-
-
-"""
-            # rent_and_fees_prompts
-            rent_and_fees_prompts = prompts_data.get("Rent and Fees", {})
-            # rent_and_fees_prompts
-            lease_summary_prompts = prompts_data.get("Lease Summary", {})
-            # rent_and_fees_prompts
-            timeline_prompts = prompts_data.get("Timeline", {})
-            # rent_and_fees_prompts
-            red_flags_prompts = prompts_data.get("Red Flags", {})
-            move_in_prompts = prompts_data.get("Move-In", {})
-            maintenance_prompts = prompts_data.get("Maintenance", {})
-            utilities_prompts = prompts_data.get("Utilities", {})
-            rules_and_regulations_prompts = prompts_data.get("Rules and Regulations", {})
-            landlord_notice_prompts = prompts_data.get("Landlord Notice", {})
-            renewal_and_moveout_prompts = prompts_data.get("Renewal and Move-Outs", {})
-            data_fields_to_collect_prompts = prompts_data.get("Data Fields to Collect", {})
-
-            print("Processing rent_and_fees_prompts")
-
-            # Run the extraction and persistence for all keys in 'Rent and Fees'
-            extract_and_persist_all_keys(extracted_lease_text, rent_and_fees_prompts, email, uuid, rentAndFeeTable)
-            #time.sleep(sleepTime)
-
-            print("Processing lease_summary_prompts")
-
-            # Run the extraction and persistence for all keys in 'Rent and Fees'
-            extract_and_persist_all_keys(extracted_lease_text, lease_summary_prompts, email, uuid, leaseSummaryTable)
-            #time.sleep(sleepTime)
-
-            print("Processing timeline_prompts")
-
-            # Run the extraction and persistence for all keys in 'Rent and Fees'
-            extract_and_persist_all_keys(extracted_lease_text, timeline_prompts, email, uuid, timelinesTable)
-            #time.sleep(sleepTime)
-
-            print("Processing red_flags_prompts")
-
-            # Run the extraction and persistence for all keys in 'Rent and Fees'
-            extract_and_persist_all_keys(extracted_lease_text, red_flags_prompts, email, uuid, redFlagTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Move-In")
-            extract_and_persist_all_keys(extracted_lease_text, move_in_prompts, email, uuid, moveinTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Maintenance")
-            extract_and_persist_all_keys(extracted_lease_text, maintenance_prompts, email, uuid, mainentenceTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Utilities")
-            extract_and_persist_all_keys(extracted_lease_text, utilities_prompts, email, uuid, utilitiesTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Rules and Regulations")
-            extract_and_persist_all_keys(extracted_lease_text, rules_and_regulations_prompts, email, uuid, rulesAndRegulationsTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Landlord Notice")
-            extract_and_persist_all_keys(extracted_lease_text, landlord_notice_prompts, email, uuid, landlordNoticesTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Renewal and Move-Outs")
-            extract_and_persist_all_keys(extracted_lease_text, renewal_and_moveout_prompts, email, uuid, renewalAndMoveOutTable)
-            #time.sleep(sleepTime)
-
-            print("Processing Data Fields to Collect")
-            extract_and_persist_all_keys(extracted_lease_text, data_fields_to_collect_prompts, email, uuid, dataFieldsToCollectTable)
-            #time.sleep(sleepTime)
-"""
 
 
 def poll_sqs():

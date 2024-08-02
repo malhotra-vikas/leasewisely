@@ -110,8 +110,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             }
         };
 
-        const leaseWiselyMaintenanceParams = {
-            TableName: Constants.LEASE_WISELY_MAINTENENCE_TABLE,
+        const leaseWiselyMaintenanceAndUtilitiesParams = {
+            TableName: Constants.LEASE_WISELY_MAINTENENCE_AND_UTILITIES_TABLE,
             KeyConditionExpression: '#email = :email',
             ExpressionAttributeNames: {
                 '#email': 'email'
@@ -119,7 +119,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             ExpressionAttributeValues: {
                 ':email': email
             }
-        };        
+        };
 
         const leaseWiselyMoveinParams = {
             TableName: Constants.LEASE_WISELY_MOVE_IN_TABLE,
@@ -174,31 +174,19 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             ExpressionAttributeValues: {
                 ':email': email
             }
-        };         
-        const leaseWiselyUtilitiesParams = {
-            TableName: Constants.LEASE_WISELY_UTILITIES_TABLE,
-            KeyConditionExpression: '#email = :email',
-            ExpressionAttributeNames: {
-                '#email': 'email'
-            },
-            ExpressionAttributeValues: {
-                ':email': email
-            }
-        };           
-        
+        };        
         
         const leaseData = await ddbDocClient.send(new QueryCommand(leaseParams));
         const timelineData = await ddbDocClient.send(new QueryCommand(timelineParams));
         const dataFieldsToCollectData = await ddbDocClient.send(new QueryCommand(dataFieldsToCollectParams));
         const landlordNoticeData = await ddbDocClient.send(new QueryCommand(landlordNoticeParams));
         const leaseSummaryData = await ddbDocClient.send(new QueryCommand(leaseSummaryParams));
-        const leaseWiselyMaintenanceData = await ddbDocClient.send(new QueryCommand(leaseWiselyMaintenanceParams));
+        const leaseWiselyMaintenanceAndUtilitiesData = await ddbDocClient.send(new QueryCommand(leaseWiselyMaintenanceAndUtilitiesParams));
         const leaseWiselyMoveinData = await ddbDocClient.send(new QueryCommand(leaseWiselyMoveinParams));
         const leaseWiselyRedFlagParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRedFlagParams));
         const leaseWiselyRenewalAndMoveoutsParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRenewalAndMoveoutsParams));
         const leaseWiselyRentAndFeeParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRentAndFeeParams));
         const leaseWiselyRulesAndRegulationsParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyRulesAndRegulationsParams));
-        const leaseWiselyUtilitiesParamsData = await ddbDocClient.send(new QueryCommand(leaseWiselyUtilitiesParams));
         
         let leaseCount = leaseData.Items?.length || 0;
 
@@ -207,10 +195,10 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         let leaseWiselyRedFlagParamsDataResponse, leaseWiselyRenewalAndMoveoutsParamsDataResponse
         let leaseWiselyRentAndFeeParamsDataResponse, leaseWiselyRulesAndRegulationsParamsDataResponse, leaseWiselyUtilitiesParamsDataResponse
 
-        if (leaseWiselyUtilitiesParamsData && leaseWiselyUtilitiesParamsData.Items && leaseWiselyUtilitiesParamsData.Items.length > 0) {
-            leaseWiselyUtilitiesParamsDataResponse = leaseWiselyUtilitiesParamsData.Items.map(item => {
+        if (leaseWiselyMaintenanceAndUtilitiesData && leaseWiselyMaintenanceAndUtilitiesData.Items && leaseWiselyMaintenanceAndUtilitiesData.Items.length > 0) {
+            leaseWiselyUtilitiesParamsDataResponse = leaseWiselyMaintenanceAndUtilitiesData.Items.map(item => {
                 return {
-                    "utilities": {
+                    "maintenence-and-utilities": {
                         email: email,
                         uuid: item.uuid,
                         CableResponsibility: item.CableResponsibility || "NA",
@@ -222,7 +210,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         SnowRemovalResponsibility: item.SnowRemovalResponsibility || "NA",
                         ThirdPartyBillingUsed: item.ThirdPartyBillingUsed || "NA",
                         TrashandRecyclingPaymentResponsibility: item.TrashandRecyclingPaymentResponsibility || "NA",
-                        WaterPaymentResponsibility: item.WaterPaymentResponsibility || "NA"
+                        WaterPaymentResponsibility: item.WaterPaymentResponsibility || "NA",
+                        StateRules: item.StateRules || "NA",
                     }
                 };
             });
@@ -324,21 +313,6 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         penaltiespremoveinorwithin30days: item.Penaltiespremoveinorwithin30days || "NA",
                         timetoreportpestissuesuponmovein: item.Timetoreportpestissuesuponmovein || "NA",
                         "utilities setup before movein": item.Utilitiessetupbeforemovein || "NA",
-                    }
-                };
-            });
-        }
-
-        if (leaseWiselyMaintenanceData && leaseWiselyMaintenanceData.Items && leaseWiselyMaintenanceData.Items.length > 0) {
-            leaseWiselyMaintenanceDataResponse = leaseWiselyMaintenanceData.Items.map(item => {
-                return {
-                    "maintenence": {
-                        email: email,
-                        uuid: item.uuid,
-                        afterHoursMaintenancePhoneNumber: item.AfterHoursMaintenancePhoneNumber || "NA",
-                        emergencyMaintenancePhoneNumber: item.EmergencyMaintenancePhoneNumber || "NA",
-                        standardMaintenancePhoneNumber: item.StandardMaintenancePhoneNumber || "NA",
-                        stateRules: item.StateRules || "NA"
                     }
                 };
             });

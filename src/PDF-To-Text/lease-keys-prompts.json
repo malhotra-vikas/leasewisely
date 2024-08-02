@@ -59,13 +59,7 @@
         "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only and do not include appliances.",
         "Penalties pre move-in or within 30 days": "Specific to my move-in requirements, what else, besides renter's insurance, move-in inspection, rent payment, security deposit payment, pest reporting and setting up utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Please return the answer in the least amount of words possible."
     },
-    "Maintenance": {
-        "Standard Maintenance Phone Number": "What is the phone number to call for standard maintenance issues? Please only return the phone number in the (000) 000-0000 format",
-        "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
-        "After-Hours Maintenance Phone Number": "What is the phone number to call for after-hours maintenance issues? Please only return the phone number in the (000) 000-0000 format",
-        "State Rules": "[Pull from State Law tab (Column F) based on state lease is in]"
-    },
-    "Utilities": {
+    "Maintenance and Utilities": {
         "Electricity Payment Responsibility": "Is the Landlord or Tenant responsible for paying Electricity? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Gas Payment Responsibility": "Is the Landlord or Tenant responsible for paying Gas? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Water Payment Responsibility": "Is the Landlord or Tenant responsible for paying Water? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
@@ -75,7 +69,8 @@
         "Internet Responsibility": "Is the Landlord or Tenant responsible for paying Internet? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Landscaping Responsibility": "Is the Landlord or Tenant responsible for paying Landscaping? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Snow Removal Responsibility": "Is the Landlord or Tenant responsible for paying Snow Removal? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
-        "Third Party Billing Used": "Does the landlord use a third-party billing company? Please indicate Yes or No only."
+        "Third Party Billing Used": "Does the landlord use a third-party billing company? Please indicate Yes or No only.",
+        "State Rules": "[Pull from State Law tab (Column F) based on state lease is in]"
     },
     "Rules and Regulations": {
         "Pets Allowed": "Are pets allowed in the property? Please return the answer in the least amount of words possible.",

@@ -44,8 +44,7 @@ export const LEASE_WISELY_RULES_AND_REGULATIONS_TABLE = "LeaseWiselyRulesAndRegu
 export const LEASE_WISELY_LANDLORD_NOTICES_TABLE = "LeaseWiselyLandlordNotice"
 export const LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE = "LeaseWiselyRenewalAndMoveouts"
 export const LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE = "LeaseWiselyDataFieldsToCollect"
-export const LEASE_WISELY_MAINTENENCE_TABLE = "LeaseWiselyMaintenance"
-export const LEASE_WISELY_UTILITIES_TABLE = "LeaseWiselyUtilities"
+export const LEASE_WISELY_MAINTENENCE_AND_UTILITIES_TABLE = "LeaseWiselyMaintenanceAndUtilities"
 
 
 
