@@ -201,17 +201,17 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "maintenence-and-utilities": {
                         email: email,
                         uuid: item.uuid,
-                        CableResponsibility: item.CableResponsibility || "NA",
-                        ElectricityPaymentResponsibility: item.ElectricityPaymentResponsibility || "NA",
-                        GasPaymentResponsibility: item.GasPaymentResponsibility || "NA",
-                        HeatResponsibility: item.HeatResponsibility || "NA",
-                        InternetResponsibility: item.InternetResponsibility || "NA",
-                        LandscapingResponsibility: item.LandscapingResponsibility || "NA",
-                        SnowRemovalResponsibility: item.SnowRemovalResponsibility || "NA",
-                        ThirdPartyBillingUsed: item.ThirdPartyBillingUsed || "NA",
-                        TrashandRecyclingPaymentResponsibility: item.TrashandRecyclingPaymentResponsibility || "NA",
-                        WaterPaymentResponsibility: item.WaterPaymentResponsibility || "NA",
-                        StateRules: item.StateRules || "NA",
+                        "Cable Responsibility": item.CableResponsibility || "NA",
+                        "Electricity Payment Responsibility": item.ElectricityPaymentResponsibility || "NA",
+                        "Gas Payment Responsibility": item.GasPaymentResponsibility || "NA",
+                        "Heat Responsibility": item.HeatResponsibility || "NA",
+                        "Internet Responsibility": item.InternetResponsibility || "NA",
+                        "Landscaping Responsibility": item.LandscapingResponsibility || "NA",
+                        "Snow Removal Responsibility": item.SnowRemovalResponsibility || "NA",
+                        "Third-Party Billing Used": item.ThirdPartyBillingUsed || "NA",
+                        "Trash and Recycling Payment Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
+                        "Water Payment Responsibility": item.WaterPaymentResponsibility || "NA",
+                        "State Rules": item.StateRules || "NA",
                     }
                 };
             });
@@ -223,9 +223,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "rules-and-regulations": {
                         email: email,
                         uuid: item.uuid,
-                        PetsAllowed: item.PetsAllowed || "NA",
-                        ProhibitedActivities: item.ProhibitedActivities || "NA",
-                        SmokingAllowed: item.SmokingAllowed || "NA"
+                        "Pets Allowed": item.PetsAllowed || "NA",
+                        "Prohibited Activities": item.ProhibitedActivities || "NA",
+                        "Smoking Allowed": item.SmokingAllowed || "NA"
                     }
                 };
             });
@@ -237,14 +237,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "renewal-and-moveout": {
                         email: email,
                         uuid: item.uuid,
-                        Actionsifnotrenewingandmovingout: item.Actionsifnotrenewingandmovingout || "NA",
-                        Consequencesofmissingnoticetovacatedeadline: item.Consequencesofmissingnoticetovacatedeadline || "NA",
-                        Earlyleasetermination: item.Earlyleasetermination || "NA",
-                        LeaseEndDate: item.LeaseEndDate || "NA",
-                        NoticetoVacateDate: item.NoticetoVacateDate || "NA",
-                        StateRulesforMonthtoMonthLandlordTerminationNotice: item.StateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
-                        StateRulesforNoticePeriodonRaisingRent: item.StateRulesforNoticePeriodonRaisingRent || "NA",
-                        Sublettingpermission: item.Sublettingpermission || "NA"
+                        "Actions if not renewing and moving out": item.Actionsifnotrenewingandmovingout || "NA",
+                        "Consequences of missing notice to vacate deadline": item.Consequencesofmissingnoticetovacatedeadline || "NA",
+                        "Early lease termination": item.Earlyleasetermination || "NA",
+                        "Lease End Date": item.LeaseEndDate || "NA",
+                        "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
+                        "State Rules for Month to Month Landlord Termination Notice": item.StateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
+                        "State Rules for Notice Period on Raising Rent": item.StateRulesforNoticePeriodonRaisingRent || "NA",
+                        "Subletting permission": item.Sublettingpermission || "NA"
                     }
                 };
             });
@@ -256,21 +256,17 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "rent-and-fee": {
                         email: email,
                         uuid: item.uuid,
-                        LateFeeif10DaysLate: item.LateFeeif10DaysLate || "NA",
-                        LateFeeif1DayLate: item.LateFeeif1DayLate || "NA",
-                        LateFeeif3DaysLate: item.LateFeeif3DaysLate || "NA",
-                        LateFeeif5DaysLate: item.LateFeeif5DaysLate || "NA",
-                        LateFeePolicy: item.LateFeePolicy || "NA",
-                        LostKeyFee: item.LostKeyFee || "NA",
-                        NonSufficientFunds_ReturnedCheckFee: item.NonSufficientFunds_ReturnedCheckFee || "NA",
-                        OtherFees: item.OtherFees || "NA",
-                        PetDepositAmount: item.PetDepositAmount || "NA",
-                        PetRentAmount: item.PetRentAmount || "NA",
-                        RentAmount: item.RentAmount || "NA",
-                        RentDueDate: item.RentDueDate || "NA",
-                        StateRulesforFilingEviction: item.StateRulesforFilingEviction || "NA",
-                        StateRulesforMandatoryGracePeriod: item.StateRulesforMandatoryGracePeriod || "NA",
-                        StateRulesforMaximumLateFee: item.StateRulesforMaximumLateFee || "NA"
+                        "Late Fee Policy": item.LateFeePolicy || "NA",
+                        "Lost Key Fee": item.LostKeyFee || "NA",
+                        "Non-Sufficient Funds Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
+                        "Other Fees": item.OtherFees || "NA",
+                        "Pet Deposit Amount": item.PetDepositAmount || "NA",
+                        "Pet Rent Amount": item.PetRentAmount || "NA",
+                        "Rent Amount": item.RentAmount || "NA",
+                        "Rent Due Date": item.RentDueDate || "NA",
+                        "State Rules for Filing Eviction": item.StateRulesforFilingEviction || "NA",
+                        "State Rules for Mandatory Grace Period": item.StateRulesforMandatoryGracePeriod || "NA",
+                        "State Rules for Maximum Late Fee": item.StateRulesforMaximumLateFee || "NA"
                     }
                 };
             });
@@ -282,19 +278,19 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "red-flags": {
                         email: email,
                         uuid: item.uuid,
-                        CounterSignature: item.CounterSignature || "NA",
-                        FullAddress: item.FullAddress || "NA",
-                        LeaseStartDate: item.LeaseStartDate || "NA",
-                        NoticetoEnterRules: item.NoticetoEnterRules || "NA",
-                        NoticetoVacateDate: item.NoticetoVacateDate || "NA",
-                        PetPolicy: item.PetPolicy || "NA",
-                        PropertyManager_LandlordName: item.PropertyManager_LandlordName || "NA",
-                        RentAmount: item.RentAmount || "NA",
-                        RentDueDate: item.RentDueDate || "NA",
-                        RentPaymentInstructions: item.RentPaymentInstructions || "NA",
-                        ResidentNames: item.ResidentNames || "NA",
-                        SecurityDepositAmount: item.SecurityDepositAmount || "NA",
-                        UtilitiesResponsibilities: item.UtilitiesResponsibilities || "NA"
+                        "Counter Signature": item.CounterSignature || "NA",
+                        "Full Address": item.FullAddress || "NA",
+                        "Lease Start Date": item.LeaseStartDate || "NA",
+                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",
+                        "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
+                        "Pet Policy": item.PetPolicy || "NA",
+                        "Property Manager/ Landlord Name": item.PropertyManager_LandlordName || "NA",
+                        "Rent Amount": item.RentAmount || "NA",
+                        "Rent Due Date": item.RentDueDate || "NA",
+                        "Rent Payment Instructions": item.RentPaymentInstructions || "NA",
+                        "Resident Names": item.ResidentNames || "NA",
+                        "Security Deposit Amount": item.SecurityDepositAmount || "NA",
+                        "Utilities Responsibilities": item.UtilitiesResponsibilities || "NA"
                     }
                 };
             });
@@ -305,14 +301,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "movein-date": {
                         email: email,
                         uuid: item.uuid,
-                        accesstoamenitiesorfacilities: item.Accesstoamenitiesorfacilities || "NA",
-                        deadlinetocompletemoveininspection: item.Deadlinetocompletemoveininspection || "NA",
-                        isrentersinsurancerequired: item.Isrentersinsurancerequired || "NA",
-                        leaseincludesparking: item.Leaseincludesparking || "NA",
-                        mailboxkeysinformation: item.Mailboxkeysinformation || "NA",
-                        penaltiespremoveinorwithin30days: item.Penaltiespremoveinorwithin30days || "NA",
-                        timetoreportpestissuesuponmovein: item.Timetoreportpestissuesuponmovein || "NA",
-                        "utilities setup before movein": item.Utilitiessetupbeforemovein || "NA",
+                        "Access to amenities or facilities": item.Accesstoamenitiesorfacilities || "NA",
+                        "Deadline to complete move-in inspection": item.Deadlinetocompletemoveininspection || "NA",
+                        "Is Renters Insurance Required": item.Isrentersinsurancerequired || "NA",
+                        "Lease Includes Parking": item.Leaseincludesparking || "NA",
+                        "Mailbox Keys Information": item.Mailboxkeysinformation || "NA",
+                        "Penalties pre-movein Or Within-30-days": item.Penaltiespremoveinorwithin30days || "NA",
+                        "Time to report Pest issues upon movein": item.Timetoreportpestissuesuponmovein || "NA",
+                        "Utilities Setup Before movein": item.Utilitiessetupbeforemovein || "NA",
                     }
                 };
             });
@@ -343,8 +339,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "Landlord-Notice": {
                         email: email,
                         uuid: item.uuid,
-                        noticetoEnterRules: item.NoticetoEnterRules || "NA",
-                        stateRules: item.StateRules || "NA"
+                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",
+                        "State Rules": item.StateRules || "NA"
                     }
                 };
             });
@@ -372,7 +368,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "User-Lease-Info": {
                         email: email,
                         uuid: item.uuid,
-                        leaseDataAvailable: item.leaseDataAvailable || "NA"
+                        leaseDataAvailable: item.leaseDataAvailable || "NA",
+                        leasePropertyAddress: item.leasePropertyAddress || "NA",
+                        leaseStartDate: item.leaseStartDate || "NA"
                     }
                 };
             });
@@ -389,7 +387,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         leaseStartDate: item.LeaseStartDate || "NA",
                         moveinInspectionDeadlineDate: item.MoveinInspectionDeadlineDate || "NA",
                         noticetoVacateDate: item.NoticetoVacateDate || "NA",
-                        securityDepositReturnDate: item.SecurityDepositReturnDate || "NA"
+                        securityDepositReturnDate: item.SecurityDepositReturnDate || "NA",
+                        rentDueDate:item.RentDueDate || "NA", 
+//                        renewalOfferDate= item.renewalOfferDate || "NA" 
                     }
                 };
             });
