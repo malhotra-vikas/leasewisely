@@ -16,7 +16,7 @@
         "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
-        "Rent Due Date": "In the least amount of words possible, what is the upcoming rent due date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date."
+        "Rent Due Date": "In the least amount of words possible, what is the upcoming rent due date in the current year? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date."
     },
     "Red Flags": {
         "Resident Names": "Is there a list of all the tenants in the lease? Please indicate Yes or No only.",
