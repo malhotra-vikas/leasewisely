@@ -121,7 +121,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             ExpressionAttributeValues: {
                 ':email': email
             }
-        };
+        };       
 
         const dataFieldsToCollectParams = {
             TableName: Constants.LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE,

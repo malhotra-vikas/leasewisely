@@ -45,6 +45,7 @@
         "Late Fee if Paid on 3rd of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the third of the month? Please return the number only and nothing else in the $0,000.00 format",
         "Late Fee if Paid on 5th of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the fifth of the month? Please return the number only and nothing else in the $0,000.00 format",
         "Late Fee if Paid on 10th of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the tenth of the month? Please return the number only and nothing else in the $0,000.00 format",
+        "State of Property": "What state is the property in? Please only include the state name and nothing else.",
         "State Rules for Maximum Late Fee": "[Pull from State Law tab (Column C) based on state lease is in]",
         "State Rules for Mandatory Grace Period": "[Pull from State Law tab (Column D) based on state lease is in]",
         "State Rules for Filing Eviction": "[Pull from State Law tab (Column E) based on state lease is in]",
@@ -73,6 +74,7 @@
         "Landscaping Responsibility": "Is the Landlord or Tenant responsible for paying Landscaping? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Snow Removal Responsibility": "Is the Landlord or Tenant responsible for paying Snow Removal? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Third Party Billing Used": "Does the landlord use a third-party billing company? Please indicate Yes or No only.",
+        "State of Property": "What state is the property in? Please only include the state name and nothing else.",
         "State Rules": "[Pull from State Law tab (Column F) based on state lease is in]"
     },
     "Rules and Regulations": {
@@ -82,6 +84,7 @@
     },
     "Landlord Notice": {
         "Notice to Enter Rules": "What are the notice to enter rules in my lease?",
+        "State of Property": "What state is the property in? Please only include the state name and nothing else.",
         "State Rules": "[Pull from State Law tab (Column G) based on state lease is in]"
     },
     "Renewal and Move-Outs": {
@@ -91,6 +94,7 @@
         "Actions if not renewing and moving out": "What do I need to do if I am not renewing and moving out? Please return the information in the least amount of words possible.",
         "Subletting permission": "Can I sublet? If yes, what are the subletting rules? Please return the information in the least amount of words possible.",
         "Early lease termination": "Can I terminate my lease early? If yes, what are the early termination rules? Please return the information in the least amount of words possible.",
+        "State of Property": "What state is the property in? Please only include the state name and nothing else.",
         "State Rules for Notice Period on Raising Rent": "[Pull from State Law tab (Column H) based on state lease is in]",
         "State Rules for Month-to-Month Landlord Termination Notice": "[Pull from State Law tab (Column I) based on state lease is in]"
     },

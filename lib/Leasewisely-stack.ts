@@ -128,6 +128,13 @@ export class LeasewiselyStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
 
+    const leaseWiselyStateRulesTable = new dynamodb.Table(this, Constants.LEASE_WISELY_STATE_RUILES_TABLE, {
+      partitionKey: { name: 'state', type: dynamodb.AttributeType.STRING },
+      tableName: Constants.LEASE_WISELY_STATE_RUILES_TABLE,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Use On-Demand billing mode
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+
     const LeaseWiselyRenewalAndMoveoutsTable = new dynamodb.Table(this, Constants.LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE, {
       partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
       sortKey: {
@@ -397,6 +404,7 @@ export class LeasewiselyStack extends cdk.Stack {
     LeaseWiselyRentAndFeeTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     LeaseWiselyRulesAndRegulationsTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
     leaseWiselyTimelineTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
+    leaseWiselyStateRulesTable.grantReadWriteData(leaseWiselyGetKeyArtifactsLambda)
 
     /*    
             // Create Lambda function for creating contacts

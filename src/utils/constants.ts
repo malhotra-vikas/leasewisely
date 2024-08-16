@@ -45,7 +45,7 @@ export const LEASE_WISELY_LANDLORD_NOTICES_TABLE = "LeaseWiselyLandlordNotice"
 export const LEASE_WISELY_RENEWAL_AND_MOVEOUTS_TABLE = "LeaseWiselyRenewalAndMoveouts"
 export const LEASE_WISELY_DATA_FIELDS_TO_COLLECT_TABLE = "LeaseWiselyDataFieldsToCollect"
 export const LEASE_WISELY_MAINTENENCE_AND_UTILITIES_TABLE = "LeaseWiselyMaintenanceAndUtilities"
-
+export const LEASE_WISELY_STATE_RUILES_TABLE = "LeaseWiselyStateRules"
 
 
 export const GOLF_PRO_USERS_TABLE_ARN = "arn:aws:dynamodb:" + exports.AWS_REGION + ":" + exports.AWS_ACCOUNT + ":table/" + GOLF_PRO_USERS_TABLE;
