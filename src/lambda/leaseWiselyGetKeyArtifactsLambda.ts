@@ -463,7 +463,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                             month: 'long',
                             day: '2-digit'
                         }),        
-                        renewalOfferDate: item.renewalOfferDate || "NA" 
+                        renewalOfferDate: item.RenewalOfferDate || "NA" 
                     }
                 };
             });
