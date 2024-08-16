@@ -327,7 +327,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         propertyManager_LandlordPhoneNumber: item.PropertyManager_LandlordPhoneNumber || "NA",
                         rentAmount: item.RentAmount || "NA",
                         rentDueDate: item.RentDueDate || "NA",
-                        residentNames: item.ResidentNames || "NA"
+                        residentNames: item.ResidentNames || "NA",
+                        leasePropertyAddress: item.LeasePropertyAddress || "NA"
                     }
                 };
             });
