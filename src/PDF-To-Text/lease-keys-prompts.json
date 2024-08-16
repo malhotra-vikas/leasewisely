@@ -1,9 +1,9 @@
 {
     "Lease Summary": {
         "Resident Names": "Please list all the tenants on the lease. Please return the full names in bulleted format",
-        "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name?",
+        "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name? Please only return the name",
         "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
-        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address?",
+        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address? Please only return the email",
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
         "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
