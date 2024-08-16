@@ -378,6 +378,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         }
 
         if (timelineData && timelineData.Items && timelineData.Items.length > 0) {
+            const currentDate = new Date(); // Get the current date
+            const firstOfNextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); // Set to the 1st of next month
+        
             timelineResponseData = timelineData.Items.map(item => {
                 return {
                     "Timeline": {
@@ -389,8 +392,12 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         moveinInspectionDeadlineDate: item.MoveinInspectionDeadlineDate || "NA",
                         noticetoVacateDate: item.NoticetoVacateDate || "NA",
                         securityDepositReturnDate: item.SecurityDepositReturnDate || "NA",
-                        rentDueDate:item.RentDueDate || "NA", 
-//                        renewalOfferDate= item.renewalOfferDate || "NA" 
+                        rentDueDate: firstOfNextMonth.toLocaleDateString("en-US", { // Format the date as "MMMM, DD, YYYY"
+                            year: 'numeric',
+                            month: 'long',
+                            day: '2-digit'
+                        }),        
+                        renewalOfferDate: item.renewalOfferDate || "NA" 
                     }
                 };
             });
