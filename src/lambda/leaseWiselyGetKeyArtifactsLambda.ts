@@ -3,9 +3,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as Constants from '../utils/constants';
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-
 
 import AWS = require('aws-sdk')
 
@@ -39,6 +38,53 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         body: JSON.stringify({ error: "Internal Server Error" })
     };
 
+    
+    async function updateLeaseStartDate(email: string, uuid: string, newLeaseStartDate: string): Promise<void> {
+        const updateParams = {
+            TableName: Constants.LEASE_WISELY_USER_LEASES_TABLE,
+            Key: {
+                email: email,
+                uuid: uuid
+            },
+            UpdateExpression: "set leaseStartDate = :pa",
+            ExpressionAttributeValues: {
+                ":pa": newLeaseStartDate
+            },
+            ReturnValues: "UPDATED_NEW" as const  // Ensures type safety
+        };
+    
+        try {
+            const result = await ddbDocClient.send(new UpdateCommand(updateParams));
+            console.log("Successfully updated property address:", result);
+        } catch (error) {
+            console.error("Failed to update property address:", error);
+            throw error;  // Re-throw the error for further handling if necessary
+        }
+    }
+
+    async function updatePropertyAddress(email: string, uuid: string, newPropertyAddress: string): Promise<void> {
+        const updateParams = {
+            TableName: Constants.LEASE_WISELY_USER_LEASES_TABLE,
+            Key: {
+                email: email,
+                uuid: uuid
+            },
+            UpdateExpression: "set leasePropertyAddress = :pa",
+            ExpressionAttributeValues: {
+                ":pa": newPropertyAddress
+            },
+            ReturnValues: "UPDATED_NEW" as const  // Ensures type safety
+        };
+    
+        try {
+            const result = await ddbDocClient.send(new UpdateCommand(updateParams));
+            console.log("Successfully updated property address:", result);
+        } catch (error) {
+            console.error("Failed to update property address:", error);
+            throw error;  // Re-throw the error for further handling if necessary
+        }
+    }
+    
     try {
 
         // Extract user details from the path parameters.
@@ -53,7 +99,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             return response;
         }
         console.log("Email and UUID", email, uuid);
-
+                
         // Fetch data from DynamoDB
         const leaseParams = {
             TableName: Constants.LEASE_WISELY_USER_LEASES_TABLE,
@@ -65,7 +111,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                 ':email': email
             }
         };
-
+    
         const timelineParams = {
             TableName: Constants.LEASE_WISELY_TIMELINE_TABLE,
             KeyConditionExpression: '#email = :email',
@@ -316,6 +362,16 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
         if (leaseSummaryData && leaseSummaryData.Items && leaseSummaryData.Items.length > 0) {
             leaseSummaryResponseData = leaseSummaryData.Items.map(item => {
+                let currentEmail = email
+                let curentUUID = item.uuid
+                let currentLeasePropertyAddress = item.LeasePropertyAddress || "NA"
+
+                try {
+                    updatePropertyAddress(currentEmail, curentUUID, currentLeasePropertyAddress);
+                } catch (error) {
+                    return
+                }
+            
                 return {
                     "summary": {
                         email: email,
@@ -382,6 +438,16 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             const firstOfNextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); // Set to the 1st of next month
         
             timelineResponseData = timelineData.Items.map(item => {
+                let currentEmail = email
+                let curentUUID = item.uuid
+                let currentLeaseStartDate = item.LeaseStartDate || "NA"
+
+                try {
+                    updateLeaseStartDate(currentEmail, curentUUID, currentLeaseStartDate);
+                } catch (error) {
+                    return
+                }
+
                 return {
                     "Timeline": {
                         email: email,
