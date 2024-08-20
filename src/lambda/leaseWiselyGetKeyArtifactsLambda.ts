@@ -22,6 +22,38 @@ interface RequestBody {
     uuid: string;
 }
 
+/**
+ * Fetches and prints all values for a given state from the StateRule table.
+ * @param stateName The name of the state to query.
+ */
+async function fetchStateRules(stateName: string, lookupValue: string): Promise<string> {
+    const params = {
+        TableName: Constants.LEASE_WISELY_STATE_RUILES_TABLE,
+        KeyConditionExpression: "#state = :state",
+        ExpressionAttributeNames: {
+            "#state": "state"
+        },
+        ExpressionAttributeValues: {
+            ":state": stateName
+        }
+    };
+
+    try {
+        const data = await ddbDocClient.send(new QueryCommand(params));
+        if (data.Items && data.Items.length > 0) {
+            console.log("Data retrieved for state", stateName, ":", data.Items);
+            const stateRuleValue = data.Items[0][lookupValue];
+            console.log(`${lookupValue} for ${stateName}:`, stateRuleValue);
+            return stateRuleValue;
+        } else {
+            console.log("No data found for state", stateName);
+            return "NA"
+        }
+    } catch (error) {
+        console.error("Error fetching state rules for", stateName, ":", error);
+        return "NA"
+    }
+}
 
 export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
     console.log("Lease Wisely - Event Starting");
@@ -38,7 +70,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         body: JSON.stringify({ error: "Internal Server Error" })
     };
 
-    
+
     async function updateLeaseStartDate(email: string, uuid: string, newLeaseStartDate: string): Promise<void> {
         const updateParams = {
             TableName: Constants.LEASE_WISELY_USER_LEASES_TABLE,
@@ -220,8 +252,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             ExpressionAttributeValues: {
                 ':email': email
             }
-        };        
-        
+        };    
+                
         const leaseData = await ddbDocClient.send(new QueryCommand(leaseParams));
         const timelineData = await ddbDocClient.send(new QueryCommand(timelineParams));
         const dataFieldsToCollectData = await ddbDocClient.send(new QueryCommand(dataFieldsToCollectParams));
@@ -242,26 +274,42 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         let leaseWiselyRentAndFeeParamsDataResponse, leaseWiselyRulesAndRegulationsParamsDataResponse, leaseWiselyUtilitiesParamsDataResponse
 
         if (leaseWiselyMaintenanceAndUtilitiesData && leaseWiselyMaintenanceAndUtilitiesData.Items && leaseWiselyMaintenanceAndUtilitiesData.Items.length > 0) {
-            leaseWiselyUtilitiesParamsDataResponse = leaseWiselyMaintenanceAndUtilitiesData.Items.map(item => {
+            let promises = leaseWiselyMaintenanceAndUtilitiesData.Items.map(async item => {
+                const propertyState = item.StateofProperty || "NA";
+                let maintenanceStateRules = "NA";
+
+                if (propertyState && propertyState !== "NA") {
+                    console.log("Running for state - ", propertyState);
+                    try {
+                        maintenanceStateRules = await fetchStateRules(propertyState, "Maintenance");
+                    } catch (error) {
+                        console.error("Error fetching Maintenance rules:", error);
+                        maintenanceStateRules = "Failed to fetch";
+                    }
+                }
                 return {
                     "maintenence-and-utilities": {
                         email: email,
                         uuid: item.uuid,
                         "Cable Responsibility": item.CableResponsibility || "NA",
-                        "Electricity Payment Responsibility": item.ElectricityPaymentResponsibility || "NA",
-                        "Gas Payment Responsibility": item.GasPaymentResponsibility || "NA",
+                        "Electricity Responsibility": item.ElectricityPaymentResponsibility || "NA",
+                        "Gas Responsibility": item.GasPaymentResponsibility || "NA",
                         "Heat Responsibility": item.HeatResponsibility || "NA",
                         "Internet Responsibility": item.InternetResponsibility || "NA",
                         "Landscaping Responsibility": item.LandscapingResponsibility || "NA",
                         "Snow Removal Responsibility": item.SnowRemovalResponsibility || "NA",
-                        "Third-Party Billing Used": item.ThirdPartyBillingUsed || "NA",
-                        "Trash and Recycling Payment Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
-                        "Water Payment Responsibility": item.WaterPaymentResponsibility || "NA",
-                        "State Rules": item.StateRules || "NA",
+                        "Trash and Recycling Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
+                        "Water Responsibility": item.WaterPaymentResponsibility || "NA",
+                        "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
+                        "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
                     }
                 };
             });
+
+            // Use Promise.all to wait for all promises to resolve
+            leaseWiselyUtilitiesParamsDataResponse = await Promise.all(promises);
         }
+        
 
         if (leaseWiselyRulesAndRegulationsParamsData && leaseWiselyRulesAndRegulationsParamsData.Items && leaseWiselyRulesAndRegulationsParamsData.Items.length > 0) {
             leaseWiselyRulesAndRegulationsParamsDataResponse = leaseWiselyRulesAndRegulationsParamsData.Items.map(item => {
@@ -270,52 +318,91 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         email: email,
                         uuid: item.uuid,
                         "Pets Allowed": item.PetsAllowed || "NA",
-                        "Prohibited Activities": item.ProhibitedActivities || "NA",
-                        "Smoking Allowed": item.SmokingAllowed || "NA"
+                        "Smoking Allowed": item.SmokingAllowed || "NA",
+                        "Prohibited Activities": item.ProhibitedActivities || "NA"
                     }
                 };
             });
         }
 
         if (leaseWiselyRenewalAndMoveoutsParamsData && leaseWiselyRenewalAndMoveoutsParamsData.Items && leaseWiselyRenewalAndMoveoutsParamsData.Items.length > 0) {
-            leaseWiselyRenewalAndMoveoutsParamsDataResponse = leaseWiselyRenewalAndMoveoutsParamsData.Items.map(item => {
+            let promises = leaseWiselyRenewalAndMoveoutsParamsData.Items.map(async item => {
+                const propertyState = item.StateofProperty || "NA"
+                let stateRulesforMonthtoMonthLandlordTerminationNotice = "NA"
+                let stateRulesforNoticePeriodonRaisingRent = "NA"
+
+                if (propertyState && propertyState !== "NA") {
+                    console.log("Running for state - ", propertyState);
+                    try {
+                        stateRulesforMonthtoMonthLandlordTerminationNotice = await fetchStateRules(propertyState, "Month-to-MonthTerminationNotice");
+                        stateRulesforNoticePeriodonRaisingRent = await fetchStateRules(propertyState, "RaisingRent");
+                    } catch (error) {
+                        console.error("Error fetching Maintenance rules:", error);
+                        stateRulesforMonthtoMonthLandlordTerminationNotice = "NA";
+                        stateRulesforNoticePeriodonRaisingRent = "NA"
+                    }
+                }
                 return {
                     "renewal-and-moveout": {
                         email: email,
                         uuid: item.uuid,
-                        "Actions if not renewing and moving out": item.Actionsifnotrenewingandmovingout || "NA",
-                        "Consequences of missing notice to vacate deadline": item.Consequencesofmissingnoticetovacatedeadline || "NA",
-                        "Early lease termination": item.Earlyleasetermination || "NA",
                         "Lease End Date": item.LeaseEndDate || "NA",
                         "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
-                        "State Rules for Month to Month Landlord Termination Notice": item.StateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
-                        "State Rules for Notice Period on Raising Rent": item.StateRulesforNoticePeriodonRaisingRent || "NA",
-                        "Subletting permission": item.Sublettingpermission || "NA"
+                        "What do I need to do if I plan to move out at lease end?": item.Actionsifnotrenewingandmovingout || "NA",
+                        "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
+                        "Early Termination Policy": item.Earlyleasetermination || "NA",
+                        "Subleasing Policy": item.Sublettingpermission || "NA",
+                        "State Rules for Month to Month Landlord Termination Notice": stateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
+                        "State Rules for Notice Period on Raising Rent": stateRulesforNoticePeriodonRaisingRent || "NA",
+
                     }
-                };
+                };              
             });
+
+            // Use Promise.all to wait for all promises to resolve
+            leaseWiselyRenewalAndMoveoutsParamsDataResponse = await Promise.all(promises);
         }
 
         if (leaseWiselyRentAndFeeParamsData && leaseWiselyRentAndFeeParamsData.Items && leaseWiselyRentAndFeeParamsData.Items.length > 0) {
-            leaseWiselyRentAndFeeParamsDataResponse = leaseWiselyRentAndFeeParamsData.Items.map(item => {
+            let promises = leaseWiselyRentAndFeeParamsData.Items.map(async item => {
+                const propertyState = item.StateofProperty || "NA"
+                let stateRulesforFilingEviction = "NA"
+                let stateRulesforMandatoryGracePeriod = "NA"
+                let stateRulesforMaximumLateFee = "NA"
+                if (propertyState && propertyState != "NA") {
+                    console.log("Running for state - ", propertyState);
+                    try {
+                        stateRulesforFilingEviction = await fetchStateRules(propertyState, "EvictionTimeframe");
+                        stateRulesforMandatoryGracePeriod = await fetchStateRules(propertyState, "MandatoryGracePeriod");
+                        stateRulesforMaximumLateFee = await fetchStateRules(propertyState, "MaximumLateFee");
+                    } catch (error) {
+                        console.error("Error fetching Maintenance rules:", error);
+                        stateRulesforFilingEviction = "NA";
+                        stateRulesforMandatoryGracePeriod = "NA"
+                        stateRulesforMaximumLateFee = "NA"
+                    }
+                }
                 return {
                     "rent-and-fee": {
                         email: email,
                         uuid: item.uuid,
-                        "Late Fee Policy": item.LateFeePolicy || "NA",
-                        "Lost Key Fee": item.LostKeyFee || "NA",
-                        "Non-Sufficient Funds Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
-                        "Other Fees": item.OtherFees || "NA",
-                        "Pet Deposit Amount": item.PetDepositAmount || "NA",
-                        "Pet Rent Amount": item.PetRentAmount || "NA",
                         "Rent Amount": item.RentAmount || "NA",
                         "Rent Due Date": item.RentDueDate || "NA",
-                        "State Rules for Filing Eviction": item.StateRulesforFilingEviction || "NA",
-                        "State Rules for Mandatory Grace Period": item.StateRulesforMandatoryGracePeriod || "NA",
-                        "State Rules for Maximum Late Fee": item.StateRulesforMaximumLateFee || "NA"
+                        "Late Fee Policy": item.LateFeePolicy || "NA",
+                        "Pet Deposit Amount": item.PetDepositAmount || "NA",
+                        "Pet Rent Amount": item.PetRentAmount || "NA",
+                        "Lost Key Fee": item.LostKeyFee || "NA",                        
+                        "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
+                        "Other Fees": item.OtherFees || "NA",
+                        "State Rules for Filing Eviction": stateRulesforFilingEviction || "NA",
+                        "State Rules for Mandatory Grace Period for Rent Payment": stateRulesforMandatoryGracePeriod || "NA",
+                        "State Rules for Maximum Late Fee Landlord Can Charge": stateRulesforMaximumLateFee || "NA"
                     }
                 };
             });
+
+            // Use Promise.all to wait for all promises to resolve
+            leaseWiselyRentAndFeeParamsDataResponse = await Promise.all(promises);
         }
 
         if (leaseWiselyRedFlagParamsData && leaseWiselyRedFlagParamsData.Items && leaseWiselyRedFlagParamsData.Items.length > 0) {
@@ -347,14 +434,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "movein-date": {
                         email: email,
                         uuid: item.uuid,
-                        "Access to amenities or facilities": item.Accesstoamenitiesorfacilities || "NA",
+                        "Amenities / Facilities you have access to": item.Accesstoamenitiesorfacilities || "NA",
                         "Deadline to complete move-in inspection": item.Deadlinetocompletemoveininspection || "NA",
-                        "Is Renters Insurance Required": item.Isrentersinsurancerequired || "NA",
-                        "Lease Includes Parking": item.Leaseincludesparking || "NA",
+                        "Is renters insurance Required?": item.Isrentersinsurancerequired || "NA",
+                        "Does my lease include parking?": item.Leaseincludesparking || "NA",
                         "Mailbox Keys Information": item.Mailboxkeysinformation || "NA",
-                        "Penalties pre-movein Or Within-30-days": item.Penaltiespremoveinorwithin30days || "NA",
-                        "Time to report Pest issues upon movein": item.Timetoreportpestissuesuponmovein || "NA",
-                        "Utilities Setup Before movein": item.Utilitiessetupbeforemovein || "NA",
+                        "When is my deadline to report pest issues before it becomes my responsibility?": item.Timetoreportpestissuesuponmovein || "NA",
+                        "Do I need to set up utilities prior to moving in?": item.Utilitiessetupbeforemovein || "NA",
+                        "What can I be penalized for if not completed prior to moving in or within 30 days of moving in?": item.Penaltiespremoveinorwithin30days || "NA"
                     }
                 };
             });
@@ -391,17 +478,33 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         }
 
         if (landlordNoticeData && landlordNoticeData.Items && landlordNoticeData.Items.length > 0) {
-            landlordNoticeResponseData = landlordNoticeData.Items.map(item => {
+            let promises = landlordNoticeData.Items.map(async item => {
+                const propertyState = item.StateofProperty || "NA"
+                let stateRuleNoticeToEnter = "NA"
+                if (propertyState && propertyState !== "NA") {
+                    console.log("Running for state - ", propertyState);
+                    try {
+                        stateRuleNoticeToEnter = await fetchStateRules(propertyState, "NoticetoEnter");
+                    } catch (error) {
+                        console.error("Error fetching Maintenance rules:", error);
+                        stateRuleNoticeToEnter = "NA";
+                    }
+                }
                 return {
                     "Landlord-Notice": {
                         email: email,
                         uuid: item.uuid,
                         "Notice to Enter Rules": item.NoticetoEnterRules || "NA",
-                        "State Rules": item.StateRules || "NA"
+                        "State Rules": stateRuleNoticeToEnter || "NA"
                     }
                 };
-            });
+            });                
+
+            // Use Promise.all to wait for all promises to resolve
+            landlordNoticeResponseData = await Promise.all(promises);
         }
+            
+
         if (dataFieldsToCollectData && dataFieldsToCollectData.Items && dataFieldsToCollectData.Items.length > 0) {
             dataFieldsResponseData = dataFieldsToCollectData.Items.map(item => {
                 return {
@@ -421,13 +524,26 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
         if (leaseData && leaseData.Items && leaseData.Items.length > 0) {
             userLeaseResponseData = leaseData.Items.map(item => {
+            // Extract the first part of the address before the comma
+            const shortAddress = item.leasePropertyAddress ? item.leasePropertyAddress.split(',')[0] : "NA";
+
+            // Convert leaseStartDate to the desired format
+            let formattedDate = "NA";
+            if (item.leaseStartDate) {
+                const dateObj = new Date(item.leaseStartDate);
+                const month = dateObj.getMonth() + 1; // getMonth() returns 0-11, so we add 1
+                const day = dateObj.getDate();
+                const year = dateObj.getFullYear();
+                formattedDate = `- ${month}/${day}/${year}`;
+            }
+
                 return {
                     "User-Lease-Info": {
                         email: email,
                         uuid: item.uuid,
                         leaseDataAvailable: item.leaseDataAvailable || "NA",
-                        leasePropertyAddress: item.leasePropertyAddress || "NA",
-                        leaseStartDate: item.leaseStartDate || "NA"
+                        leasePropertyAddress: shortAddress,
+                        leaseStartDate: formattedDate
                     }
                 };
             });
