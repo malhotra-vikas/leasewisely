@@ -301,6 +301,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Trash and Recycling Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
                         "Water Responsibility": item.WaterPaymentResponsibility || "NA",
                         "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
+                        "Below are the state laws that pertain to your lease": "",
+                        "":"",
                         "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
                     }
                 };
@@ -352,6 +354,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
                         "Early Termination Policy": item.Earlyleasetermination || "NA",
                         "Subleasing Policy": item.Sublettingpermission || "NA",
+                        "Below are the state laws that pertain to your lease": "",
+                        "":"",
                         "State Rules for Month to Month Landlord Termination Notice": stateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
                         "State Rules for Notice Period on Raising Rent": stateRulesforNoticePeriodonRaisingRent || "NA",
 
@@ -394,6 +398,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
                         "Other Fees": item.OtherFees || "NA",
+                        "Below are the state laws that pertain to your lease": "",
+                        "":"",
                         "State Rules for Filing Eviction": stateRulesforFilingEviction || "NA",
                         "State Rules for Mandatory Grace Period for Rent Payment": stateRulesforMandatoryGracePeriod || "NA",
                         "State Rules for Maximum Late Fee Landlord Can Charge": stateRulesforMaximumLateFee || "NA"
@@ -494,7 +500,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "Landlord-Notice": {
                         email: email,
                         uuid: item.uuid,
-                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",
+                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",                        
+                        "Below are the state laws that pertain to your lease": "",
+                        "":"",
                         "State Rules": stateRuleNoticeToEnter || "NA"
                     }
                 };
