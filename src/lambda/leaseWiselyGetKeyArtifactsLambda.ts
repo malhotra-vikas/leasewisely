@@ -301,7 +301,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Trash and Recycling Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
                         "Water Responsibility": item.WaterPaymentResponsibility || "NA",
                         "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
-                        "Below are the state laws that pertain to your lease": "",
+                        "Below are the state laws that pertain to your lease": "\n",
                         "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
                     }
                 };
@@ -353,7 +353,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
                         "Early Termination Policy": item.Earlyleasetermination || "NA",
                         "Subleasing Policy": item.Sublettingpermission || "NA",
-                        "Below are the state laws that pertain to your lease": "",
+                        "Below are the state laws that pertain to your lease": "\n",
                         "State Rules for Month to Month Landlord Termination Notice": stateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
                         "State Rules for Notice Period on Raising Rent": stateRulesforNoticePeriodonRaisingRent || "NA",
 
@@ -396,7 +396,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
                         "Other Fees": item.OtherFees || "NA",
-                        "Below are the state laws that pertain to your lease": "",
+                        "Below are the state laws that pertain to your lease": "\n",
                         "State Rules for Filing Eviction": stateRulesforFilingEviction || "NA",
                         "State Rules for Mandatory Grace Period for Rent Payment": stateRulesforMandatoryGracePeriod || "NA",
                         "State Rules for Maximum Late Fee Landlord Can Charge": stateRulesforMaximumLateFee || "NA"
@@ -437,7 +437,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "movein-date": {
                         email: email,
                         uuid: item.uuid,
-                        "Amenities / Facilities you have access to": item.Accesstoamenitiesorfacilities || "NA",
+                        "Amenities / Facilities you have access to": "\n"+item.Accesstoamenitiesorfacilities || "NA",
                         "Deadline to complete move-in inspection": item.Deadlinetocompletemoveininspection || "NA",
                         "Is renters insurance Required?": item.Isrentersinsurancerequired || "NA",
                         "Does my lease include parking?": item.Leaseincludesparking || "NA",
@@ -498,7 +498,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         email: email,
                         uuid: item.uuid,
                         "Notice to Enter Rules": item.NoticetoEnterRules || "NA",                        
-                        "Below are the state laws that pertain to your lease": "",
+                        "Below are the state laws that pertain to your lease": "\n",
                         "State Rules": stateRuleNoticeToEnter || "NA"
                     }
                 };
@@ -572,18 +572,18 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "Timeline": {
                         email: email,
                         uuid: item.uuid,
-                        leaseSignedDate: item.leaseSignedDate || "NA",
-                        leaseEndDate: item.LeaseEndDate || "NA",
-                        leaseStartDate: item.LeaseStartDate || "NA",
-                        moveinInspectionDeadlineDate: item.MoveinInspectionDeadlineDate || "NA",
-                        noticetoVacateDate: item.NoticetoVacateDate || "NA",
-                        securityDepositReturnDate: item.SecurityDepositReturnDate || "NA",
+                        leaseSignedDate: item.leaseSignedDate || "Not Available",
+                        leaseEndDate: item.LeaseEndDate || "Not Available",
+                        leaseStartDate: item.LeaseStartDate || "Not Available",
+                        moveinInspectionDeadlineDate: item.MoveinInspectionDeadlineDate || "Not Available",
+                        noticetoVacateDate: item.NoticetoVacateDate || "Not Available",
+                        securityDepositReturnDate: item.SecurityDepositReturnDate || "Not Available",
                         rentDueDate: firstOfNextMonth.toLocaleDateString("en-US", { // Format the date as "MMMM, DD, YYYY"
                             year: 'numeric',
                             month: 'long',
                             day: '2-digit'
                         }),        
-                        renewalOfferDate: item.RenewalOfferDate || "NA" 
+                        renewalOfferDate: item.RenewalOfferDate || "Not Available" 
                     }
                 };
             });
