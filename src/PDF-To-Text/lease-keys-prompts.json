@@ -2,13 +2,13 @@
     "Lease Summary": {
         "Resident Names": "Please list all the tenants on the lease. Please return only the full names of the tenants in bulleted format and do not include the landlordor any other text",
         "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name? Please only return the name",
-        "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format",
-        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address? Please only return the email address only and nothing else",
+        "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format. If not available, return Not Available",
+        "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address? Please only return the email address only and nothing else. If not available, return Not Available",
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
-        "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
-        "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
-        "Pet Included on Lease": "Does the lease indidate the tenant has a pet listed on the lease? Please indicate Yes or No only with no period at the end",
-        "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state and zip code"
+        "Rent Amount": "What is the monthly rent amount inclusive of any applicable sales tax? Please return the number only and nothing else in the $0,000.00 format",
+        "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text",
+        "Pet Included on Lease": "How many pets are on the lease? Please only return the number of pets and nothing else",
+        "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state and zip code and no other text."
     },
     "Timeline": {
         "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
@@ -38,8 +38,8 @@
     "Rent and Fees": {
         "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
-        "Pet Rent Amount": "What is the monthly pet rent amount? Please return the number only and nothing else in the $0,000.00 format",
-        "Pet Deposit Amount": "What is the monthly pet deposit amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Pet Rent Amount": "How much does the tenant pay in monthly pet rent? Please return the number only and nothing else in the $0,000.00 format",
+        "Pet Deposit Amount": "How much does the tenant pay as a one-time deposit for having a pet? Please return the number only and nothing else in the $0,000.00 format",
         "Late Fee Policy": "In the most concise format, what is the complete late fee policy in a paragraph format? Only include information about the late fee and nothing else.",
         "Late Fee if Paid on 1st of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the first of the month? Please return the number only and nothing else in the $0,000.00 format",
         "Late Fee if Paid on 3rd of Month": "Based on the late fee policy terms, please calculate what the late fee will be if rent is paid on the third of the month? Please return the number only and nothing else in the $0,000.00 format",
@@ -55,13 +55,13 @@
     },
     "Move-In": {
         "Is renters insurance required": "Is renter's insurance required? Return the answer in Yes/No format only. Only return Yes if it is required, but not if it is recommended. For responses that are yes to being required, provide the details of the policy in the least amount of words possible.",
-        "Deadline to complete move-in inspection": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, D, YYYY format and this date cannot be earlier than the lease start date",
+        "Deadline to complete move-in inspection": "What is the deadline date to complete the move-in inspection deadline date? Please return the date only and nothing else in the MMMM, D, YYYY format. This date cannot be earlier than the lease start date",
         "Time to report pest issues upon move-in": "Upon move-in, how long do I have to report pest issues? Please return the answer in the least amount of words possible.",
         "Utilities setup before move-in": "Do I need to set up utilities before move in? Please return the answer in the least amount of words possible.",
         "Mailbox keys information": "What does the lease say about mailbox keys specifically? Please return the answer in the least amount of words possible only about mailbox keys.",
         "Lease includes parking": "How many parking spots do I have access to in my lease?",
         "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only and do not include appliances.",
-        "Penalties pre move-in or within 30 days": "Specific to moving in, what else, besides getting renter's insurance, completing the move-in inspection, paying rent, paying the security deposit, reporting any pest issues and setting up utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Please return the answer in the least amount of words possible."
+        "Penalties pre move-in or within 30 days": "What can I be penalized for if I don't complete it as a part of my lease? Please return the answer in the least amount of words possible."
     },
     "Maintenance and Utilities": {
         "Electricity Payment Responsibility": "Is the Landlord or Tenant responsible for paying Electricity? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
