@@ -12,7 +12,8 @@ sudo systemctl start pdfParser.service
 
 Running the parsePDFUtils in the back ground
 
-nohup python3 /home/ubuntu/leasewisely/src/PDF-To-Text/parsePDFUtils.py > /home/ubuntu/leasewisely/src/PDF-To-Text/output.log 2>&1 &
+cd /home/ubuntu/leasewisely/src/PDF-To-Text/
+nohup python3 parsePDFUtils.py > output.log 2>&1 &
 
 To check the logs
 tail -f /home/ubuntu/leasewisely/src/PDF-To-Text/output.log
