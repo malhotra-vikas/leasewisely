@@ -411,9 +411,6 @@ def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid, tabl
             #Trim resulst
             result = result.trim()
 
-            #Get Rid of **
-            result = result.replace('*', "")
-
             #Get Rid of Filler Text 
             result = result.replace('The full address of the property is:', "")
             result = result.replace('The Property Manager or Landlord Name is:', "")

@@ -314,13 +314,19 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
         if (leaseWiselyRulesAndRegulationsParamsData && leaseWiselyRulesAndRegulationsParamsData.Items && leaseWiselyRulesAndRegulationsParamsData.Items.length > 0) {
             leaseWiselyRulesAndRegulationsParamsDataResponse = leaseWiselyRulesAndRegulationsParamsData.Items.map(item => {
+                let prohibitedActivities = item.ProhibitedActivities
+                prohibitedActivities = prohibitedActivities.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+                prohibitedActivities = prohibitedActivities.replace("- Prohibited Activities:", ""); // Replace all occurrences of "**" with a space
+                prohibitedActivities = "\n"+prohibitedActivities
+
+
                 return {
                     "rules-and-regulations": {
                         email: email,
                         uuid: item.uuid,
                         "Pets Allowed": item.PetsAllowed || "NA",
                         "Smoking Allowed": item.SmokingAllowed || "NA",
-                        "Prohibited Activities": item.ProhibitedActivities || "NA"
+                        "Prohibited Activities": prohibitedActivities || "NA"
                     }
                 };
             });
@@ -343,13 +349,16 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         stateRulesforNoticePeriodonRaisingRent = "NA"
                     }
                 }
+                let actionsifnotrenewingandmovingout = item.Actionsifnotrenewingandmovingout
+                actionsifnotrenewingandmovingout = actionsifnotrenewingandmovingout.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+
                 return {
                     "renewal-and-moveout": {
                         email: email,
                         uuid: item.uuid,
                         "Lease End Date": item.LeaseEndDate || "NA",
                         "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
-                        "What do I need to do if I plan to move out at lease end?": item.Actionsifnotrenewingandmovingout || "NA",
+                        "What do I need to do if I plan to move out at lease end?": actionsifnotrenewingandmovingout || "NA",
                         "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
                         "Early Termination Policy": item.Earlyleasetermination || "NA",
                         "Subleasing Policy": item.Sublettingpermission || "NA",
@@ -395,7 +404,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Pet Rent Amount": item.PetRentAmount || "NA",
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
-                        "Other Fees": item.OtherFees || "NA",
+                        "Other Fees": "\n"+item.OtherFees || "NA",
                         "Below are the state laws that pertain to your lease": "\n",
                         "State Rules for Filing Eviction": stateRulesforFilingEviction || "NA",
                         "State Rules for Mandatory Grace Period for Rent Payment": stateRulesforMandatoryGracePeriod || "NA",
@@ -410,6 +419,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
         if (leaseWiselyRedFlagParamsData && leaseWiselyRedFlagParamsData.Items && leaseWiselyRedFlagParamsData.Items.length > 0) {
             leaseWiselyRedFlagParamsDataResponse = leaseWiselyRedFlagParamsData.Items.map(item => {
+
                 return {
                     "red-flags": {
                         email: email,
@@ -493,11 +503,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         stateRuleNoticeToEnter = "NA";
                     }
                 }
+                let noticetoEnterRules = item.NoticetoEnterRules
+                noticetoEnterRules = noticetoEnterRules.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+
                 return {
                     "Landlord-Notice": {
                         email: email,
                         uuid: item.uuid,
-                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",                        
+                        "Notice to Enter Rules": noticetoEnterRules || "NA",                        
                         "Below are the state laws that pertain to your lease": "\n",
                         "State Rules": stateRuleNoticeToEnter || "NA"
                     }
