@@ -408,13 +408,6 @@ def extract_and_persist_all_keys(lease_text, category_prompts, email, uuid, tabl
             # Replace spaces in attribute_name for the placeholder
             currentKey = f"{key.replace(' ', '').replace('-', '').replace('/', '_')}"
 
-            #Trim resulst
-            result = result.trim()
-
-            #Get Rid of Filler Text 
-            result = result.replace('The full address of the property is:', "")
-            result = result.replace('The Property Manager or Landlord Name is:', "")
-
             currentValue = result
             updates[currentKey] = currentValue
 
