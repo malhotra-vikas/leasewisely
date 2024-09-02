@@ -465,6 +465,11 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                 let currentEmail = email
                 let curentUUID = item.uuid
                 let currentLeasePropertyAddress = item.LeasePropertyAddress || "NA"
+                currentLeasePropertyAddress = currentLeasePropertyAddress.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+                currentLeasePropertyAddress = currentLeasePropertyAddress.replace("The full address of the property is:", ""); // Replace all occurrences of "**" with a space
+
+                let propertyManager_LandlordName = item.PropertyManager_LandlordName || "NA"
+                propertyManager_LandlordName = propertyManager_LandlordName.replace("The Property Manager or Landlord Name is", ""); // Replace all occurrences of "**" with a space
 
                 try {
                     updatePropertyAddress(currentEmail, curentUUID, currentLeasePropertyAddress);
@@ -478,13 +483,13 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         uuid: item.uuid,
                         emergencyMaintenancePhoneNumber: item.EmergencyMaintenancePhoneNumber || "NA",
                         petIncludedonLease: item.PetIncludedonLease || "NA",
-                        propertyManager_LandlordName: item.PropertyManager_LandlordName || "NA",
+                        propertyManager_LandlordName: propertyManager_LandlordName || "NA",
                         propertyManager_LandlordPhoneEmail: item.PropertyManager_LandlordPhoneEmail || "NA",
                         propertyManager_LandlordPhoneNumber: item.PropertyManager_LandlordPhoneNumber || "NA",
                         rentAmount: item.RentAmount || "NA",
                         rentDueDate: item.RentDueDate || "NA",
                         residentNames: item.ResidentNames || "NA",
-                        leasePropertyAddress: item.LeasePropertyAddress || "NA"
+                        leasePropertyAddress: currentLeasePropertyAddress || "NA"
                     }
                 };
             });
@@ -524,6 +529,10 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 
         if (dataFieldsToCollectData && dataFieldsToCollectData.Items && dataFieldsToCollectData.Items.length > 0) {
             dataFieldsResponseData = dataFieldsToCollectData.Items.map(item => {
+                let streetAddress = item.StreetAddressofProperty
+                streetAddress = streetAddress.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+                streetAddress = streetAddress.replace("The street address of the property is:", ""); // Replace all occurrences of "**" with a space
+    
                 return {
                     "DataFields": {
                         email: email,
@@ -532,7 +541,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         numberofBathrooms: item.NumberofBathrooms || "NA",
                         numberofBedrooms: item.NumberofBedrooms || "NA",
                         stateofProperty: item.StateofProperty || "NA",
-                        streetAddressofProperty: item.StreetAddressofProperty || "NA",
+                        streetAddressofProperty: streetAddress || "NA",
                         zipCodeofProperty: item.ZipCodeofProperty || "NA"
                     }
                 };
@@ -542,7 +551,10 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
         if (leaseData && leaseData.Items && leaseData.Items.length > 0) {
             userLeaseResponseData = leaseData.Items.map(item => {
             // Extract the first part of the address before the comma
-            const shortAddress = item.leasePropertyAddress ? item.leasePropertyAddress.split(',')[0] : "NA";
+            let shortAddress = item.leasePropertyAddress ? item.leasePropertyAddress.split(',')[0] : "NA";
+
+            shortAddress = shortAddress.replace(/\*\*/g, ""); // Replace all occurrences of "**" with a space
+            shortAddress = shortAddress.replace("The full address of the property is:", ""); // Replace all occurrences of "**" with a space
 
             // Convert leaseStartDate to the desired format
             let formattedDate = "NA";
