@@ -401,7 +401,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Rent Amount": item.RentAmount || "NA",
                         "Rent Due Date": item.RentDueDate || "NA",
                         "Late Fee Policy": item.LateFeePolicy || "NA",
-                        "Pet Policy": item.PetDepositAmount || "NA",
+                        "Pet Policy": item.PetRentAmount || "NA",
 //                        "Pet Rent Amount": item.PetRentAmount || "NA",
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
