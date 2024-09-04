@@ -291,15 +291,15 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "maintenence-and-utilities": {
                         email: email,
                         uuid: item.uuid,
-                        "Cable Responsibility": item.CableResponsibility || "NA",
-                        "Electricity Responsibility": item.ElectricityPaymentResponsibility || "NA",
-                        "Gas Responsibility": item.GasPaymentResponsibility || "NA",
-                        "Heat Responsibility": item.HeatResponsibility || "NA",
-                        "Internet Responsibility": item.InternetResponsibility || "NA",
-                        "Landscaping Responsibility": item.LandscapingResponsibility || "NA",
-                        "Snow Removal Responsibility": item.SnowRemovalResponsibility || "NA",
-                        "Trash and Recycling Responsibility": item.TrashandRecyclingPaymentResponsibility || "NA",
-                        "Water Responsibility": item.WaterPaymentResponsibility || "NA",
+                        "Who is responsible for cable?": item.CableResponsibility || "NA",
+                        "Who is responsible for electricity?": item.ElectricityPaymentResponsibility || "NA",
+                        "Who is responsible for gas?": item.GasPaymentResponsibility || "NA",
+                        "Who is responsible for heat?": item.HeatResponsibility || "NA",
+                        "Who is responsible for internet?": item.InternetResponsibility || "NA",
+                        "Who is responsible for landscaping?": item.LandscapingResponsibility || "NA",
+                        "Who is responsible for snow removal?": item.SnowRemovalResponsibility || "NA",
+                        "Who is responsible for trash and recycling?": item.TrashandRecyclingPaymentResponsibility || "NA",
+                        "Who is responsible for water?": item.WaterPaymentResponsibility || "NA",
                         "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
                         "Below are the state laws that pertain to your lease": "\n",
                         "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
@@ -324,9 +324,9 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "rules-and-regulations": {
                         email: email,
                         uuid: item.uuid,
-                        "Pets Allowed": item.PetsAllowed || "NA",
-                        "Smoking Allowed": item.SmokingAllowed || "NA",
-                        "Prohibited Activities": prohibitedActivities || "NA"
+                        "Are pets allowed?": item.PetsAllowed || "NA",
+                        "Is smoking allowed?": item.SmokingAllowed || "NA",
+                        "What are the list of all activities that are prohibited?": prohibitedActivities || "NA"
                     }
                 };
             });
@@ -400,8 +400,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Rent Amount": item.RentAmount || "NA",
                         "Rent Due Date": item.RentDueDate || "NA",
                         "Late Fee Policy": item.LateFeePolicy || "NA",
-                        "Pet Deposit Amount": item.PetDepositAmount || "NA",
-                        "Pet Rent Amount": item.PetRentAmount || "NA",
+                        "Pet Policy": item.PetDepositAmount || "NA",
+//                        "Pet Rent Amount": item.PetRentAmount || "NA",
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
                         "Other Fees": "\n"+item.OtherFees || "NA",
@@ -424,19 +424,19 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "red-flags": {
                         email: email,
                         uuid: item.uuid,
-                        "Counter Signature": item.CounterSignature || "NA",
-                        "Full Address": item.FullAddress || "NA",
-                        "Lease Start Date": item.LeaseStartDate || "NA",
-                        "Notice to Enter Rules": item.NoticetoEnterRules || "NA",
-                        "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
-                        "Pet Policy": item.PetPolicy || "NA",
-                        "Property Manager/ Landlord Name": item.PropertyManager_LandlordName || "NA",
-                        "Rent Amount": item.RentAmount || "NA",
-                        "Rent Due Date": item.RentDueDate || "NA",
-                        "Rent Payment Instructions": item.RentPaymentInstructions || "NA",
-                        "Resident Names": item.ResidentNames || "NA",
-                        "Security Deposit Amount": item.SecurityDepositAmount || "NA",
-                        "Utilities Responsibilities": item.UtilitiesResponsibilities || "NA"
+                        "Is the lease signed by all tenants and the landlord?": item.CounterSignature || "NA",
+                        "Is the full address listed?": item.FullAddress || "NA",
+                        "Is the start date listed?": item.LeaseStartDate || "NA",
+                        "Are the notice to enter rules defined?": item.NoticetoEnterRules || "NA",
+                        "Is there a notice to vacate date?": item.NoticetoVacateDate || "NA",
+                        "Is there a defined pet policy?": item.PetPolicy || "NA",
+                        "Is the landlord's name listed?": item.PropertyManager_LandlordName || "NA",
+                        "Is the rent amount listed?": item.RentAmount || "NA",
+                        "Is the rent due date listed?": item.RentDueDate || "NA",
+                        "Are the rent payment instructions explained?": item.RentPaymentInstructions || "NA",
+                        "Are all the residents' names listed?": item.ResidentNames || "NA",
+                        "Is the security deposit amount listed?": item.SecurityDepositAmount || "NA",
+                        "Is it clearly defined who pays for which utilities?": item.UtilitiesResponsibilities || "NA"
                     }
                 };
             });
@@ -447,14 +447,14 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "movein-date": {
                         email: email,
                         uuid: item.uuid,
-                        "Amenities / Facilities you have access to": "\n"+item.Accesstoamenitiesorfacilities || "NA",
-                        "Deadline to complete move-in inspection": item.Deadlinetocompletemoveininspection || "NA",
+                        "What amenities or facilities do I have access to?": "\n"+item.Accesstoamenitiesorfacilities || "NA",
+                        "When is my deadline to complete my move-in inspection?": item.Deadlinetocompletemoveininspection || "NA",
                         "Is renters insurance Required?": item.Isrentersinsurancerequired || "NA",
                         "Does my lease include parking?": item.Leaseincludesparking || "NA",
-                        "Mailbox Keys Information": item.Mailboxkeysinformation || "NA",
+                        "What does my lease say about mailbox keys?": item.Mailboxkeysinformation || "NA",
                         "When is my deadline to report pest issues before it becomes my responsibility?": item.Timetoreportpestissuesuponmovein || "NA",
                         "Do I need to set up utilities prior to moving in?": item.Utilitiessetupbeforemovein || "NA",
-                        "What can I be penalized for if not completed prior to moving in or within 30 days of moving in?": item.Penaltiespremoveinorwithin30days || "NA"
+                        "What can I be penalized for if I don't complete it as a part of my lease?": item.Penaltiespremoveinorwithin30days || "NA"
                     }
                 };
             });
@@ -525,7 +525,6 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
             // Use Promise.all to wait for all promises to resolve
             landlordNoticeResponseData = await Promise.all(promises);
         }
-            
 
         if (dataFieldsToCollectData && dataFieldsToCollectData.Items && dataFieldsToCollectData.Items.length > 0) {
             dataFieldsResponseData = dataFieldsToCollectData.Items.map(item => {
