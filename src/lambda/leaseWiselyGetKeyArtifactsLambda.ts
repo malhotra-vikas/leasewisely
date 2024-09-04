@@ -358,6 +358,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         uuid: item.uuid,
                         "Lease End Date": item.LeaseEndDate || "NA",
                         "Notice to Vacate Date": item.NoticetoVacateDate || "NA",
+                        "Security Deposit Amount": item.SecurityDepositAmount || "NA",
                         "What do I need to do if I plan to move out at lease end?": actionsifnotrenewingandmovingout || "NA",
                         "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
                         "Early Termination Policy": item.Earlyleasetermination || "NA",
@@ -424,18 +425,18 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "red-flags": {
                         email: email,
                         uuid: item.uuid,
+                        "Are all the residents' names listed?": item.ResidentNames || "NA",
+                        "Is the landlord's name listed?": item.PropertyManager_LandlordName || "NA",
                         "Is the lease signed by all tenants and the landlord?": item.CounterSignature || "NA",
                         "Is the full address listed?": item.FullAddress || "NA",
                         "Is the start date listed?": item.LeaseStartDate || "NA",
-                        "Are the notice to enter rules defined?": item.NoticetoEnterRules || "NA",
-                        "Is there a notice to vacate date?": item.NoticetoVacateDate || "NA",
-                        "Is there a defined pet policy?": item.PetPolicy || "NA",
-                        "Is the landlord's name listed?": item.PropertyManager_LandlordName || "NA",
                         "Is the rent amount listed?": item.RentAmount || "NA",
                         "Is the rent due date listed?": item.RentDueDate || "NA",
                         "Are the rent payment instructions explained?": item.RentPaymentInstructions || "NA",
-                        "Are all the residents' names listed?": item.ResidentNames || "NA",
                         "Is the security deposit amount listed?": item.SecurityDepositAmount || "NA",
+                        "Is there a defined pet policy?": item.PetPolicy || "NA",
+                        "Are the notice to enter rules defined?": item.NoticetoEnterRules || "NA",
+                        "Is there a notice to vacate date?": item.NoticetoVacateDate || "NA",
                         "Is it clearly defined who pays for which utilities?": item.UtilitiesResponsibilities || "NA"
                     }
                 };
