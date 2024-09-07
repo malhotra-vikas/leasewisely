@@ -7,18 +7,18 @@
         "Emergency Maintenance Phone Number": "What is the phone number to call for emergency maintenance issues? Please only return the phone number in the (000) 000-0000 format",
         "Rent Amount": "What is the monthly rent amount inclusive of any applicable sales tax? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text",
-        "Pet Included on Lease": "How many pets are on the lease? Please only return the number of pets and nothing else",
+        "Pet Included on Lease": "How many pets do the residents have on the lease? Do not include the number of pets that are allowed to have but only the number of pets they actually have. Please only return the number of pets and nothing else in a number format",
         "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state and zip code and no other text."
     },
     "Timeline": {
         "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
-        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
-        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or the lease signed date.",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or later than the lease end date.",
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the notice to vacate date or later than the security deposit return date.",
         "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
         "Rent Due Date": "In the least amount of words possible, what is the upcoming rent due date in the current year? Please return the date only and nothing else in the MMMM, DD, YYYY format. The YYYY should be current year.",
-        "Renewal Offer Date": "In the least amount of words possible, what is the deadline date for the landlord to offer a renewal on the current lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date."
+        "Renewal Offer Date": "In the least amount of words possible, what is the deadline date for the landlord to offer a renewal on the current lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or later than the lease end date."
     },
     "Red Flags": {
         "Resident Names": "Is there a list of all the tenants in the lease? Please indicate Yes or No only.",

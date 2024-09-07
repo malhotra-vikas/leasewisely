@@ -299,9 +299,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Who is responsible for landscaping?": item.LandscapingResponsibility || "NA",
                         "Who is responsible for snow removal?": item.SnowRemovalResponsibility || "NA",
                         "Who is responsible for trash and recycling?": item.TrashandRecyclingPaymentResponsibility || "NA",
-                        "Who is responsible for water?": item.WaterPaymentResponsibility || "NA",
-                        "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
-                        "Below are the state laws that pertain to your lease": "\n",
+                        "Who is responsible for water?": item.WaterPaymentResponsibility+"\n" || "NA",
+                        "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed+"\n" || "NA",
                         "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
                     }
                 };
@@ -362,8 +361,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "What do I need to do if I plan to move out at lease end?": actionsifnotrenewingandmovingout || "NA",
                         "What happens if I miss my notice to vacate deadline?": item.Consequencesofmissingnoticetovacatedeadline || "NA",
                         "Early Termination Policy": item.Earlyleasetermination || "NA",
-                        "Subleasing Policy": item.Sublettingpermission || "NA",
-                        "Below are the state laws that pertain to your lease": "\n",
+                        "Subleasing Policy": item.Sublettingpermission+"\n" || "NA",
                         "State Rules for Month to Month Landlord Termination Notice": stateRulesforMonthtoMonthLandlordTerminationNotice || "NA",
                         "State Rules for Notice Period on Raising Rent": stateRulesforNoticePeriodonRaisingRent || "NA",
 
@@ -405,8 +403,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
 //                        "Pet Rent Amount": item.PetRentAmount || "NA",
                         "Lost Key Fee": item.LostKeyFee || "NA",                        
                         "Non-Sufficient Funds / Returned Check Fee": item.NonSufficientFunds_ReturnedCheckFee || "NA",
-                        "Other Fees": "\n"+item.OtherFees || "NA",
-                        "Below are the state laws that pertain to your lease": "\n",
+                        "Other Fees": "\n"+item.OtherFees+"\n" || "NA",
                         "State Rules for Filing Eviction": stateRulesforFilingEviction || "NA",
                         "State Rules for Mandatory Grace Period for Rent Payment": stateRulesforMandatoryGracePeriod || "NA",
                         "State Rules for Maximum Late Fee Landlord Can Charge": stateRulesforMaximumLateFee || "NA"
@@ -450,7 +447,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         uuid: item.uuid,
                         "What amenities or facilities do I have access to?": "\n"+item.Accesstoamenitiesorfacilities || "NA",
                         "When is my deadline to complete my move-in inspection?": item.Deadlinetocompletemoveininspection || "NA",
-                        "Is renters insurance Required?": item.Isrentersinsurancerequired || "NA",
+                        "Is renters insurance required?": item.Isrentersinsurancerequired || "NA",
                         "Does my lease include parking?": item.Leaseincludesparking || "NA",
                         "What does my lease say about mailbox keys?": item.Mailboxkeysinformation || "NA",
                         "When is my deadline to report pest issues before it becomes my responsibility?": item.Timetoreportpestissuesuponmovein || "NA",
@@ -516,9 +513,8 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                     "Landlord-Notice": {
                         email: email,
                         uuid: item.uuid,
-                        "Notice to Enter Rules": noticetoEnterRules || "NA",                        
-                        "Below are the state laws that pertain to your lease": "\n",
-                        "State Rules": stateRuleNoticeToEnter || "NA"
+                        "Notice to Enter Rules": noticetoEnterRules+"\n" || "NA",
+                        "State Rules for Landlord Notice Period": stateRuleNoticeToEnter || "NA"
                     }
                 };
             });                
