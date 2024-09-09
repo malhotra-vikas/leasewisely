@@ -14,7 +14,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY_PDF_PARSING"))
 
 from pdfminer.high_level import extract_text
 from pdfminer.pdfparser import PDFSyntaxError
-import pdfplumber
 
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
@@ -85,7 +84,7 @@ def readPDF(filePath):
 
         if (pdfReaderEngine == 'pdfplumber'):
             text = ""
-
+            '''
             with pdfplumber.open(filePath) as pdf:
                 # Loop through each page in the PDF
                 for page in pdf.pages:
@@ -95,7 +94,7 @@ def readPDF(filePath):
 
                     text = text + currentPageText
                     print(f"Extracted text overall: {text}")  # Print the first 500 characters
-
+            '''
         return text
 
     except PDFSyntaxError as e:
