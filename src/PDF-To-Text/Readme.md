@@ -15,6 +15,10 @@ sudo systemctl start pdfParser.service
 cd /home/ubuntu/leasewisely/src/PDF-To-Text/
 nohup ./keep_running.sh > keep_running.log 2>&1 &
 
+# Switching the PDF reader
+set the env value for the PDF Reader to be used - os.getenv("PDF_READER_ENGINE")
+
+
 # To check the logs
 
 tail -f /home/ubuntu/leasewisely/src/PDF-To-Text/output.log

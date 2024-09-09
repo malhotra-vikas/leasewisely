@@ -14,6 +14,8 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY_PDF_PARSING"))
 
 from pdfminer.high_level import extract_text
 from pdfminer.pdfparser import PDFSyntaxError
+import pdfplumber
+
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
@@ -36,6 +38,11 @@ landlordNoticesTable = os.getenv("LANDLORD_NOTICES_TABLE")
 dataFieldsToCollectTable = os.getenv("DATA_FIELDS_TO_COLLECT_TABLE")
 renewalAndMoveOutTable = os.getenv("RENEWAL_AND_MOVEOUT_TABLE")
 mainentenceutilitiesTable = os.getenv("MAINENTENCE_UTILITIES_TABLE")
+pdfReaderEngine = os.getenv("PDF_READER_ENGINE")
+
+# Check if the variable is None and set a default value if it is
+if pdfReaderEngine is None:
+    pdfReaderEngine = "pdfminer"  # Specify the default value
 
 sleepTime = 30
 
@@ -68,11 +75,27 @@ def download_from_s3(bucket_name, file_key, download_path):
 
 
 def readPDF(filePath):
-
+    
     # Extract text from the PDF file
     try:
-        text = extract_text(filePath)
-        print(f"Extracted text: {text[:500]}")  # Print the first 500 characters
+        if (pdfReaderEngine == 'pdfminer'):
+            text = ""
+            text = extract_text(filePath)
+            print(f"Extracted text: {text[:500]}")  # Print the first 500 characters
+
+        if (pdfReaderEngine == 'pdfplumber'):
+            text = ""
+
+            with pdfplumber.open(filePath) as pdf:
+                # Loop through each page in the PDF
+                for page in pdf.pages:
+                    # Extract text from the current page
+                    currentPageText = page.extract_text()
+                    print(f"Extracted text on page: {currentPageText}")  # Print the first 500 characters
+
+                    text = text + currentPageText
+                    print(f"Extracted text overall: {text}")  # Print the first 500 characters
+
         return text
 
     except PDFSyntaxError as e:

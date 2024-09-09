@@ -300,7 +300,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "Who is responsible for snow removal?": item.SnowRemovalResponsibility || "NA",
                         "Who is responsible for trash and recycling?": item.TrashandRecyclingPaymentResponsibility || "NA",
                         "Who is responsible for water?": item.WaterPaymentResponsibility+"\n" || "NA",
-                        "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed+"\n" || "NA",
+                        "Does landlord use a third-party billing company for utilities?": item.ThirdPartyBillingUsed || "NA",
                         "State Rules for Withholding Rent for Maintenance": maintenanceStateRules || "NA"
                     }
                 };

@@ -2,3 +2,4 @@ boto3==1.26.0
 pdfminer.six==20231228
 python-dotenv
 aiobotocore
+pdfplumber
