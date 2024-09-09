@@ -1,12 +1,8 @@
 #!/bin/bash
 
-# Path to your virtual environment
-VENV_PATH="venv"
 
 # Infinite loop to keep the script running
 while true; do
-    # Activate the virtual environment
-    source "$VENV_PATH/bin/activate"
 
     # Run your Python script with nohup
     nohup python3 parsePDFUtils.py > output.log 2>&1
