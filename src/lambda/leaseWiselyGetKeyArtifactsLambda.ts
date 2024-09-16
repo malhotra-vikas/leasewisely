@@ -452,7 +452,7 @@ export async function getKeyArtifactsHandler(event: APIGatewayProxyEvent): Promi
                         "What does my lease say about mailbox keys?": item.Mailboxkeysinformation || "NA",
                         "When is my deadline to report pest issues before it becomes my responsibility?": item.Timetoreportpestissuesuponmovein || "NA",
                         "Do I need to set up utilities prior to moving in?": item.Utilitiessetupbeforemovein || "NA",
-                        "What can I be penalized for if I don't complete it as a part of my lease?": item.Penaltiespremoveinorwithin30days || "NA"
+                        "What can I be penalized for if not completed prior to moving in or within 30 days of moving in?": item.Penaltiespremoveinorwithin30days || "NA"
                     }
                 };
             });
