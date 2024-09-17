@@ -1,6 +1,6 @@
 {
     "Lease Summary": {
-        "Resident Names": "Please list all the tenants on the lease. Please return only the full names of the tenants in bulleted format and do not include the landlordor any other text",
+        "Resident Names": "Please list all the tenants on the lease. Please return only the full names of the tenants in bulleted format and do not include the landlord or any other text",
         "Property Manager/Landlord Name": "What is the Property Manager or Landlord Name? Please only return the name",
         "Property Manager/Landlord Phone Number": "What is the Property Manager or Landlord Phone Number? Please only return the phone number in the (000) 000-0000 format. If not available, return Not Available",
         "Property Manager/Landlord Phone Email": "What is the Property Manager or Landlord Email address? Please only return the email address only and nothing else. If not available, return Not Available",
@@ -11,14 +11,14 @@
         "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state and zip code and no other text."
     },
     "Timeline": {
-        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date.",
         "Lease Start Date": "In the least amount of words possible, what is the lease start date? Please return the date only and nothing else in the MMMM, DD, YYYY format",
-        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or the lease signed date.",
-        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or later than the lease end date.",
-        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the notice to vacate date or later than the security deposit return date.",
-        "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date.",
+        "Move-in Inspection Deadline Date": "In the least amount of words possible, what is the move-inspection deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date or the lease signed date.",
+        "Notice to Vacate Date": "In the least amount of words possible, what is the notice to vacate deadline date? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date or later than the lease end date.",
+        "Lease End Date": "In the least amount of words possible, what is the lease end date? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the notice to vacate date or later than the security deposit return date.",
+        "Security Deposit Return Date": "In the least amount of words possible, when is the deadline date for the landlord to return the security deposit? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date.",
         "Rent Due Date": "In the least amount of words possible, what is the upcoming rent due date in the current year? Please return the date only and nothing else in the MMMM, DD, YYYY format. The YYYY should be current year.",
-        "Renewal Offer Date": "In the least amount of words possible, what is the deadline date for the landlord to offer a renewal on the current lease? Please return the date only and nothing else in the MMMM, DD, YYYY format and this date cannot be earlier than the lease start date or later than the lease end date."
+        "Renewal Offer Date": "In the least amount of words possible, what is the deadline date for the landlord to offer a renewal on the current lease? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date or later than the lease end date."
     },
     "Red Flags": {
         "Resident Names": "Is there a list of all the tenants in the lease? Please indicate Yes or No only.",
@@ -36,7 +36,7 @@
         "Utilities Responsibilities": "Does the lease mention who pays for utilities? Please indicate Yes or No only."
     },
     "Rent and Fees": {
-        "Rent Amount": "What is the monthly rent amount? Please return the number only and nothing else in the $0,000.00 format",
+        "Rent Amount": "What is the monthly rent amount inclusive of any applicable sales tax? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text.",
         "Pet Rent Amount": "In the most concise format, what is the complete pet policy in a paragraph format? Only include information about the pet policy and nothing else.",
         "Late Fee Policy": "In the most concise format, what is the complete late fee policy in a paragraph format? Only include information about the late fee and nothing else.",
@@ -60,7 +60,7 @@
         "Mailbox keys information": "What does the lease say about mailbox keys specifically? Please return the answer in the least amount of words possible only about mailbox keys.",
         "Lease includes parking": "How many parking spots do I have access to in my lease?",
         "Access to amenities or facilities": "Besides parking, what other amenities or facilities do I have access to in my lease? Please return them in a bulleted format only and do not include appliances.",
-        "Penalties pre move-in or within 30 days": "What else, besides getting renter's insurance, completing the move-in inspection, paying rent, paying the security deposit, reporting any pest issues and setting up utilities, can I be penalized for if not completed before move-in or during my lease? Please return the answer in the least amount of words possible."
+        "Penalties pre move-in or within 30 days": "Specific to moving in, what else, besides getting renter's insurance, completing the move-in inspection, paying rent, paying the security deposit, reporting any pest issues and setting up utilities, can I be penalized for if not completed before move-in or within 30 days of moving in? Please return the answer in the least amount of words possible."
     },
     "Maintenance and Utilities": {
         "Electricity Payment Responsibility": "Is the Landlord or Tenant responsible for paying Electricity? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
