@@ -8,7 +8,7 @@
         "Rent Amount": "What is the monthly rent amount inclusive of any applicable sales tax? Please return the number only and nothing else in the $0,000.00 format",
         "Rent Due Date": "What day of the month is rent due? Please return the information in only the following format: 1st of the month, 10th of the month, etc. Do not use any leading text",
         "Pet Included on Lease": "How many pets do the residents have on the lease? Do not include the number of pets that are allowed to have but only the number of pets they actually have. Please only return the number of pets and nothing else in a number format",
-        "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state and zip code and no other text."
+        "Lease Property Address": "What is the full address of the property? Please only include the full street name, apartment number if applicable, city, state (in abbreviated format) and five-digit zip code and no other text."
     },
     "Timeline": {
         "Lease Signed Date": "In the least amount of words possible, what is the date that the tenant and landlord countersigned the lease? Please return the date only and nothing else in the MMMM, DD, YYYY format. This date cannot be earlier than the lease start date.",
@@ -68,7 +68,7 @@
         "Water Payment Responsibility": "Is the Landlord or Tenant responsible for paying Water? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Heat Responsibility": "Is the Landlord or Tenant responsible for paying Heat? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Trash and Recycling Payment Responsibility": "Is the Landlord or Tenant responsible for paying Trash and Recycling? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
-        "Cable Responsibility": "Is the Landlord or Tenant responsible for paying Cable, TV or satelitte? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
+        "Cable Responsibility": "Is the Landlord or Tenant responsible for paying Cable, TV or satellite? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Internet Responsibility": "Is the Landlord or Tenant responsible for paying Internet? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Landscaping Responsibility": "Is the Landlord or Tenant responsible for paying Landscaping? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
         "Snow Removal Responsibility": "Is the Landlord or Tenant responsible for paying Snow Removal? Return the answer in Landlord/Tenant format only? If not explicitly mentioned, return 'Not Specified'",
