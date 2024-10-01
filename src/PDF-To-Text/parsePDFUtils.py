@@ -115,15 +115,14 @@ def setLeaseDataAvailableFlag(email, uuid):
         table = dynamodb.Table(table_name)
 
         # Get current date and time formatted as "mm/dd/yyyy hh:mm:ss"
-        current_datetime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+        # current_datetime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
 
         # Update the leaseText field for the given email
         response = table.update_item(
             Key={"email": email, "uuid": uuid},
-            UpdateExpression="SET leaseDataAvailable = :leaseDataAvailable, lastUpdatedDateTime = :dt",
+            UpdateExpression="SET leaseDataAvailable = :leaseDataAvailable",
             ExpressionAttributeValues={
-                ":leaseDataAvailable": "True",
-                ":dt": current_datetime
+                ":leaseDataAvailable": "True"
             },
             ReturnValues="UPDATED_NEW",
         )
