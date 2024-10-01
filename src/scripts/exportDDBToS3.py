@@ -80,7 +80,13 @@ def dynamodb_to_csv_s3():
             if data:
                 with StringIO() as csv_file:
                     csv_writer = csv.writer(csv_file)
-                    headers = list(data[0].keys())
+
+                    # Exclude field for specific table
+                    if table_name == userLeasesTable:
+                        headers = [header for header in data[0].keys() if header != "leaseText"]
+                    else:
+                        headers = list(data[0].keys())
+
                     csv_writer.writerow(headers)
                     logging.info(f"Data for headers {headers}")
 
